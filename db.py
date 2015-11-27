@@ -2,7 +2,8 @@ from pymongo import MongoClient
 
 class db:
 	def __init__(self,dbName,collectionName,):
-		self.client = MongoClient('mongodb://heroku_lmx991zw:tbh7minpt7ihmbcshkull6nh9a@ds059524.mongo  lab.com:59524/heroku_lmx991zw')
+		self.client = MongoClient('mongodb://heroku_lmx991zw:tbh7minpt7ihmbcshkull6nh9a@ds059524.mongolab.com:59524/heroku_lmx991zw')
+		#self.client = MongoClient()
 		self.db=self.client[dbName]
 		self.collection=self.db[collectionName]
 
