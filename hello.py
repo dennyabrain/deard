@@ -16,7 +16,7 @@ app = Flask(__name__)
 @app.route('/reply', methods=['POST'])
 def reply():
 	if request.method=='POST':
-		return request
+		return request.data
 		#sys.stdout.write(request)
 		#database.insertOne({'response':request.body})
 		#database.insertOne({'response':'test4'})
