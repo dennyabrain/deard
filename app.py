@@ -20,7 +20,7 @@ def reply():
 		#database.insertOne({'response':request.data})
 		#database.insertOne({'response':'test4'})
 		#print('data received')
-		r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
+		#r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
 		return 'done reply'
 
 @app.route('/')
