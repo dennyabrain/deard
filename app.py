@@ -1,4 +1,5 @@
 from db import db
+import sys
 from flask import Flask, request, redirect, url_for
 import requests
 import json
@@ -14,7 +15,7 @@ app = Flask(__name__)
 
 @app.route('/reply', methods=['POST'])
 def reply():
-	print('in reply method')
+	sys.stdout.write('in reply method')
 	if request.method=='POST':
 		#database.insertOne({'response':request.data})
 		database.insertOne({'response':'test4'})
