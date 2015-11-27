@@ -18,7 +18,7 @@ def reply():
 	if request.method=='POST':
 		#return request.data
 		#sys.stdout.write(request)
-		database.insertOne({'response':request.data})
+		database.insertOne({'response':request.form})
 		#database.insertOne({'response':'test4'})
 		#r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
 		return 'done putting reply into database'
