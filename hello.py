@@ -16,11 +16,12 @@ app = Flask(__name__)
 @app.route('/reply', methods=['POST'])
 def reply():
 	if request.method=='POST':
+		return request
 		#sys.stdout.write(request)
-		database.insertOne({'response':request.body})
+		#database.insertOne({'response':request.body})
 		#database.insertOne({'response':'test4'})
-		r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
-		return 'done putting reply into database'
+		#r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
+		#return 'done putting reply into database'
 
 @app.route('/')
 def home():
