@@ -18,8 +18,8 @@ def reply():
 	sys.stdout.write('in reply method')
 	if request.method=='POST':
 		#database.insertOne({'response':request.data})
-		database.insertOne({'response':'test4'})
-		print('data received')
+		#database.insertOne({'response':'test4'})
+		#print('data received')
 		r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
 		return request.data
 
