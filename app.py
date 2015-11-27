@@ -21,7 +21,7 @@ def reply():
 		#database.insertOne({'response':'test4'})
 		#print('data received')
 		r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
-		return request.data
+		return 'done reply'
 
 @app.route('/')
 def home():
