@@ -6,7 +6,8 @@ import json
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
 
-database = db('slack','responseCollection')
+#database = db('slack','responseCollection')
+database = db('heroku_lmx991zw','responseCollection')
 
 app = Flask(__name__)
 #app.secret_key='itp'
