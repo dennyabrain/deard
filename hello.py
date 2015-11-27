@@ -18,7 +18,7 @@ def reply():
 	if request.method=='POST':
 		database.insertOne({'response':request.data})
 		#database.insertOne({'response':'test4'})
-		r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
+		r = requests.post(url, data=json.dumps({request.data}))
 		return 'done putting reply into database'
 
 @app.route('/')
