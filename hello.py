@@ -17,7 +17,7 @@ app = Flask(__name__)
 def reply():
 	if request.method=='POST':
 		#sys.stdout.write(request)
-		database.insertOne({'response':request.data})
+		database.insertOne({'response':request.body})
 		#database.insertOne({'response':'test4'})
 		r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
 		return 'done putting reply into database'
