@@ -35,7 +35,8 @@ def reply():
 		#return request.data
 		#sys.stdout.write(request)
 		#database.insertOne({'response':request.form['text']})
-		databaseUser.insertReply(request.form['text'].split(' ',1)[0],request.form['text'])
+		text = request.form['text'].split(' ',1)
+		databaseUser.insertReply(text[0],text[1])
 		#database.insertOne({'response':'test4'})
 		#r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
 		return 'done putting reply into database'
@@ -101,4 +102,3 @@ def register():
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
 	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'input':[],'response':[]}})
 	return 'added to database'
-
