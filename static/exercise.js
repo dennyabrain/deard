@@ -215,11 +215,9 @@ var Login = React.createClass({
 		if (!key) {
 			return;
 		}
-		this.context.setUserKey(key);
-		this.context.history.pushState(null, "/content", {});
 		
 		var userLogin = this.state;		
-		console.log(userLogin);
+		//console.log(userLogin);
 		//ajax POST userKey
 		$.ajax({
 			url: this.props.url,
@@ -228,7 +226,9 @@ var Login = React.createClass({
 			data: userLogin,
 			success: function(data){
 				// this.setState({data:data});
-				console.log("Logged in!!", userLogin);
+				this.context.setUserKey(key);
+				this.context.history.pushState(null, "/content", {});
+				//console.log("Logged in!!", data);
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());
