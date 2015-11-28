@@ -1,6 +1,6 @@
 from db import db
 import sys
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, render_template
 import requests
 import json
 import flask.ext.login as flaskLogin
@@ -55,22 +55,7 @@ def diary():
 		return redirect(url_for('diary'))
 		#return 'posted'
 	
-	return render_template('diary.html')
-	'''
-			<h1> Diary Entries </h1>
-			{% if current_user.is_authenticated %}
-  				Hi {{ current_user.name }}!
-			{% endif %}
-			{% for post in databaseUser.listAll() %}
-				{% if current_user in post%}
-					<p>{%print post%}</p>
-				{% endif %}
-			{% endfor %}
-			<form action='diary' method='post'>
-				<input type='text' name='text', id='text', placeholder='type here'></input>
-				<input type='submit' name='send'></input>
-			</form>
-			'''
+	return render_template('diary.html',database=databaseUser.listAll(),database2=databaseUser.listAll())
 
 @app.route('/login',methods=['POST','GET'])
 def login():
@@ -112,3 +97,4 @@ def register():
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
 	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'input':[],'response':[]}})
 	return 'added to database'
+
