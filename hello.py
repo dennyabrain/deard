@@ -68,7 +68,7 @@ def login():
 			<input type='submit' name='login'></input>
 		</form>
 		'''
-	#ans = ''
+
 	for post in databaseUser.findMany({}):
 		if request.form['username'] in post:
 			if request.form['pw']==post[request.form['username']]['pw']:
@@ -95,5 +95,6 @@ def register():
 			<input type='password' name='pw', id='pw', placeholder='password'></input>
 			<input type='submit' name='login'></input>
 		</form>'''
-	databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
+	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
+	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'input':[],'response':[]}})
 	return 'added to database'
