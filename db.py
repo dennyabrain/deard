@@ -21,3 +21,19 @@ class db:
 
 	def listAll(self):
 		return self.collection.find()
+
+	def insertInput(self,userId,text):
+		for post in self.findMany({}):
+			if userId in post:
+				#print(post[userId]['input']), text
+				#	post[userId]['input'].append(text)
+				temp =userId+'.input'
+				self.collection.update_one({'name': userId}, {'$push': {temp: text}})
+
+	def insertReply(self,userId,text):
+		for post in self.findMany({}):
+			if userId in post:
+				#print(post[userId]['input']), text
+				#	post[userId]['input'].append(text)
+				temp =userId+'.reply'
+				self.collection.update_one({'name': userId}, {'$push': {temp: text}})

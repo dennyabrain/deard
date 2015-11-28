@@ -48,6 +48,7 @@ def home():
 def diary():
 	if request.method=='POST':
 		requests.post(url, data=json.dumps({'text':request.form['text']}))
+		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])
 		return redirect(url_for('diary'))
 		#return 'posted'
 	
