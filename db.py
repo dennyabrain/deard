@@ -35,5 +35,5 @@ class db:
 			if userId in post:
 				#print(post[userId]['input']), text
 				#	post[userId]['input'].append(text)
-				temp =userId+'.reply'
+				temp =userId+'.response'
 				self.collection.update_one({'name': userId}, {'$push': {temp: text}})
