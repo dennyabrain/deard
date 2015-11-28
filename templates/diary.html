@@ -1,27 +1,47 @@
-{% block body %}
-	
-	{% if current_user.is_authenticated %}
-	  	<h1> Hi {{ current_user.id }}! </h1></br>
-	{% endif %}
-	<h2>Diary Entries</h2>
-	{% for post in database %}
-		{% if current_user.id in post%}
-			{% for item in post[current_user.id]['input'] %}
-				{{item}}</br>
-			{% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+</head>
+<body>	
+	<div class="container">
+		{% if current_user.is_authenticated %}
+		  	<h1> Hi {{ current_user.id }}! </h1></br>
 		{% endif %}
-	{% endfor %}
-
+		<h2>Diary Entries</h2>
+		<div class="container">
+			{% for post in database %}
+				{% if current_user.id in post%}
+					{% for item in post[current_user.id]['input'] %}
+						<div class="comment">
+							{{item}}
+						</div>
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+	</div>
 	<h2>Bot Replies</h2>
-	{% for post in database2 %}
-		{% if current_user.id in post%}
-			{% for item in post[current_user.id]['response'] %}
-				{{item}}</br>
+	</div class="container">
+		<div class="container">
+			{% for post in database2 %}		
+				{% if current_user.id in post%}
+					{% for item in post[current_user.id]['response'] %}
+						<div class="comment">
+							{{item}}
+						</div>
+					{% endfor %}
+				{% endif %}
 			{% endfor %}
-		{% endif %}
-	{% endfor %}
-	<form action='diary' method='post'>
-		<input type='text' name='text', id='text', placeholder='type here'></input>
-		<input type='submit' name='send'></input>
-	</form>
-{% endblock %}
+		</div>
+	</div>
+	<div class="container">
+		<div class="input-group">
+			<form action='diary' method='post'>
+				<input  class="form-control" type='text' name='text', id='text', placeholder='type here'></input>
+				<input class="btn btn-default" type='submit' name='send'></input>
+			</form>
+		</div>
+	</div>
+</body>

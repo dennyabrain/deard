@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask React Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="https://use.typekit.net/vug3ndn.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <script src="{{ url_for('static', filename='react.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='JSXTransformer.js')}}"></script>
+    <script src="{{ url_for('static', filename='ReactRouter.min.js')}}"></script>
+    <script type="text/jsx" src="{{ url_for('static', filename='exercise.js')}}"></script>
+    <script src="{{ url_for('static', filename='History.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='marked.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='react-dom.js')}}"></script>
+    <script src="{{ url_for('static', filename='browser.js')}}"></script>
+    <script src="{{ url_for('static', filename='jquery.min.js')}}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel" src="{{url_for('static', filename='exercise.js')}}"></script>
+    <script type="text/babel">
+      // To get started with this tutorial running your own code, simply remove
+      // the script tag loading scripts/example.js and start writing code here.
+    </script>
+  </body>
+</html>

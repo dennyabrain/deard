@@ -43,7 +43,7 @@ def reply():
 
 @app.route('/')
 def home():
-	return 'Home Page'
+	return render_template('index.html')
 
 @app.route('/diary', methods=['POST','GET'])
 @flaskLogin.login_required
@@ -60,13 +60,7 @@ def diary():
 @app.route('/login',methods=['POST','GET'])
 def login():
 	if request.method=='GET':
-		return'''
-		<form action='login' method='post'>
-			<input type='text' name='username', id='username', placeholder='username'></input>
-			<input type='password' name='pw', id='pw', placeholder='password'></input>
-			<input type='submit' name='login'></input>
-		</form>
-		'''
+		return render_template('login.html')
 
 	for post in databaseUser.findMany({}):
 		if request.form['username'] in post:
@@ -87,13 +81,8 @@ def logout():
 @app.route('/register',methods=['POST','GET'])
 def register():
 	if request.method=='GET':
-		return'''
-		<h3>Choose a username and password for yourself</h3>
-		<form action='register' method='post'>
-			<input type='text' name='username', id='username', placeholder='username'></input>
-			<input type='password' name='pw', id='pw', placeholder='password'></input>
-			<input type='submit' name='login'></input>
-		</form>'''
+		return render_template('register.html')
+		
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
 	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'input':[],'response':[]}})
 	return 'added to database'

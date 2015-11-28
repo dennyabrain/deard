@@ -1,0 +1,68 @@
+body {
+  background-color: #f3f3f3;
+}
+
+.container {
+  max-width: 650px;
+}
+
+.right {
+  float: right;
+  padding-top: 30px;
+}
+
+.title {
+  display: inline-block;
+}
+
+.main {
+  margin-top: 100px;
+}
+
+header {
+  position:fixed; 
+  margin: 0 auto;
+  left: 0px;
+  height:80px;
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+.commentList {
+  margin-bottom: 200px;
+  margin-top: 60px;
+}
+
+.comment {
+  padding: 5px 15px 15px 15px;
+  margin-top: 15px;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+
+textarea[type="text"] {
+    height: 100px;
+}
+
+.commentFormArea {
+  position:fixed; 
+  left:0px;
+  bottom:0px;
+  height:150px;
+  width: 100%;
+  background-color: #f3f3f3;
+}
+
+/* sign in page */
+.old-user-area {
+  background-color: #fff;
+  margin-bottom: 60px;
+  padding: 10px 30px 30px 30px;
+}
+
+.new-user-area {
+  background-color: #fff;
+  padding: 10px 30px 30px 30px;
+}
