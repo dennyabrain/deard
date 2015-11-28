@@ -32,13 +32,8 @@ def user_loader(user_id):
 @app.route('/reply', methods=['POST'])
 def reply():
 	if request.method=='POST':
-		#return request.data
-		#sys.stdout.write(request)
-		#database.insertOne({'response':request.form['text']})
 		text = request.form['text'].split(' ',1)
 		databaseUser.insertReply(text[0],text[1])
-		#database.insertOne({'response':'test4'})
-		#r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
 		return 'done putting reply into database'
 
 @app.route('/')
@@ -87,6 +82,14 @@ def register():
 	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'input':[],'response':[]}})
 	return 'added to database'
 
+@app.route('/comments', methods=['POST'])
+def comment():
+	if request.method=='POST':
+		#print(dir(request.form['author']))
+		print(request.form['text'])
+		databaseUser.insertInput(request.form['author'],request.form['text'])
+		return str(request.form['author'])
+	return 'data GETed'
 
 if __name__=='__main__':
 

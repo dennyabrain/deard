@@ -25,15 +25,11 @@ class db:
 	def insertInput(self,userId,text):
 		for post in self.findMany({}):
 			if userId in post:
-				#print(post[userId]['input']), text
-				#	post[userId]['input'].append(text)
-				temp =userId+'.input'
-				self.collection.update_one({'name': userId}, {'$push': {temp: text}})
+				temp =userId+'.text'
+				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text}}})
 
 	def insertReply(self,userId,text):
 		for post in self.findMany({}):
 			if userId in post:
-				#print(post[userId]['input']), text
-				#	post[userId]['input'].append(text)
-				temp =userId+'.response'
-				self.collection.update_one({'name': userId}, {'$push': {temp: text}})
+				temp =userId+'.text'
+				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text}}})
