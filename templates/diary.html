@@ -1,0 +1,27 @@
+{% block body %}
+	
+	{% if current_user.is_authenticated %}
+	  	<h1> Hi {{ current_user.id }}! </h1></br>
+	{% endif %}
+	<h2>Diary Entries</h2>
+	{% for post in database %}
+		{% if current_user.id in post%}
+			{% for item in post[current_user.id]['input'] %}
+				{{item}}</br>
+			{% endfor %}
+		{% endif %}
+	{% endfor %}
+
+	<h2>Bot Replies</h2>
+	{% for post in database2 %}
+		{% if current_user.id in post%}
+			{% for item in post[current_user.id]['response'] %}
+				{{item}}</br>
+			{% endfor %}
+		{% endif %}
+	{% endfor %}
+	<form action='diary' method='post'>
+		<input type='text' name='text', id='text', placeholder='type here'></input>
+		<input type='submit' name='send'></input>
+	</form>
+{% endblock %}

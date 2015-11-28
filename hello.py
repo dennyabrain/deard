@@ -55,7 +55,17 @@ def diary():
 		return redirect(url_for('diary'))
 		#return 'posted'
 	
-	return '''
+	return render_template('diary.html')
+	'''
+			<h1> Diary Entries </h1>
+			{% if current_user.is_authenticated %}
+  				Hi {{ current_user.name }}!
+			{% endif %}
+			{% for post in databaseUser.listAll() %}
+				{% if current_user in post%}
+					<p>{%print post%}</p>
+				{% endif %}
+			{% endfor %}
 			<form action='diary' method='post'>
 				<input type='text' name='text', id='text', placeholder='type here'></input>
 				<input type='submit' name='send'></input>
