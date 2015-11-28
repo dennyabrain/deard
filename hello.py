@@ -34,7 +34,8 @@ def reply():
 	if request.method=='POST':
 		#return request.data
 		#sys.stdout.write(request)
-		database.insertOne({'response':request.form['text']})
+		#database.insertOne({'response':request.form['text']})
+		databaseUser.insertReply(request.form['text'].split(' ',1)[0],request.form['text'])
 		#database.insertOne({'response':'test4'})
 		#r = requests.post(url, data=json.dumps({'text':'hearing back from the app'}))
 		return 'done putting reply into database'
@@ -48,13 +49,14 @@ def home():
 def diary():
 	if request.method=='POST':
 		requests.post(url, data=json.dumps({'text':request.form['text']}))
+		#requests.post(url, data=json.dumps({'text':flaskLogin.current_user.id}))
 		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])
 		return redirect(url_for('diary'))
 		#return 'posted'
 	
 	return '''
 			<form action='diary' method='post'>
-				<input type='text' name='text', id='text', placeholder='email'></input>
+				<input type='text' name='text', id='text', placeholder='type here'></input>
 				<input type='submit' name='send'></input>
 			</form>
 			'''
@@ -99,3 +101,4 @@ def register():
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
 	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'input':[],'response':[]}})
 	return 'added to database'
+
