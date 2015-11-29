@@ -88,8 +88,8 @@ def comment():
 	if request.method=='POST':
 		print(flaskLogin.current_user.id)
 		#print(request.form['text'])
-		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])
-		requests.post(url, data=json.dumps({'userName':flaskLogin.current_user.id,'text':request.form['text']}))
+		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])		
+		requests.post(url, data=json.dumps({'text':str(str(flaskLogin.current_user.id)+' says ' +str(request.form['text']))}))
 		return jsonify(status='commentInsert')
 
 	if request.method=='GET':
