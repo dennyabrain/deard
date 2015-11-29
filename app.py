@@ -107,10 +107,9 @@ def login2():
 					print ('flask has logged in and user is : ')
 					print (flaskLogin.current_user.id)
 					#return redirect(url_for('diary'))
-					return "Can Log In"
+					return '{"status":"success"}'
 				#return str(post[request.form['username']]['pw'])
-		return "Username and Password don't match"
-
+		return '{"status":"fail"}'
 
 if __name__=='__main__':
 

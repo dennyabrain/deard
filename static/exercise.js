@@ -226,9 +226,13 @@ var Login = React.createClass({
 			data: userLogin,
 			success: function(data){
 				// this.setState({data:data});
-				this.context.setUserKey(key);
-				this.context.history.pushState(null, "/content", {});
-				//console.log("Logged in!!", data);
+				
+				console.log("Logged in!!", data);
+				if(data.status == "success"){
+					this.context.setUserKey(key);
+					this.context.history.pushState(null, "/content", {});
+				}	
+
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());
