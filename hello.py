@@ -1,6 +1,6 @@
 from db import db
 import sys
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, request, redirect, url_for, render_template, jsonify
 import requests
 import json
 import flask.ext.login as flaskLogin
@@ -78,20 +78,27 @@ def register():
 	if request.method=='GET':
 		return render_template('register.html')
 		
+		
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
-	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'input':[],'response':[]}})
+	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':request.form['pw'],'text':[]}})
 	return 'added to database'
 
-@app.route('/comments', methods=['POST'])
+@app.route('/comments', methods=['POST','GET'])
 def comment():
 	if request.method=='POST':
 		print(flaskLogin.current_user.id)
 		#print(request.form['text'])
 		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])
-		return {"status":"commentInsert"}
+		return jsonify(status='commentInsert')
 
-	#return {"type":"bot","text":"checking"}
-	return
+	if request.method=='GET':
+		#obj{}
+		# TODO : GET ALL COMMENTS FROM DB FROM THAT USER
+		if flaskLogin.current_user and flaskLogin.current_user.id:
+			comments = databaseUser.listAllText(flaskLogin.current_user.id)
+			return jsonify(comments=comments)
+		else:
+			return jsonify(error='true')
 
 @app.route('/login2',methods=['POST'])
 def login2():
@@ -106,3 +113,5 @@ def login2():
 					print (flaskLogin.current_user.id)
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
+
+
