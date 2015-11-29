@@ -77,7 +77,7 @@ def logout():
 def register():
 	if request.method=='GET':
 		return render_template('register.html')
-		
+
 		
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
 	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':request.form['pw'],'text':[]}})
@@ -89,6 +89,7 @@ def comment():
 		print(flaskLogin.current_user.id)
 		#print(request.form['text'])
 		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])
+		requests.post(url, data=json.dumps({'userName':flaskLogin.current_user.id,'text':request.form['text']}))
 		return jsonify(status='commentInsert')
 
 	if request.method=='GET':
