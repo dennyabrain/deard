@@ -151,7 +151,10 @@ var Content = React.createClass({
 			type: 'POST',
 			data: comment,
 			success: function(data){
-				this.setState({data:data});
+				// var arr=[];
+				// arr[0]=data;
+				// // you will need to append to comment list, or send back all comments
+				// this.setState({data:arr});
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());

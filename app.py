@@ -88,10 +88,11 @@ def comment():
 		print(flaskLogin.current_user.id)
 		#print(request.form['text'])
 		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])
-		return {"status":"commentInsert"}
+		return jsonify(status='commentInsert')
 
 	if request.method=='GET':
 		#obj{}
+		# TODO : GET ALL COMMENTS FROM DB FROM THAT USER
 		return jsonify(type='user',text='test')
 
 @app.route('/login2',methods=['POST'])
