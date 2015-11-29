@@ -1,6 +1,6 @@
 from db import db
 import sys
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, request, redirect, url_for, render_template, jsonify
 import requests
 import json
 import flask.ext.login as flaskLogin
@@ -34,7 +34,7 @@ def reply():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		databaseUser.insertReply(text[0],text[1])
-		return 'done putting reply into database'
+		return '{"status":"successDbInsert"}'
 
 @app.route('/')
 def home():
@@ -82,33 +82,30 @@ def register():
 	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'input':[],'response':[]}})
 	return 'added to database'
 
-@app.route('/comments', methods=['POST'])
+@app.route('/comments', methods=['POST','GET'])
 def comment():
 	if request.method=='POST':
 		print(flaskLogin.current_user.id)
 		#print(request.form['text'])
 		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])
-		return str(request.form['author'])
-	return 'data GETed'
+		return {"status":"commentInsert"}
+
+	if request.method=='GET':
+		#obj{}
+		return jsonify(type='user',text='test')
 
 @app.route('/login2',methods=['POST'])
 def login2():
 	if request.method=='POST':
-		print('in post of login2')
 		for post in databaseUser.findMany({}):
-			print('in post.2 of login2')
 			if request.form['userKey'] in post:
-				print('in post.3 of login2')
 				if request.form['password']==post[request.form['userKey']]['pw']:
-					print('in post.4 of login2')
 					user = User()
 					user.id=request.form['userKey']
 					flaskLogin.login_user(user)
 					print ('flask has logged in and user is : ')
 					print (flaskLogin.current_user.id)
-					#return redirect(url_for('diary'))
 					return '{"status":"success"}'
-				#return str(post[request.form['username']]['pw'])
 		return '{"status":"fail"}'
 
 if __name__=='__main__':

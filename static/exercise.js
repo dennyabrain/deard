@@ -61,6 +61,7 @@ var CommentList = React.createClass({
 	    return { x: xPosition, y: yPosition };
 	},
 	render: function() {
+		console.log(this.props.data)
 		var commentNodes = this.props.data.map(function(comment){
 			return (
 				<Comment key={comment.id} commentId={comment.id} commentType={comment.type}>
@@ -122,7 +123,9 @@ var Content = React.createClass({
 			dataType: 'json',
 			cache: false,
 			success: function(data){
-				this.setState({data:data});
+				var arr=[];
+				arr[0]=data;
+				this.setState({data:arr});
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());

@@ -88,25 +88,21 @@ def comment():
 		print(flaskLogin.current_user.id)
 		#print(request.form['text'])
 		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])
-		return str(request.form['author'])
-	return 'data GETed'
+		return {"status":"commentInsert"}
+
+	#return {"type":"bot","text":"checking"}
+	return
 
 @app.route('/login2',methods=['POST'])
 def login2():
 	if request.method=='POST':
-		print('in post of login2')
 		for post in databaseUser.findMany({}):
-			print('in post.2 of login2')
 			if request.form['userKey'] in post:
-				print('in post.3 of login2')
 				if request.form['password']==post[request.form['userKey']]['pw']:
-					print('in post.4 of login2')
 					user = User()
 					user.id=request.form['userKey']
 					flaskLogin.login_user(user)
 					print ('flask has logged in and user is : ')
 					print (flaskLogin.current_user.id)
-					#return redirect(url_for('diary'))
 					return '{"status":"success"}'
-				#return str(post[request.form['username']]['pw'])
 		return '{"status":"fail"}'
