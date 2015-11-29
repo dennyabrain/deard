@@ -1,6 +1,6 @@
 from db import db
 import sys
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, request, redirect, url_for, render_template, jsonify
 import requests
 import json
 import flask.ext.login as flaskLogin
@@ -19,6 +19,11 @@ loginManager.init_app(app)
 
 class User(flaskLogin.UserMixin):
 	pass
+
+def request_wants_json():
+    best = request.accept_mimetypes.best_match(['application/json', 'text/html'])
+    return best == 'application/json' and request.accept_mimetypes[best] > request.accept_mimetypes['text/html']
+
 
 @loginManager.user_loader
 def user_loader(user_id):
@@ -55,7 +60,7 @@ def diary():
 @app.route('/login',methods=['POST','GET'])
 def login():
 	if request.method=='GET':
-		return render_template('login.html')
+		return render_template('index.html')
 
 	for post in databaseUser.findMany({}):
 		if request.form['username'] in post:
@@ -71,27 +76,42 @@ def login():
 @app.route('/logout')
 def logout():
 	flaskLogin.logout_user()
-	return 'Logged Out'
+	print("logged out")
+	return redirect("/", code=302)
 	
 @app.route('/register',methods=['POST','GET'])
 def register():
 	if request.method=='GET':
-		return render_template('register.html')
+		return render_template('index.html')
+
 		
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
-	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'input':[],'response':[]}})
-	return 'added to database'
+	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':request.form['pw'],'text':[]}})
+	user = User()
+	user.id=request.form['username']
+	flaskLogin.login_user(user)
+	return '{"status":"success"}'
 
-@app.route('/comments', methods=['POST'])
+@app.route('/comments', methods=['POST','GET'])
 def comment():
 	if request.method=='POST':
 		print(flaskLogin.current_user.id)
 		#print(request.form['text'])
-		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])
-		return {"status":"commentInsert"}
+		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])		
+		requests.post(url, data=json.dumps({'text':str(str(flaskLogin.current_user.id)+' says: ' +str(request.form['text']))}))
+		return jsonify(status='commentInsert')
 
-	#return {"type":"bot","text":"checking"}
-	return
+	if request.method=='GET':
+		#obj{}
+		# TODO : GET ALL COMMENTS FROM DB FROM THAT USER
+		if request_wants_json():
+			if flaskLogin.current_user and flaskLogin.current_user.id:
+				comments = databaseUser.listAllText(flaskLogin.current_user.id)
+				return jsonify(comments=comments)
+			else:
+				return jsonify(error='true')
+		else:
+			return render_template('index.html')
 
 @app.route('/login2',methods=['POST'])
 def login2():
@@ -106,3 +126,4 @@ def login2():
 					print (flaskLogin.current_user.id)
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
+

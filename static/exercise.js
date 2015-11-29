@@ -61,7 +61,7 @@ var CommentList = React.createClass({
 	    return { x: xPosition, y: yPosition };
 	},
 	render: function() {
-		console.log(this.props.data)
+		// console.log(this.props.data)
 		var commentNodes = this.props.data.map(function(comment){
 			return (
 				<Comment key={comment.id} commentId={comment.id} commentType={comment.type}>
@@ -123,9 +123,10 @@ var Content = React.createClass({
 			dataType: 'json',
 			cache: false,
 			success: function(data){
-				var arr=[];
-				arr[0]=data;
-				this.setState({data:arr});
+				// var arr=[];
+				// arr[0]=data;
+				console.log('COMMENTS', data.comments)
+				this.setState({data:data.comments});
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());
@@ -151,7 +152,10 @@ var Content = React.createClass({
 			type: 'POST',
 			data: comment,
 			success: function(data){
-				this.setState({data:data});
+				// var arr=[];
+				// arr[0]=data;
+				// // you will need to append to comment list, or send back all comments
+				// this.setState({data:arr});
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());
@@ -233,7 +237,7 @@ var Login = React.createClass({
 				console.log("Logged in!!", data);
 				if(data.status == "success"){
 					this.context.setUserKey(key);
-					this.context.history.pushState(null, "/content", {});
+					this.context.history.pushState(null, "/comments", {});
 				}	
 
 			}.bind(this),
@@ -246,14 +250,88 @@ var Login = React.createClass({
 		return (
 			<div className="login main">
 				<div className="new-user-area">
-					<h2>Enter User Key</h2>
+					<h2>Login</h2>
 					<p>
-						If you are new, create a new user key here.
-						If you are a returning user, enter your user key here. 
+						If you do not have a username and password, register for a new user <Link to="/register">here</Link>.
 					</p>
 					<form className="logInForm" onSubmit={this.handleNewKeySubmit}>
 						<input type="text" 
 						  placeholder="User name" 
+						  value={this.state.userKey}
+				  		  onChange={this.handleNewKeyChange} />
+				  		<input type="password" 
+						  placeholder="Password" 
+						  value={this.state.userPasscode}
+				  		  onChange={this.handlePasswordChange} />
+						<input type="submit" value="Enter" />
+					</form>
+				</div>
+			</div>
+		)
+	}
+});
+
+
+var Register = React.createClass({
+	contextTypes : {
+		userKey : React.PropTypes.any,
+		setUserKey : React.PropTypes.func,
+		history : React.PropTypes.object
+	},
+
+	getInitialState: function() {
+		return {username: null, pw: null};
+	},
+	getDefaultProps : function() { 
+		return {url:"/register"}; 
+	},
+	handleNewKeyChange: function(e) {
+		this.setState({username: e.target.value});
+	},
+	handlePasswordChange: function(e) {
+		this.setState({pw: e.target.value});
+	},
+	handleNewKeySubmit: function(e) {
+		e.preventDefault();
+		var key = this.state.username.trim();
+		if (!key) {
+			return;
+		}
+		
+		var userLogin = this.state;		
+		console.log(userLogin);
+		//ajax POST userKey
+		$.ajax({
+			url: this.props.url,
+			dataType: 'json',
+			type: 'POST',
+			data: userLogin,
+			success: function(data){
+				// this.setState({data:data});
+				
+				console.log("Logged in!!", data);
+				if(data.status == "success"){
+					this.context.setUserKey(key);
+					this.context.history.pushState(null, "/comments", {});
+				}	
+
+			}.bind(this),
+			error: function(ehx, status, err) {
+				console.log(this.props.url, status, err.toString());
+			}.bind(this)
+		});
+	},
+	render: function() {
+		return (
+			<div className="login main">
+				<div className="new-user-area">
+					<h2>Choose a username and password</h2>
+					<p>
+						This is will anonymous.
+					</p>
+					<form className="logInForm" onSubmit={this.handleNewKeySubmit}>
+						<input type="text"
+						  placeholder="Username" 
 						  value={this.state.userKey}
 				  		  onChange={this.handleNewKeyChange} />
 				  		<input type="password" 
@@ -298,13 +376,15 @@ var Header = React.createClass({
 						<h1 className="tk-anonymous-pro"><b>Diary Bot</b></h1>
 					</div>
 					<div className="right">
+							<Link to="/register">New User</Link>				
+					</div>	
+					<div className="right">
 						{
 							this.context.userKey == null ?
 							(<Link to="/login">Login</Link>) :
-							(<Link to="/" onClick={this.logout}>Logout</Link>)
-						}
-						
-					</div>					
+							(<a href="/logout" onClick={this.logout}>Logout</a>)
+						}						
+					</div>				
 				</div>
 			</header>
 		)
@@ -348,7 +428,8 @@ ReactDOM.render((
 	    <Route path="/" component={App}>
 	      <IndexRoute component={Home} />
 	      <Route path="login" component={Login} />
-	      <Route path="content" component={Content} />
+	      <Route path="register" component={Register} />
+	      <Route path="comments" component={Content} />
 	    </Route>
 	</Router>
 ), document.getElementById('app'));

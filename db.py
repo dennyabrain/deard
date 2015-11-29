@@ -33,3 +33,12 @@ class db:
 			if userId in post:
 				temp =userId+'.text'
 				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text}}})
+
+	def listAllText(self,userId):
+		for post in self.findMany({}):
+			if userId in post:
+			#	if 'text' in post:
+				print(post)
+				return post[userId]['text']
+			#	else:
+			#		return []
