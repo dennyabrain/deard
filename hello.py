@@ -34,7 +34,7 @@ def reply():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		databaseUser.insertReply(text[0],text[1])
-		return 'done putting reply into database'
+		return '{"status":"successDbInsert"}'
 
 @app.route('/')
 def home():
