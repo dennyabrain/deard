@@ -78,8 +78,9 @@ def register():
 	if request.method=='GET':
 		return render_template('register.html')
 		
+		
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
-	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'input':[],'response':[]}})
+	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'text':[]}})
 	return 'added to database'
 
 @app.route('/comments', methods=['POST','GET'])
@@ -93,7 +94,11 @@ def comment():
 	if request.method=='GET':
 		#obj{}
 		# TODO : GET ALL COMMENTS FROM DB FROM THAT USER
-		return jsonify(type='user',text='test')
+		if flaskLogin.current_user and flaskLogin.current_user.id:
+			comments = databaseUser.listAllText(flaskLogin.current_user.id)
+			return jsonify(comments=comments)
+		else:
+			return jsonify(error='true')
 
 @app.route('/login2',methods=['POST'])
 def login2():
