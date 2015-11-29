@@ -80,7 +80,7 @@ def register():
 		
 		
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
-	databaseUser.insertOne({request.form['username']: {'pw':request.form['pw'],'text':[]}})
+	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':request.form['pw'],'text':[]}})
 	return 'added to database'
 
 @app.route('/comments', methods=['POST','GET'])
