@@ -380,7 +380,7 @@ var Header = React.createClass({
 			<header>
 				<div className="container">
 					<div className="title">
-						<img src="/static/assets/logotype-w.png" width="150"/>
+						<img src="/static/assets/logotype-i-d.png" width="150"/>
 					</div>
 					<div className="right header-login">
 							<Link to="/register">new account</Link>				
