@@ -1,9 +1,26 @@
 body {
-  background-color: #f3f3f3;
+  background-color: #FD7861;
 }
 
 .container {
-  max-width: 650px;
+  max-width: 620px;
+  /*background-color: #FD7861;*/
+}
+
+a {
+  color: #000;
+}
+
+p {
+  font-size: 18px;
+}
+
+input {
+  border: none;
+  padding: 10px;
+  font-size: 18px;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .right {
@@ -18,12 +35,28 @@ body {
 
 .title {
   display: inline-block;
+  padding-top: 20px;
 }
 
 .main {
-  margin-top: 100px;
+  margin-top: 180px;
 }
 
+.home {
+  color: #fff;
+}
+
+.home button {
+  padding: 10px 30px;
+  border: none;
+  border-radius: 3px;
+  background-color: #f3f3f3;
+  font-size: 18px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  margin-top: 80px;
+}
 
 
 header {
@@ -32,19 +65,26 @@ header {
   left: 0px;
   height:80px;
   width: 100%;
-  background-color: #fff;
-  border-bottom: 1px solid #ccc;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  background-color: #FD7861;
+  /*border-bottom: 1px solid #ccc;*/
+}
+
+.header-login a {
+  color: #fff;
 }
 
 .commentList {
   margin-bottom: 200px;
   margin-top: 60px;
+  background-color: #fff;
 }
 
 .comment {
   padding: 5px 15px 15px 15px;
   margin-top: 15px;
-  border-radius: 2px;
+  /*border-radius: 2px;*/
 }
 
 .comment-user {
@@ -52,7 +92,8 @@ header {
 }
 
 .comment-bot {
-  background-color: #ccc;
+  margin-top: 15px;
+  background-color: #DBD8D2;
 }
 
 
@@ -66,17 +107,33 @@ textarea[type="text"] {
   bottom:0px;
   height:150px;
   width: 100%;
-  background-color: #f3f3f3;
+  background-color: #FD7861;
+}
+
+.commentForm textarea {
+  margin-bottom: 5px;
 }
 
 /* sign in page */
 .old-user-area {
-  background-color: #fff;
+ /* background-color: #fff;*/
   margin-bottom: 60px;
   padding: 10px 30px 30px 30px;
 }
 
+.old-user-area h2, p{
+  color: #fff;
+}
+
+
 .new-user-area {
-  background-color: #fff;
+  /*background-color: #fff;*/
+  /*color: #fff;*/
   padding: 10px 30px 30px 30px;
 }
+
+.new-user-area h2, p{
+  color: #fff;
+}
+
+

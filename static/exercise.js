@@ -99,7 +99,7 @@ var CommentForm = React.createClass({
 	},
 	render: function() {
 		return (
-			<form className="commentForm" onSubmit={this.handleSubmit}>
+			<form className="commentForm tk-anonymous-pro" onSubmit={this.handleSubmit}>
 				<textarea className="form-control" type="text" 
 				  placeholder="Say something... " 
 				  value={this.state.text}
@@ -248,7 +248,7 @@ var Login = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className="login main">
+			<div className="login main tk-anonymous-pro">
 				<div className="new-user-area">
 					<h2>Login</h2>
 					<p>
@@ -256,7 +256,7 @@ var Login = React.createClass({
 					</p>
 					<form className="logInForm" onSubmit={this.handleNewKeySubmit}>
 						<input type="text" 
-						  placeholder="User name" 
+						  placeholder="Username" 
 						  value={this.state.userKey}
 				  		  onChange={this.handleNewKeyChange} />
 				  		<input type="password" 
@@ -323,11 +323,11 @@ var Register = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className="login main">
+			<div className="login main tk-anonymous-pro">
 				<div className="new-user-area">
 					<h2>Choose a username and password</h2>
 					<p>
-						This is will anonymous.
+						This will remain anonymous.
 					</p>
 					<form className="logInForm" onSubmit={this.handleNewKeySubmit}>
 						<input type="text"
@@ -353,12 +353,19 @@ var Home = React.createClass({
 	render: function() {
 		return (
 			<div className="home main">
-				Home
+				<h1 className="tk-anonymous-pro">
+					Hey there! Thanks for testing this out. 
+					dear D. is a smart diary that responds to you. 
+					Get started by creating a new account.
+				</h1>
+				<Link to="/register">
+					<button className="tk-anonymous-pro">Create new account</button>
+				</Link>
 			</div>
 		)
 	}
 });
-
+// <h1 className="tk-anonymous-pro"><b>Diary Bot</b></h1>
 var Header = React.createClass({
 	contextTypes: {
 		userKey: React.PropTypes.any,
@@ -373,16 +380,16 @@ var Header = React.createClass({
 			<header>
 				<div className="container">
 					<div className="title">
-						<h1 className="tk-anonymous-pro"><b>Diary Bot</b></h1>
+						<img src="/static/assets/logotype-w.png" width="150"/>
 					</div>
-					<div className="right">
-							<Link to="/register">New User</Link>				
+					<div className="right header-login">
+							<Link to="/register">new account</Link>				
 					</div>	
-					<div className="right">
+					<div className="right header-login">
 						{
 							this.context.userKey == null ?
-							(<Link to="/login">Login</Link>) :
-							(<a href="/logout" onClick={this.logout}>Logout</a>)
+							(<Link to="/login">login</Link>) :
+							(<a href="/logout" onClick={this.logout}>logout</a>)
 						}						
 					</div>				
 				</div>
