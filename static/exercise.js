@@ -125,7 +125,7 @@ var Content = React.createClass({
 				// var arr=[];
 				// arr[0]=data;
 				this.context.setUserKey(data.userKey)
-				console.log('COMMENTS', data.comments)
+				// console.log('COMMENTS', data.comments)
 				this.setState({data:data.comments});
 			}.bind(this),
 			error: function(ehx, status, err) {
@@ -300,7 +300,7 @@ var Register = React.createClass({
 		}
 		
 		var userLogin = this.state;		
-		console.log(userLogin);
+		// console.log(userLogin);
 		//ajax POST userKey
 		$.ajax({
 			url: this.props.url,

@@ -4,6 +4,7 @@ from flask import Flask, request, redirect, url_for, render_template, jsonify
 import requests
 import json
 import flask.ext.login as flaskLogin
+import afinn
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -96,10 +97,20 @@ def register():
 @app.route('/comments', methods=['POST','GET'])
 def comment():
 	if request.method=='POST':
-		print(flaskLogin.current_user.id)
+		#print(flaskLogin.current_user.id)
 		#print(request.form['text'])
 		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])		
 		requests.post(url, data=json.dumps({'text':str(str(flaskLogin.current_user.id)+' says: ' +str(request.form['text']))}))
+		"""
+		Trying out simplest sentiment analysis: returns a float score based on text
+		"""
+		text = str(request.form['text'])
+		afinnScore = afinn.sentiment(text)
+		print("******** SENTIMENT SCORE: %6.2f ********** %s" % (afinnScore, text))
+		if afinnScore > 0:
+			databaseUser.insertReply(flaskLogin.current_user.id,"That's great!")
+		else:
+			databaseUser.insertReply(flaskLogin.current_user.id,"Sorry to hear :(")
 		return jsonify(status='commentInsert')
 
 	if request.method=='GET':
