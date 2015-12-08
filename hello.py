@@ -90,6 +90,7 @@ def register():
 	user = User()
 	user.id=request.form['username']
 	flaskLogin.login_user(user)
+	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your day today?" % request.form['username'])
 	return '{"status":"success"}'
 
 @app.route('/comments', methods=['POST','GET'])
@@ -107,7 +108,7 @@ def comment():
 		if request_wants_json():
 			if flaskLogin.current_user and flaskLogin.current_user.id:
 				comments = databaseUser.listAllText(flaskLogin.current_user.id)
-				return jsonify(comments=comments)
+				return jsonify(userKey=flaskLogin.current_user.id, comments=comments)
 			else:
 				return jsonify(error='true')
 		else:
@@ -122,8 +123,10 @@ def login2():
 					user = User()
 					user.id=request.form['userKey']
 					flaskLogin.login_user(user)
+					databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'])
 					print ('flask has logged in and user is : ')
 					print (flaskLogin.current_user.id)
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
+
 
