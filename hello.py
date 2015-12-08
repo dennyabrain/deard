@@ -108,9 +108,9 @@ def comment():
 		afinnScore = afinn.sentiment(text)
 		print("******** SENTIMENT SCORE: %6.2f ********** %s" % (afinnScore, text))
 		if afinnScore > 0:
-			databaseUser.insertReply(flaskLogin.current_user.id,"That's great!")
+			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f That's great!" % (afinnScore, text))
 		else:
-			databaseUser.insertReply(flaskLogin.current_user.id,"Sorry to hear :(")
+			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f Sorry to hear :(" % (afinnScore, text))
 		return jsonify(status='commentInsert')
 
 	if request.method=='GET':
