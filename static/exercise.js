@@ -112,11 +112,10 @@ var CommentForm = React.createClass({
 
 var Content = React.createClass({
 	contextTypes : {
-		userKey : React.PropTypes.any	
+		userKey : React.PropTypes.any,
+		setUserKey : React.PropTypes.func,
+		history : React.PropTypes.object	
 	},
-	/***************************************
-		FOR DENNY: NEED TO MATCH AUTHOR 
-	***************************************/
 	getCommentsFromServer: function() { 
 		$.ajax({
 			url: this.props.url,
@@ -125,11 +124,13 @@ var Content = React.createClass({
 			success: function(data){
 				// var arr=[];
 				// arr[0]=data;
+				this.context.setUserKey(data.userKey)
 				console.log('COMMENTS', data.comments)
 				this.setState({data:data.comments});
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());
+				this.context.history.pushState(null, "/", {});
 			}.bind(this)
 		});
 	},
@@ -355,7 +356,7 @@ var Home = React.createClass({
 			<div className="home main">
 				<h1 className="tk-anonymous-pro">
 					Hey there! Thanks for testing this out. 
-					dear D. is a smart diary that responds to you. 
+					dear d. is a smart diary that responds to you. 
 					Get started by creating a new account.
 				</h1>
 				<Link to="/register">
