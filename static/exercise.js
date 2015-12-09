@@ -28,9 +28,6 @@ var Comment = React.createClass({
 			) :
 			(
 				<div className="comment comment-bot tk-anonymous-pro" >
-					<p className="commentId">
-						{this.props.commentType}
-					</p>
 					{this.props.children}
 				</div>
 			)
@@ -101,7 +98,7 @@ var CommentForm = React.createClass({
 	render: function() {
 		return (
 			<form className="commentForm tk-anonymous-pro" onSubmit={this.handleSubmit}>
-				<textarea className="form-control" type="text" 
+				<textarea className="form-control"  
 				  placeholder="Say something... " 
 				  value={this.state.text}
 				  onChange={this.handleTextChange} />
@@ -400,14 +397,14 @@ var Header = React.createClass({
 				<div className="container">
 					<div className="title">
 						{ this.props.logoIcon ?
-							(<img src="/static/assets/logo-d.svg" width="36"/>) :
+							(<img src="/static/assets/logo-d.svg" width="30"/>) :
 							(<img src="/static/assets/logotype-i-d.png" width="150"/>)
 						}
 					</div>
 
 					<div className="title-date">
 						{ this.props.showDate ?
-							(<h2>today</h2>) :
+							(<p>today</p>) :
 							""
 						}
 					</div>
@@ -436,9 +433,11 @@ var Header = React.createClass({
 var StaticLayout = React.createClass({
 	render: function() {
 		return(
-			<div className="container">
-				<Header /> 
-				{this.props.children}
+			<div className="layout-static">
+				<div className="container">
+					<Header /> 
+					{this.props.children}
+				</div>
 			</div>
 		)
 	}

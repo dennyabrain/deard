@@ -1,9 +1,16 @@
-body {
+/*body {
+  background-color: #FD7861;
+}*/
+body, html, #app, .layout-static {
+  height:100%;
+}
+
+.layout-static {
   background-color: #FD7861;
 }
 
 .container {
-  max-width: 850px;
+  max-width: 750px;
   /*background-color: #FD7861;*/
 }
 
@@ -12,8 +19,9 @@ a {
 }
 
 p {
-  font-size: 18px;
+  font-size: 20px;
 }
+
 
 input {
   border: none;
@@ -21,6 +29,8 @@ input {
   font-size: 18px;
   margin-right: 5px;
   margin-bottom: 5px;
+  background-color: none;
+  outline: none;
 }
 
 .right {
@@ -75,6 +85,9 @@ header {
   color: #fff;
 }
 
+
+/* diary layout */
+
 .layout-diary header {
   position:fixed; 
   margin: 0 auto;
@@ -84,23 +97,40 @@ header {
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: #fff;
+  opacity: 0.9;
   border-bottom: 1px solid #D8DBE0;
+  text-align: center;
 }
 
 .layout-diary .title {
   display: inline-block;
   padding-top: 5px;
+  float: left;
+}
+
+
+.layout-diary .title-date {
+  display: inline-block;
+  margin: 0 auto;
+  padding-top: 5px;
+  text-align: center;
+}
+
+.layout-diary .title-date p {
+  color: #000;
 }
 
 .layout-diary .right {
   float: right;
-  padding-top: 15px;
+  padding-top: 10px;
   margin-left: 20px;
 }
 
 .layout-diary .header-login a {
   color: #000;
 }
+
+/* comment list */
 
 .commentList {
   margin-bottom: 200px;
@@ -116,16 +146,44 @@ header {
 
 .comment-user {
   background-color: #fff;
+  font-size: 16px;
 }
 
 .comment-bot {
   margin-top: 15px;
-  background-color: #DBD8D2;
+  padding-top: 15px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 10px;
+  background-color: #89EFE5;
+  font-size: 14px;
 }
 
+/* comment form area */
 
-textarea[type="text"] {
-    height: 150px;
+/*textarea[type="text"] {
+    height: 80px;
+    font-size: 16px;
+    width: 90%;
+    display: inline;
+    box-shadow: none;
+    resize: none;
+    outline: none;
+}*/
+
+textarea {
+    height: 80px;
+    font-size: 16px;
+    width: 90%;
+    box-shadow: none !important;
+    resize: none;
+    outline: none;
+    display: block;
+}
+
+textarea:focus {
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 .form-control {
@@ -134,16 +192,32 @@ textarea[type="text"] {
 }
 
 .commentForm {
-  background-color: #DBD8D2;
+  position: relative;
+}
+
+.commentForm input {
+  border: 2px solid black;
+  border-radius: 20px;
+  padding: 4px 8px;
+  font-size: 18px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  background-color: transparent;
+  outline: none;
+  position: absolute;
+  right: 0px;
+  top: 8px;
 }
 
 .commentFormArea {
   position:fixed; 
   left:0px;
   bottom:0px;
-  height:200px;
+  height:100px;
   width: 100%;
-  background-color: #FD7861;
+  background-color: #fff;
+  border-top: 1px solid #D8DBE0;
 }
 
 .commentForm textarea {
