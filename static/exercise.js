@@ -13,13 +13,13 @@ var Router = ReactRouter.Router
 var BrowserHistory = History.createHistory
 var IndexRoute = ReactRouter.IndexRoute
 
-
+// {this.props.loading? (<Loader />) : ""}
 var Comment = React.createClass({
 	render: function() {
 		return (
 			this.props.commentType == "user" ?
 			(
-				<div className="comment comment-user tk-anonymous-pro">
+				<div className="comment comment-user tk-anonymous-pro" >
 					<p className="commentId">
 						{this.props.commentType}
 					</p>
@@ -27,7 +27,7 @@ var Comment = React.createClass({
 				</div>
 			) :
 			(
-				<div className="comment comment-bot tk-anonymous-pro">
+				<div className="comment comment-bot tk-anonymous-pro" >
 					<p className="commentId">
 						{this.props.commentType}
 					</p>
@@ -72,7 +72,8 @@ var CommentList = React.createClass({
 		
 		return (
 			<div className="commentList" id="commentList">
-				{commentNodes}
+				{commentNodes} 
+				{this.props.loading? (<Loader />) : ""}
 			</div>
 		);
 	}
@@ -146,7 +147,7 @@ var Content = React.createClass({
 	    // comment.author = this.context.userKey;
 	    comment.type = "user";
 	    var newComments = comments.concat([comment]);
-	    this.setState({data: newComments});
+	    this.setState({data: newComments, loadingResponse: true});
 		$.ajax({
 			url: this.props.url,
 			dataType: 'json',
@@ -156,7 +157,7 @@ var Content = React.createClass({
 				// var arr=[];
 				// arr[0]=data;
 				// // you will need to append to comment list, or send back all comments
-				// this.setState({data:arr});
+				this.setState({loadingResponse: false});
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());
@@ -167,7 +168,7 @@ var Content = React.createClass({
 		return {data:[]};
 	}, 
 	getDefaultProps : function() { 
-		return {url:"/comments", pollInterval: 1000}; 
+		return {url:"/comments", pollInterval: 3000}; 
 	},
 	componentDidMount: function() {
 		this.getCommentsFromServer();
@@ -179,7 +180,7 @@ var Content = React.createClass({
 	render: function() {
 		return (
 			<div className="content main">
-				<CommentList data={this.state.data} /> 
+				<CommentList data={this.state.data} loading={this.state.loadingResponse}/> 
 				<div className="commentFormArea">
 					<div className="container">
 						<CommentForm onCommentSubmit={this.handleCommentSubmit} />
@@ -347,7 +348,24 @@ var Register = React.createClass({
 	}
 });
 
-
+// <img src="static/assets/load-star-black.svg" />
+var Loader = React.createClass({
+	render: function() {
+		return (
+			<div className="loader">
+		        <span className="star">
+			        o
+				</span>
+		        <span className="star">
+			        o
+		        </span>
+		        <span className="star">
+			        o
+		        </span>
+		    </div>
+		)
+	}
+});
 
 
 var Home = React.createClass({
@@ -381,11 +399,27 @@ var Header = React.createClass({
 			<header>
 				<div className="container">
 					<div className="title">
-						<img src="/static/assets/logotype-i-d.png" width="150"/>
+						{ this.props.logoIcon ?
+							(<img src="/static/assets/logo-d.svg" width="36"/>) :
+							(<img src="/static/assets/logotype-i-d.png" width="150"/>)
+						}
 					</div>
-					<div className="right header-login">
-							<Link to="/register">new account</Link>				
-					</div>	
+
+					<div className="title-date">
+						{ this.props.showDate ?
+							(<h2>today</h2>) :
+							""
+						}
+					</div>
+					
+					{
+						this.context.userKey == null ?
+						(<div className="right header-login">
+							<Link to="/register">new account</Link>
+						</div>) : ""
+					}	
+											
+						
 					<div className="right header-login">
 						{
 							this.context.userKey == null ?
@@ -395,6 +429,28 @@ var Header = React.createClass({
 					</div>				
 				</div>
 			</header>
+		)
+	}
+});
+
+var StaticLayout = React.createClass({
+	render: function() {
+		return(
+			<div className="container">
+				<Header /> 
+				{this.props.children}
+			</div>
+		)
+	}
+});
+
+var DiaryLayout = React.createClass({
+	render: function() {
+		return(
+			<div className="container layout-diary">
+				<Header logoIcon={true} showDate={true}/> 
+				{this.props.children}
+			</div>
 		)
 	}
 });
@@ -421,24 +477,23 @@ var App = React.createClass({
 		});
 	},
 	render: function() {
-		return(
-			<div className="container">
-				<Header /> 
-				{this.props.children}
-			</div>
-		)
+		return this.props.children
 	}
 });
 
 
 ReactDOM.render((
 	<Router history={BrowserHistory()}>
-	    <Route path="/" component={App}>
-	      <IndexRoute component={Home} />
-	      <Route path="login" component={Login} />
-	      <Route path="register" component={Register} />
-	      <Route path="comments" component={Content} />
-	    </Route>
+		<Route path="/" component={App}>
+		    <Route path="comments" component={DiaryLayout}>
+		      <IndexRoute component={Content} />
+		    </Route>
+		    <Route component={StaticLayout}>
+		      <IndexRoute component={Home} />
+		      <Route path="login" component={Login} />
+		      <Route path="register" component={Register} />
+		    </Route>
+		</Route>
 	</Router>
 ), document.getElementById('app'));
 

@@ -3,7 +3,7 @@ body {
 }
 
 .container {
-  max-width: 620px;
+  max-width: 850px;
   /*background-color: #FD7861;*/
 }
 
@@ -17,7 +17,7 @@ p {
 
 input {
   border: none;
-  padding: 10px;
+  padding: 8px;
   font-size: 18px;
   margin-right: 5px;
   margin-bottom: 5px;
@@ -75,6 +75,33 @@ header {
   color: #fff;
 }
 
+.layout-diary header {
+  position:fixed; 
+  margin: 0 auto;
+  left: 0px;
+  height:60px;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #fff;
+  border-bottom: 1px solid #D8DBE0;
+}
+
+.layout-diary .title {
+  display: inline-block;
+  padding-top: 5px;
+}
+
+.layout-diary .right {
+  float: right;
+  padding-top: 15px;
+  margin-left: 20px;
+}
+
+.layout-diary .header-login a {
+  color: #000;
+}
+
 .commentList {
   margin-bottom: 200px;
   margin-top: 60px;
@@ -98,14 +125,23 @@ header {
 
 
 textarea[type="text"] {
-    height: 100px;
+    height: 150px;
+}
+
+.form-control {
+  border: none;
+  border-radius: 0px;
+}
+
+.commentForm {
+  background-color: #DBD8D2;
 }
 
 .commentFormArea {
   position:fixed; 
   left:0px;
   bottom:0px;
-  height:150px;
+  height:200px;
   width: 100%;
   background-color: #FD7861;
 }
@@ -135,5 +171,94 @@ textarea[type="text"] {
 .new-user-area h2, p{
   color: #fff;
 }
+
+/* spinner */
+
+@-webkit-keyframes load_glitter {
+  0% {-webkit-transform: scale(1);}
+  50% {-webkit-transform: scale(2);}
+  100% {-webkit-transform: scale(1);}
+}
+@keyframes load_glitter {
+  0% {transform: scale(1);}
+  50% {transform: scale(2);}
+  100% {transform: scale(1);}
+}
+
+.loader {
+  margin-top: -20px;
+} 
+
+.loader .star {
+  display: inline-block;
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
+  -webkit-animation: load_glitter 1s infinite;
+  animation: load_glitter 1s infinite;
+  padding-right: 5px;
+}
+.loader .star:nth-child(2) {
+  -webkit-animation-delay: .33s;
+  animation-delay: .33s;
+}
+.loader .star:nth-child(3) {
+  -webkit-animation-delay: .67s;
+  animation-delay: .67s;
+}
+
+
+/* animate */
+
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+
+
+/*.spinner > div {
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border-radius: 100%;
+  display: inline-block;
+  animation: sk-bouncedelay 1.7s infinite ease-in-out both;
+  margin-right: 5px;
+}
+
+.spinner .spinner__item1 {
+  animation-delay: -0.60s;
+}
+
+.spinner .spinner__item2 {
+  animation-delay: -0.40s;
+}
+
+.spinner .spinner__item3 {
+  animation-delay: -0.20s;
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    transform: scale(0);
+    opacity: 0;
+  } 40% { 
+    transform: scale(1.0);
+    opacity: 1;
+  }
+}*/
 
 
