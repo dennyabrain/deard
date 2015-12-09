@@ -405,7 +405,12 @@ var Header = React.createClass({
 					<div className="title">
 						{ this.props.logoIcon ?
 							(<img src="/static/assets/logo-d.svg" width="30"/>) :
-							(<img src="/static/assets/logotype-i-d.png" width="150"/>)
+							(	<span>
+									<img src="/static/assets/key.svg" width="55"/>
+									<img src="/static/assets/logo-dear.svg" width="100"/>
+									<img src="/static/assets/logo-d-w.svg" width="22"/>
+								</span>
+							)
 						}
 					</div>
 
