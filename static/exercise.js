@@ -15,7 +15,22 @@ var IndexRoute = ReactRouter.IndexRoute
 
 // {this.props.loading? (<Loader />) : ""}
 var Comment = React.createClass({
+	colors : {
+		'-3': 'red',
+		'-2': 'orange',
+		'-1': 'yellow',
+		'0': 'grey',
+		'1': 'green',
+		'2': 'blue',
+		'3': 'purple'
+	},
+	
 	render: function() {
+		if (this.props.commentType == "bot") {
+			var scoreBgColor = this.colors[ parseInt(this.props.commentAfinnScore || 0) ],
+					commentStyle = { backgroundColor : scoreBgColor };
+		}
+
 		return (
 			<span>
 			{ this.props.timeAt ? 
@@ -25,12 +40,12 @@ var Comment = React.createClass({
 			{
 				this.props.commentType == "user" ?
 					(
-						<div className="comment comment-user tk-anonymous-pro" >
+						<div className="comment comment-user tk-anonymous-pro">
 							{this.props.children}
 						</div>
 					) :
 					(
-						<div className="comment comment-bot tk-anonymous-pro" >
+						<div className="comment comment-bot tk-anonymous-pro" style={commentStyle}>
 							{this.props.children}
 						</div>
 					)
@@ -42,12 +57,21 @@ var Comment = React.createClass({
 
 
 var CommentList = React.createClass({
-
+	componentDidMount : function() {
+		this.scrollToLastComment()
+	},
 	componentDidUpdate : function(props, states, context) {
-	  if (this.props.data && props.data && this.props.data.length != props.data.length) {
-			var pos = this.getPosition(this.refs.commentList.getDOMNode().lastChild);
-			window.scrollTo(0,pos.y);
-	  }
+		if (this.props.data && props.data && this.props.data.length != props.data.length) {
+			this.scrollToLastComment()
+		}
+	},
+	scrollToLastComment : function() {
+		var c = this.refs.commentList.getDOMNode().lastChild;
+		if (typeof(c) != 'undefined') {
+			var pos = this.getPosition(c);
+			// window.scrollTo(0,pos.y);
+			$('html, body').animate({scrollTop: pos.y}, 500);
+		}
 	},
 	getPosition : function(element) {
 		var xPosition = 0, yPosition = 0;
@@ -60,19 +84,18 @@ var CommentList = React.createClass({
 	},
 	render: function() {
 		var lastTimeAt = 0;
-		var commentNodes = this.props.data.map(function(comment){
-			console.log(comment)
-			if (comment.created_at && comment.created_at - lastTimeAt >= 30000) {
+		var commentNodes = this.props.data.map(function(comment,i){
+			if (comment.created_at && comment.created_at - lastTimeAt >= 300) {
 				lastTimeAt = comment.created_at;
 				var d = new Date(comment.created_at * 1000),
 						h = (d.getHours() > 12 ? d.getHours() - 12 : d.getHours()),
 						z = d.getHours() == 23 || d.getHours() < 12 ? 'am' : 'pm';
-				timeAt = h + ':' + d.getMinutes() + ' ' + z;
+				timeAt = h + ':' + ("00" + d.getMinutes()).slice(-2) + ' ' + z;
 			} else {
 				timeAt = null;
 			}
 			return (
-				<Comment key={comment.id} timeAt={timeAt} commentId={comment.id} commentType={comment.type}>
+				<Comment key={'comment-' + i} timeAt={timeAt} commentId={comment.id} commentAfinnScore={comment.afinn_score} commentType={comment.type}>
 					{comment.text}
 				</Comment>
 			);
@@ -132,7 +155,7 @@ var Content = React.createClass({
 			cache: false,
 			success: function(data){
 				this.context.setUserKey(data.userKey)
-				this.setState({loadingResponse: false, data:data.comments});
+				this.setState({loadingResponse: false, loaded: true, data:data.comments});
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());
@@ -181,16 +204,19 @@ var Content = React.createClass({
 		});
 	},
 	getInitialState: function() {
-		return {data:[]};
+		return {data:[], loaded: false};
 	}, 
 	getDefaultProps : function() { 
 		return {url:"/comments", pollInterval: 3000}; 
 	},
 	componentWillMount : function() {
-		this.getCommentsFromServer();
+		
 	},
 	componentDidMount: function() {
-		this.enablePolling();
+		setTimeout(function() {
+			this.getCommentsFromServer();
+			this.enablePolling();
+		}.bind(this), 2000);
 	},
 	componentWillUnmount: function() {
 		this.disablePolling();
@@ -204,7 +230,10 @@ var Content = React.createClass({
 	render: function() {
 		return (
 			<div className="content main">
-				<CommentList data={this.state.data} loading={this.state.loadingResponse}/> 
+				{ this.state.loaded ? 
+					(<CommentList data={this.state.data} loading={this.state.loadingResponse}/>) :
+					(<Loader />)
+				}
 				<div className="commentFormArea">
 					<div className="container">
 						<CommentForm onCommentSubmit={this.handleCommentSubmit} />
@@ -498,7 +527,8 @@ var App = React.createClass({
 	getInitialState: function() {
 		return {
 			showDate : null,
-			userKey: null
+			userKey: null,
+			loaded : false
 		}
 	},
 	setShowDate: function(date) {
@@ -511,8 +541,17 @@ var App = React.createClass({
 			userKey: key
 		});
 	},
+	componentDidMount: function() {
+		setTimeout(function() {
+			this.setState({ loaded: true });
+		}.bind(this), 1000);
+	},
 	render: function() {
-		return this.props.children
+		return this.state.loaded ? this.props.children : (
+			<div className="app-loading">
+				<Loader />
+			</div>
+		);
 	}
 });
 

@@ -29,11 +29,11 @@ class db:
 				temp =userId+'.text'
 				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": time.time()}}})
 
-	def insertReply(self,userId,text):
+	def insertReply(self,userId,text,score=0):
 		for post in self.findMany({}):
 			if userId in post:
 				temp =userId+'.text'
-				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text, "created_at": time.time()}}})
+				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text, "afinn_score": score, "created_at": time.time()}}})
 
 	def listAllText(self,userId):
 		for post in self.findMany({}):
