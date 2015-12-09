@@ -7,7 +7,7 @@ body, html, #app, .layout-static {
 
 .layout-static {
   /*background-color: #FD7861;*/
-  background: linear-gradient(60deg, #FD7861, #D4145A, #662D91, #89EFE5);
+  background: linear-gradient(60deg, #D4145A, #FD7861, #89EFE5);
 }
 
 .container {
@@ -23,6 +23,10 @@ p {
   font-size: 20px;
 }
 
+.app-loading .loader {
+  margin-top: 200px;
+}
+
 
 input {
   border: none;
@@ -36,8 +40,9 @@ input {
 
 .right {
   float: right;
-  padding-top: 30px;
+  /*padding-top: 30px;*/
   margin-left: 20px;
+  margin-top: -10px;
 }
 
 .right-padding {
@@ -47,6 +52,11 @@ input {
 .title {
   display: inline-block;
   padding-top: 20px;
+}
+
+.title img {
+  /*padding-top: 50px;*/
+  margin-top: 20px;
 }
 
 .main {
@@ -158,6 +168,13 @@ header {
   border-radius: 10px;
   background-color: #89EFE5;
   font-size: 14px;
+  color: #fff;
+}
+
+.timestamp {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 25px;
 }
 
 /* comment form area */

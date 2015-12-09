@@ -16,13 +16,13 @@ var IndexRoute = ReactRouter.IndexRoute
 // {this.props.loading? (<Loader />) : ""}
 var Comment = React.createClass({
 	colors : {
-		'-3': 'red',
-		'-2': 'orange',
-		'-1': 'yellow',
-		'0': 'grey',
-		'1': 'green',
-		'2': 'blue',
-		'3': 'purple'
+		'-3': '#90EBE1',
+		'-2': '#90EBE1',
+		'-1': '#90EBE1',
+		'0': '#F87C69',
+		'1': '#D31D5C',
+		'2': '#D31D5C',
+		'3': '#D31D5C'
 	},
 	
 	render: function() {
@@ -544,7 +544,7 @@ var App = React.createClass({
 	componentDidMount: function() {
 		setTimeout(function() {
 			this.setState({ loaded: true });
-		}.bind(this), 1000);
+		}.bind(this), 3000);
 	},
 	render: function() {
 		return this.state.loaded ? this.props.children : (
