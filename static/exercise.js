@@ -17,21 +17,25 @@ var IndexRoute = ReactRouter.IndexRoute
 var Comment = React.createClass({
 	render: function() {
 		return (
-			this.props.commentType == "user" ?
-			(
-				<div className="comment comment-user tk-anonymous-pro" >
-					<p className="commentId">
-						{this.props.commentType}
-					</p>
-					{this.props.children}
-				</div>
-			) :
-			(
-				<div className="comment comment-bot tk-anonymous-pro" >
-					{this.props.children}
-				</div>
-			)
-			
+			<span>
+			{ this.props.timeAt ? 
+				(<div className="timestamp">{this.props.timeAt}</div>) :
+				""
+			}
+			{
+				this.props.commentType == "user" ?
+					(
+						<div className="comment comment-user tk-anonymous-pro" >
+							{this.props.children}
+						</div>
+					) :
+					(
+						<div className="comment comment-bot tk-anonymous-pro" >
+							{this.props.children}
+						</div>
+					)
+			}
+			</span>
 		)
 	}
 });
@@ -55,9 +59,20 @@ var CommentList = React.createClass({
 		return { x: xPosition, y: yPosition };
 	},
 	render: function() {
+		var lastTimeAt = 0;
 		var commentNodes = this.props.data.map(function(comment){
+			console.log(comment)
+			if (comment.created_at && comment.created_at - lastTimeAt >= 30000) {
+				lastTimeAt = comment.created_at;
+				var d = new Date(comment.created_at * 1000),
+						h = (d.getHours() > 12 ? d.getHours() - 12 : d.getHours()),
+						z = d.getHours() == 23 || d.getHours() < 12 ? 'am' : 'pm';
+				timeAt = h + ':' + d.getMinutes() + ' ' + z;
+			} else {
+				timeAt = null;
+			}
 			return (
-				<Comment key={comment.id} commentId={comment.id} commentType={comment.type}>
+				<Comment key={comment.id} timeAt={timeAt} commentId={comment.id} commentType={comment.type}>
 					{comment.text}
 				</Comment>
 			);
