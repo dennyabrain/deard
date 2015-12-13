@@ -401,14 +401,14 @@ var Register = React.createClass({
 	}
 });
 
-// <img src="static/assets/load-star-black.svg" />
+// <img src="static/img/load-star-black.svg" />
 var Loader = React.createClass({
 	render: function() {
 		return (
 			<div className="loader">
-				<span className="star"><img src="/static/assets/load-star-black.svg" width="18" height="18"/></span>
-				<span className="star"><img src="/static/assets/load-star-black.svg" width="15" height="15"/></span>
-				<span className="star"><img src="/static/assets/load-star-black.svg" width="12" height="12"/></span>
+				<span className="star"><img src="/static/img/load-star-black.svg" width="18" height="18"/></span>
+				<span className="star"><img src="/static/img/load-star-black.svg" width="15" height="15"/></span>
+				<span className="star"><img src="/static/img/load-star-black.svg" width="12" height="12"/></span>
 			</div>
 		)
 	}
@@ -448,11 +448,11 @@ var Header = React.createClass({
 				<div className="container">
 					<div className="title">
 						{ this.props.logoIcon ?
-							(<img src="/static/assets/logo-d.svg" width="30"/>) :
+							(<img src="/static/img/logo-d.svg" width="30"/>) :
 							(	<span>
-									<img src="/static/assets/key.svg" width="55"/>
-									<img src="/static/assets/logo-dear.svg" width="100"/>
-									<img src="/static/assets/logo-d-w.svg" width="22"/>
+									<img src="/static/img/key.svg" width="55"/>
+									<img src="/static/img/logo-dear.svg" width="100"/>
+									<img src="/static/img/logo-d-w.svg" width="22"/>
 								</span>
 							)
 						}
