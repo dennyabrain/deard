@@ -54,13 +54,11 @@
 	var App = __webpack_require__(1);
 	var DiaryLayout = __webpack_require__(3);
 	var Content = __webpack_require__(5);
-	var StaticLayout = __webpack_require__(9);
-	var Home = __webpack_require__(10);
-	var Login = __webpack_require__(11);
-	var Register = __webpack_require__(12);
-
-	// var Comment = require('./components/comment')
-	// var CommentList = require('./components/commentList')
+	var UserData = __webpack_require__(9);
+	var StaticLayout = __webpack_require__(10);
+	var Home = __webpack_require__(11);
+	var Login = __webpack_require__(12);
+	var Register = __webpack_require__(13);
 
 	ReactDOM.render(React.createElement(
 		Router,
@@ -70,8 +68,10 @@
 			{ path: '/', component: App },
 			React.createElement(
 				Route,
-				{ path: 'comments', component: DiaryLayout },
-				React.createElement(IndexRoute, { component: Content })
+				{ component: DiaryLayout },
+				React.createElement(IndexRoute, { component: Content }),
+				React.createElement(Route, { path: 'data', component: UserData }),
+				React.createElement(Route, { path: 'comments', component: Content })
 			),
 			React.createElement(
 				Route,
@@ -211,23 +211,31 @@
 					{ className: "container" },
 					React.createElement(
 						"div",
-						{ className: "title" },
-						this.props.logoIcon ? React.createElement("img", { src: "/static/img/logo-d.svg", width: "30" }) : React.createElement(
+						{ className: "title-data" },
+						this.props.showDate ? React.createElement(
+							Link,
+							{ to: "/data" },
+							React.createElement("img", { src: "/static/img/data-icon.svg", width: "25" })
+						) : ""
+					),
+					React.createElement(
+						"div",
+						null,
+						this.props.logoIcon ? React.createElement(
 							"span",
-							null,
+							{ className: "logo-d" },
+							React.createElement(
+								Link,
+								{ to: "/" },
+								React.createElement("img", { src: "/static/img/logo-d.svg", width: "30" })
+							)
+						) : React.createElement(
+							"span",
+							{ className: "title" },
 							React.createElement("img", { src: "/static/img/key.svg", width: "55" }),
 							React.createElement("img", { src: "/static/img/logo-dear.svg", width: "100" }),
 							React.createElement("img", { src: "/static/img/logo-d-w.svg", width: "22" })
 						)
-					),
-					React.createElement(
-						"div",
-						{ className: "title-date" },
-						this.props.showDate ? React.createElement(
-							"p",
-							null,
-							this.context.showDate
-						) : ""
 					),
 					this.context.userKey == null ? React.createElement(
 						"div",
@@ -255,6 +263,13 @@
 			);
 		}
 	});
+
+	// <div className="title-date">
+	// 	{ this.props.showDate ?
+	// 		(<p>{this.context.showDate}</p>) :
+	// 		""
+	// 	}
+	// </div>
 
 /***/ },
 /* 5 */
@@ -517,6 +532,78 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Loader = __webpack_require__(2);
+
+	module.exports = React.createClass({
+		displayName: 'UserData',
+
+		contextTypes: {
+			userKey: React.PropTypes.any,
+			setUserKey: React.PropTypes.func,
+			history: React.PropTypes.object
+		},
+		getCommentsFromServer: function () {
+			$.ajax({
+				url: this.props.url,
+				dataType: 'json',
+				cache: false,
+				success: (function (data) {
+					this.context.setUserKey(data.userKey);
+					this.setState({ loadingResponse: false, loaded: true, data: data.comments });
+				}).bind(this),
+				error: (function (ehx, status, err) {
+					console.log(this.props.url, status, err.toString());
+					this.context.history.pushState(null, "/", {});
+				}).bind(this)
+			});
+		},
+		getInitialState: function () {
+			return { data: [], loaded: false };
+		},
+		getDefaultProps: function () {
+			return { url: "/comments", pollInterval: 3000 };
+		},
+		componentDidMount: function () {
+			setTimeout((function () {
+				this.getCommentsFromServer();
+				this.enablePolling();
+			}).bind(this), 2000);
+		},
+		componentWillUnmount: function () {
+			this.disablePolling();
+		},
+		enablePolling: function () {
+			this.checkInterval = setInterval(this.getCommentsFromServer, this.props.pollInterval);
+		},
+		disablePolling: function () {
+			clearInterval(this.checkInterval);
+		},
+		render: function () {
+			return React.createElement(
+				'div',
+				{ className: 'userData main' },
+				this.state.loaded ? React.createElement(
+					'span',
+					null,
+					'User data top'
+				) : React.createElement(Loader, null),
+				React.createElement(
+					'div',
+					{ className: 'dataArea' },
+					React.createElement(
+						'div',
+						{ className: 'container' },
+						'User data bottom'
+					)
+				)
+			);
+		}
+	});
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var Header = __webpack_require__(4);
 
 	module.exports = React.createClass({
@@ -536,7 +623,7 @@
 	});
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	var Link = ReactRouter.Link;
@@ -567,7 +654,7 @@
 	});
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	var Link = ReactRouter.Link;
@@ -664,7 +751,7 @@
 	});
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = React.createClass({

@@ -71,9 +71,6 @@ module.exports = React.createClass({
 	getDefaultProps : function() { 
 		return {url:"/comments", pollInterval: 3000}; 
 	},
-	componentWillMount : function() {
-		
-	},
 	componentDidMount: function() {
 		setTimeout(function() {
 			this.getCommentsFromServer();

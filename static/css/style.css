@@ -119,12 +119,17 @@ header {
   float: left;
 }
 
-
-.layout-diary .title-date {
+.layout-diary .logo-d {
   display: inline-block;
   margin: 0 auto;
   padding-top: 5px;
   text-align: center;
+}
+
+.layout-diary .title-data img{
+  display: inline-block;
+  padding-top: 5px;
+  float: left;
 }
 
 .layout-diary .title-date p {
@@ -133,7 +138,6 @@ header {
 
 .layout-diary .right {
   float: right;
-  padding-top: 10px;
   margin-left: 20px;
 }
 

@@ -15,22 +15,30 @@ module.exports = React.createClass({
 		return (
 			<header>
 				<div className="container">
-					<div className="title">
+					<div className="title-data">
+						{ this.props.showDate ?
+							(<Link to="/data">
+								<img src="/static/img/data-icon.svg" width="25"/>
+							</Link>
+							) :
+							""
+						}
+					</div>
+					
+					<div>
 						{ this.props.logoIcon ?
-							(<img src="/static/img/logo-d.svg" width="30"/>) :
-							(	<span>
+							(	<span className="logo-d">
+								<Link to="/">
+									<img src="/static/img/logo-d.svg" width="30"/>
+								</Link>
+								</span>
+							) :
+							(	<span className="title">
 									<img src="/static/img/key.svg" width="55"/>
 									<img src="/static/img/logo-dear.svg" width="100"/>
 									<img src="/static/img/logo-d-w.svg" width="22"/>
 								</span>
 							)
-						}
-					</div>
-
-					<div className="title-date">
-						{ this.props.showDate ?
-							(<p>{this.context.showDate}</p>) :
-							""
 						}
 					</div>
 
@@ -53,3 +61,10 @@ module.exports = React.createClass({
 		)
 	}
 });
+
+// <div className="title-date">
+// 	{ this.props.showDate ?
+// 		(<p>{this.context.showDate}</p>) :
+// 		""
+// 	}
+// </div>
