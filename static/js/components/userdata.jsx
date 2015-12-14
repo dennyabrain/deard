@@ -35,7 +35,7 @@ module.exports = React.createClass({
 	},
 	componentDidMount: function() {
 		setTimeout(function() {
-			this.getCommentsFromServer();
+			//this.getCommentsFromServer();
 			//this.enablePolling();
 		}.bind(this), 2000);
 	},
