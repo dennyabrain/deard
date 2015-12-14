@@ -1,5 +1,7 @@
 from pymongo import MongoClient
+from bson.json_util import dumps
 import time
+from datetime import datetime, timedelta, date, time
 
 class db:
 	def __init__(self,dbName,collectionName,):
@@ -27,13 +29,13 @@ class db:
 		for post in self.findMany({}):
 			if userId in post:
 				temp =userId+'.text'
-				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": time.time()}}})
+				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now()}}})
 
 	def insertReply(self,userId,text,score=0):
 		for post in self.findMany({}):
 			if userId in post:
 				temp =userId+'.text'
-				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text, "afinn_score": score, "created_at": time.time()}}})
+				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text, "afinn_score": score, "created_at": datetime.now()}}})
 
 	def listAllText(self,userId):
 		for post in self.findMany({}):
@@ -43,3 +45,25 @@ class db:
 				return post[userId]['text']
 			#	else:
 			#		return []
+
+	def getCommentsForWeek(self,userId):
+		days = {}
+		currentDate = datetime.combine(date.today(), time(0,0))
+
+		for x in range(0,7):
+			startDate = (currentDate - timedelta(days=x))
+			endDate = (startDate + timedelta(days=1))
+			startDateUnix = startDate.strftime('%s')
+			endDateUnix = endDate.strftime('%s')
+
+			days[startDateUnix] = []
+
+			temp = userId+'.text'
+			# TODO: HOW IS TEXT STORED IN A KEY WITH THE USERNAME? THIS SEEMS DUMB AND NON-STANDARD
+			# results = self.collection.find({'name': userId, temp: {'created_at': {'$elemMatch': {'$gte': startDateUnix, '$lt': endDateUnix}}}})
+			results = self.collection.find({'name': userId})
+			for post in results:
+				days[startDateUnix] = post[userId]['text']
+				break
+
+		return days

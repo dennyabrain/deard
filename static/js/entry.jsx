@@ -19,10 +19,9 @@ var Register = require('./components/register')
 ReactDOM.render((
 	<Router history={BrowserHistory()}>
 		<Route path="/" component={App}>
-			<Route component={DiaryLayout}>
+			<Route path="comments" component={DiaryLayout}>
 				<IndexRoute component={Content} />
 				<Route path="data" component={UserData} />
-				<Route path="comments" component={Content} />
 			</Route>
 			<Route component={StaticLayout}>
 				<IndexRoute component={Home} />
@@ -32,3 +31,6 @@ ReactDOM.render((
 		</Route>
 	</Router>
 ), document.getElementById('app'));
+
+// <Route path="comments" component={Content} />
+

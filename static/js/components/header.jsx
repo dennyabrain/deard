@@ -17,7 +17,7 @@ module.exports = React.createClass({
 				<div className="container">
 					<div className="title-data">
 						{ this.props.showDate ?
-							(<Link to="/data">
+							(<Link to="/comments/data">
 								<img src="/static/img/data-icon.svg" width="25"/>
 							</Link>
 							) :
@@ -28,7 +28,7 @@ module.exports = React.createClass({
 					<div>
 						{ this.props.logoIcon ?
 							(	<span className="logo-d">
-								<Link to="/">
+								<Link to="/comments">
 									<img src="/static/img/logo-d.svg" width="30"/>
 								</Link>
 								</span>

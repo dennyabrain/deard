@@ -94,6 +94,12 @@ def register():
 	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your day today?" % request.form['username'])
 	return '{"status":"success"}'
 
+@app.route('/userstats', methods=['GET'])
+def userstats():
+	if request.method=='GET':
+		comments = databaseUser.getCommentsForWeek(flaskLogin.current_user.id)
+		return jsonify(comments=comments)
+
 @app.route('/comments', methods=['POST','GET'])
 def comment():
 	if request.method=='POST':
