@@ -1,6 +1,6 @@
 var Loader = require('./loader')
 var MoodGraph = require('./moodgraph')
-//var DaysList = require('./dayslist')
+var DaysList = require('./dayslist')
 
 module.exports = React.createClass({
 	displayName: 'UserData',
@@ -16,7 +16,8 @@ module.exports = React.createClass({
 			dataType: 'json',
 			cache: false,
 			success: function(data){
-				this.context.setUserKey(data.userKey)
+				//console.log(data)
+				//this.context.setUserKey(data.userKey)
 				this.setState({loadingResponse: false, loaded: true, data:data.comments});
 
 			}.bind(this),
@@ -35,7 +36,7 @@ module.exports = React.createClass({
 	},
 	componentDidMount: function() {
 		setTimeout(function() {
-			//this.getCommentsFromServer();
+			this.getCommentsFromServer();
 			//this.enablePolling();
 		}.bind(this), 2000);
 	},
@@ -55,7 +56,8 @@ module.exports = React.createClass({
 					(
 						<div>
 							<h2> This week </h2>
-							<MoodGraph />
+							<MoodGraph data={this.state.data} />
+							<DaysList data={this.state.data} />
 						</div>
 					) :
 					(<Loader />)

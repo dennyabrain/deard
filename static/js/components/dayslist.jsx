@@ -1,4 +1,5 @@
 var Loader = require('./loader')
+var Day = require('./day')
 
 module.exports = React.createClass({
 	displayName: 'DaysList',
@@ -13,7 +14,12 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		var lastTimeAt = 0;
-		var commentNodes = this.props.data.map(function(comment,i){
+
+		var days = [];
+		
+		for(var date in this.props.data) {
+			var comment = this.props.data[date];
+
 			if (comment.created_at && comment.created_at - lastTimeAt >= 300) {
 				lastTimeAt = comment.created_at;
 				var d = new Date(comment.created_at * 1000),
@@ -23,22 +29,19 @@ module.exports = React.createClass({
 			} else {
 				timeAt = null;
 			}
-			return (
-				<Comment key={'comment-' + i} timeAt={timeAt} commentId={comment.id} commentAfinnScore={comment.afinn_score} commentType={comment.type}>
-					{comment.text}
-				</Comment>
-			);
-		});
-
+			days.push((
+				<Day key={'comment-' + date} timeAt={timeAt} commentId={comment.id} commentAfinnScore={comment.afinn_score} commentType={comment.type}>
+					<span>{date}</span>
+					<span>{comment[date]}</span>
+				</Day>
+			));
+		}
+		
 		return (
-			<div ref="commentList" className="commentList" id="commentList">
-				{commentNodes} 
-				{this.props.loading? (<Loader />) : ""}
+			<div className="commentList">
+				{days} 
 			</div>
 		);
 	}
 });
 
-<Day time={}>
- {}
-</Day>

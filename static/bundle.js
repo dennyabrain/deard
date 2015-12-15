@@ -55,10 +55,10 @@
 	var DiaryLayout = __webpack_require__(3);
 	var Content = __webpack_require__(5);
 	var UserData = __webpack_require__(9);
-	var StaticLayout = __webpack_require__(11);
-	var Home = __webpack_require__(12);
-	var Login = __webpack_require__(13);
-	var Register = __webpack_require__(14);
+	var StaticLayout = __webpack_require__(12);
+	var Home = __webpack_require__(13);
+	var Login = __webpack_require__(14);
+	var Register = __webpack_require__(15);
 
 	ReactDOM.render(React.createElement(
 		Router,
@@ -534,7 +534,7 @@
 
 	var Loader = __webpack_require__(2);
 	var MoodGraph = __webpack_require__(10);
-	//var DaysList = require('./dayslist')
+	var DaysList = __webpack_require__(11);
 
 	module.exports = React.createClass({
 		displayName: 'UserData',
@@ -550,7 +550,8 @@
 				dataType: 'json',
 				cache: false,
 				success: (function (data) {
-					this.context.setUserKey(data.userKey);
+					//console.log(data)
+					//this.context.setUserKey(data.userKey)
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments });
 				}).bind(this),
 				error: (function (ehx, status, err) {
@@ -593,7 +594,8 @@
 						null,
 						' This week '
 					),
-					React.createElement(MoodGraph, null)
+					React.createElement(MoodGraph, { data: this.state.data }),
+					React.createElement(DaysList, { data: this.state.data })
 				) : React.createElement(Loader, null)
 			);
 		}
@@ -686,72 +688,73 @@
 		displayName: 'MoodGraph',
 
 		componentDidMount: function () {
-			// var allData = this.props.data;
-			// var unixTimeKeys = []; // keys
-			// var afinnCount = 0;
-			// var afinnSum = 0;
-			// var afinnAverage = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
-			// var days = []; //[2, 3, 4, 5, 6, 0]
-			// //var arrayCount = 0;
-			// for (var k in target) {
-			// 	if (target.hasOwnProperty(k)) {
-			// 		// store keys in array
-			//        		unixTimeKeys.push(k);
-			//        		var date = new Date(k*1000);
-			//        		switch(date.getUTCDay()) {
-			//        			case 0:
-			//        				days.push("MON");
-			//        				break;
-			//        			case 1:
-			//        				days.push("TUE");
-			//        				break;
-			//        			case 2:
-			//        				days.push("WED");
-			//        				break;
-			//        			case 3:
-			//        				days.push("THU");
-			//        				break;
-			//        			case 4:
-			//        				days.push("FRI");
-			//        				break;
-			//        			case 5:
-			//        				days.push("SAT");
-			//        				break;
-			//        			case 6:
-			//        				days.push("SUN");
-			//        				break;
-			//        			default: break;
-			//        		}
+			console.log(this.props.data);
+			var allData = this.props.data;
+			var unixTimeKeys = []; // keys
+			var afinnCount = 0;
+			var afinnSum = 0;
+			var afinnAverage = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
+			var days = []; //[2, 3, 4, 5, 6, 0]
+			//var arrayCount = 0;
+			for (var k in allData) {
+				if (allData.hasOwnProperty(k)) {
+					// store keys in array
+					unixTimeKeys.push(k);
+					var date = new Date(k * 1000);
+					switch (date.getUTCDay()) {
+						case 0:
+							days.push("MON");
+							break;
+						case 1:
+							days.push("TUE");
+							break;
+						case 2:
+							days.push("WED");
+							break;
+						case 3:
+							days.push("THU");
+							break;
+						case 4:
+							days.push("FRI");
+							break;
+						case 5:
+							days.push("SAT");
+							break;
+						case 6:
+							days.push("SUN");
+							break;
+						default:
+							break;
+					}
 
-			//        		// for each array element, calculate afinn average
-			//        		for (var i = 0; i < allData[k].length; i++) {
-			//        			if (allData[k].afinn_score) {
-			//        				afinnCount++;
-			//        				afinnSum += allData[k].afinn_score;
-			//        			}
-			//        		}
-			//        		if (afinnCount > 0) afinnAverage.push(afinnSum/afinnCount);
-			//        		else afinnAverage.push(0);
-			//   		}
-			// }
+					// for each array element, calculate afinn average
+					for (var i = 0; i < allData[k].length; i++) {
+						if (allData[k][i].afinn_score) {
+							afinnCount++;
+							afinnSum += allData[k][i].afinn_score;
+						}
+					}
+					if (afinnCount > 0) afinnAverage.push(Math.round(afinnSum / afinnCount * 100));else afinnAverage.push(0);
+				}
+			}
 
-			// var chartData = {
-			//     labels: days,
-			//     datasets: [
-			//         {
-			//             label: "My First dataset",
-			//             fillColor: "rgba(220,220,220,0.2)",
-			//             strokeColor: "rgba(220,220,220,1)",
-			//             pointColor: "rgba(220,220,220,1)",
-			//             pointStrokeColor: "#fff",
-			//             pointHighlightFill: "#fff",
-			//             pointHighlightStroke: "rgba(220,220,220,1)",
-			//             data: afinnAverage
-			//         }
-			//     ]
-			// };
-			// var ctx = document.getElementById("myChart").getContext("2d");
-			// var myLineChart = new Chart(ctx).Line(chartData, options);
+			var chartData = {
+				labels: days,
+				datasets: [{
+					label: "My First dataset",
+					fillColor: "rgba(220,220,220,0.2)",
+					strokeColor: "rgba(220,220,220,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: afinnAverage
+				}]
+			};
+			var options = {};
+
+			var ctx = document.getElementById("myChart").getContext("2d");
+			var myLineChart = new Chart(ctx).Line(chartData, options);
 		},
 		componentDidUpdate: function (props, states, context) {
 			// if (this.props.data && props.data && this.props.data.length != props.data.length) {
@@ -759,31 +762,75 @@
 			// }
 		},
 		render: function () {
-			//var lastTimeAt = 0;
-
-			// var dataPoints = this.props.data.map(function(comment,i){
-			// 	var point = {
-			// 		key: i,
-			// 		sentiment: comment.afinn_score,
-			// 		time: comment.created_at
-			// 	}
-			// 	return (
-			// 		<Comment key={'comment-' + i} timeAt={timeAt} commentId={comment.id} commentAfinnScore={comment.afinn_score} commentType={comment.type}>
-			// 			{comment.text}
-			// 		</Comment>
-			// 	);
-			// });
-			// <canvas id="myChart" width="400" height="400"></canvas>
 			return React.createElement(
 				'div',
 				{ className: 'moodgraph' },
-				'Mood graph'
+				React.createElement('canvas', { id: 'myChart' })
 			);
 		}
 	});
 
 /***/ },
 /* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Loader = __webpack_require__(2);
+	var Day = __webpack_require__(16);
+
+	module.exports = React.createClass({
+		displayName: 'DaysList',
+
+		componentDidMount: function () {
+			//this.scrollToLastComment()
+		},
+		componentDidUpdate: function (props, states, context) {
+			// if (this.props.data && props.data && this.props.data.length != props.data.length) {
+			// 	this.scrollToLastComment()
+			// }
+		},
+		render: function () {
+			var lastTimeAt = 0;
+
+			var days = [];
+
+			for (var date in this.props.data) {
+				var comment = this.props.data[date];
+
+				if (comment.created_at && comment.created_at - lastTimeAt >= 300) {
+					lastTimeAt = comment.created_at;
+					var d = new Date(comment.created_at * 1000),
+					    h = d.getHours() > 12 ? d.getHours() - 12 : d.getHours(),
+					    z = d.getHours() == 23 || d.getHours() < 12 ? 'am' : 'pm';
+					timeAt = h + ':' + ("00" + d.getMinutes()).slice(-2) + ' ' + z;
+				} else {
+					timeAt = null;
+				}
+				days.push(React.createElement(
+					Day,
+					{ key: 'comment-' + date, timeAt: timeAt, commentId: comment.id, commentAfinnScore: comment.afinn_score, commentType: comment.type },
+					React.createElement(
+						'span',
+						null,
+						date
+					),
+					React.createElement(
+						'span',
+						null,
+						comment[date]
+					)
+				));
+			}
+
+			return React.createElement(
+				'div',
+				{ className: 'commentList' },
+				days
+			);
+		}
+	});
+
+/***/ },
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Header = __webpack_require__(4);
@@ -805,7 +852,7 @@
 	});
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	var Link = ReactRouter.Link;
@@ -836,7 +883,7 @@
 	});
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	var Link = ReactRouter.Link;
@@ -933,7 +980,7 @@
 	});
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = React.createClass({
@@ -1017,6 +1064,37 @@
 						React.createElement('input', { type: 'submit', value: 'Enter' })
 					)
 				)
+			);
+		}
+	});
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports = React.createClass({
+		displayName: 'Day',
+
+		colors: {
+			'-3': '#90EBE1',
+			'-2': '#90EBE1',
+			'-1': '#90EBE1',
+			'0': '#F87C69',
+			'1': '#D31D5C',
+			'2': '#D31D5C',
+			'3': '#D31D5C'
+		},
+
+		render: function () {
+			if (this.props.commentType == "bot") {
+				var scoreBgColor = this.colors[parseInt(this.props.commentAfinnScore || 0)],
+				    commentStyle = { backgroundColor: scoreBgColor };
+			}
+
+			return React.createElement(
+				'div',
+				{ className: 'day' },
+				this.props.children
 			);
 		}
 	});
