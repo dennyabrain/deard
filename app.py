@@ -97,8 +97,17 @@ def register():
 @app.route('/userstats', methods=['GET'])
 def userstats():
 	if request.method=='GET':
-		comments = databaseUser.getCommentsForWeek(flaskLogin.current_user.id)
-		return jsonify(comments=comments)
+		text={"0":[],"1":[],"2":[],"3":[],"4":[],"5":[],"6":[]}
+		comments = databaseUser.listAllText(flaskLogin.current_user.id)
+		#print comments
+		for item in comments:
+			temp = []
+			if 'created_at' in item and item['type']=='user':
+				td=datetime.now()-item['created_at']
+				if td.days<=6:
+					text[str(td.days)].append(item)
+
+		return jsonify(userKey=flaskLogin.current_user.id, comments=text)
 
 @app.route('/comments', methods=['POST','GET'])
 def comment():
