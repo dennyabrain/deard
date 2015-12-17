@@ -37,7 +37,7 @@ module.exports = React.createClass({
 	componentDidMount: function() {
 		setTimeout(function() {
 			this.setState({ loaded: true });
-		}.bind(this), 3000);
+		}.bind(this), 1000);
 	},
 	render: function() {
 		return this.state.loaded ? this.props.children : (

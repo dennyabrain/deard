@@ -6,6 +6,7 @@ module.exports = React.createClass({
 
 	componentDidMount : function() {
 		//this.scrollToLastComment()
+		var days = [];
 	},
 	componentDidUpdate : function(props, states, context) {
 		// if (this.props.data && props.data && this.props.data.length != props.data.length) {
@@ -15,24 +16,40 @@ module.exports = React.createClass({
 	render: function() {
 		var lastTimeAt = 0;
 
+		var day;
 		var days = [];
+		var date;
 		
-		for(var date in this.props.data) {
-			var comment = this.props.data[date];
-
-			if (comment.created_at && comment.created_at - lastTimeAt >= 300) {
-				lastTimeAt = comment.created_at;
-				var d = new Date(comment.created_at * 1000),
-						h = (d.getHours() > 12 ? d.getHours() - 12 : d.getHours()),
-						z = d.getHours() == 23 || d.getHours() < 12 ? 'am' : 'pm';
-				timeAt = h + ':' + ("00" + d.getMinutes()).slice(-2) + ' ' + z;
-			} else {
-				timeAt = null;
-			}
+		for(var d in this.props.data) {
+			if (this.props.data.hasOwnProperty(d)) {
+				date = new Date(d*1000);
+		 		switch(date.getUTCDay()) {
+		 			case 0:
+		 				day = "MON";
+		 				break;
+		 			case 1:
+		 				day = "TUE";
+		 				break;
+		 			case 2:
+		 				day = "WED";
+		 				break;
+		 			case 3:
+		 				day = "THU";
+		 				break;
+		 			case 4:
+		 				day = "FRI";
+		 				break;
+		 			case 5:
+		 				day = "SAT";
+		 				break;
+		 			case 6:
+		 				day = "SUN";
+		 				break;
+		 			default: break;
+		 		}
+		 	} // end of if statement
 			days.push((
-				<Day key={'comment-' + date} timeAt={timeAt} commentId={comment.id} commentAfinnScore={comment.afinn_score} commentType={comment.type}>
-					<span>{date}</span>
-					<span>{comment[date]}</span>
+				<Day key={'comment-' + day} day={day} date={date.getDate()}>
 				</Day>
 			));
 		}
@@ -44,4 +61,7 @@ module.exports = React.createClass({
 		);
 	}
 });
+
+// <span>{date}</span>
+// <span>{comment[date]}</span>
 

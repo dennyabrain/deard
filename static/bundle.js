@@ -55,10 +55,10 @@
 	var DiaryLayout = __webpack_require__(3);
 	var Content = __webpack_require__(5);
 	var UserData = __webpack_require__(9);
-	var StaticLayout = __webpack_require__(12);
-	var Home = __webpack_require__(13);
-	var Login = __webpack_require__(14);
-	var Register = __webpack_require__(15);
+	var StaticLayout = __webpack_require__(13);
+	var Home = __webpack_require__(14);
+	var Login = __webpack_require__(15);
+	var Register = __webpack_require__(16);
 
 	ReactDOM.render(React.createElement(
 		Router,
@@ -127,7 +127,7 @@
 		componentDidMount: function () {
 			setTimeout((function () {
 				this.setState({ loaded: true });
-			}).bind(this), 3000);
+			}).bind(this), 1000);
 		},
 		render: function () {
 			return this.state.loaded ? this.props.children : React.createElement(
@@ -585,14 +585,18 @@
 		render: function () {
 			return React.createElement(
 				'div',
-				{ className: 'userData main' },
+				{ className: 'userData' },
 				this.state.loaded ? React.createElement(
 					'div',
 					null,
 					React.createElement(
-						'h2',
-						null,
-						' This week '
+						'div',
+						{ className: 'userData-week' },
+						React.createElement(
+							'h2',
+							null,
+							' This week '
+						)
 					),
 					React.createElement(MoodGraph, { data: this.state.data }),
 					React.createElement(DaysList, { data: this.state.data })
@@ -775,13 +779,14 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Loader = __webpack_require__(2);
-	var Day = __webpack_require__(16);
+	var Day = __webpack_require__(12);
 
 	module.exports = React.createClass({
 		displayName: 'DaysList',
 
 		componentDidMount: function () {
 			//this.scrollToLastComment()
+			var days = [];
 		},
 		componentDidUpdate: function (props, states, context) {
 			// if (this.props.data && props.data && this.props.data.length != props.data.length) {
@@ -791,34 +796,40 @@
 		render: function () {
 			var lastTimeAt = 0;
 
+			var day;
 			var days = [];
+			var date;
 
-			for (var date in this.props.data) {
-				var comment = this.props.data[date];
-
-				if (comment.created_at && comment.created_at - lastTimeAt >= 300) {
-					lastTimeAt = comment.created_at;
-					var d = new Date(comment.created_at * 1000),
-					    h = d.getHours() > 12 ? d.getHours() - 12 : d.getHours(),
-					    z = d.getHours() == 23 || d.getHours() < 12 ? 'am' : 'pm';
-					timeAt = h + ':' + ("00" + d.getMinutes()).slice(-2) + ' ' + z;
-				} else {
-					timeAt = null;
-				}
-				days.push(React.createElement(
-					Day,
-					{ key: 'comment-' + date, timeAt: timeAt, commentId: comment.id, commentAfinnScore: comment.afinn_score, commentType: comment.type },
-					React.createElement(
-						'span',
-						null,
-						date
-					),
-					React.createElement(
-						'span',
-						null,
-						comment[date]
-					)
-				));
+			for (var d in this.props.data) {
+				if (this.props.data.hasOwnProperty(d)) {
+					date = new Date(d * 1000);
+					switch (date.getUTCDay()) {
+						case 0:
+							day = "MON";
+							break;
+						case 1:
+							day = "TUE";
+							break;
+						case 2:
+							day = "WED";
+							break;
+						case 3:
+							day = "THU";
+							break;
+						case 4:
+							day = "FRI";
+							break;
+						case 5:
+							day = "SAT";
+							break;
+						case 6:
+							day = "SUN";
+							break;
+						default:
+							break;
+					}
+				} // end of if statement
+				days.push(React.createElement(Day, { key: 'comment-' + day, day: day, date: date.getDate() }));
 			}
 
 			return React.createElement(
@@ -829,8 +840,59 @@
 		}
 	});
 
+	// <span>{date}</span>
+	// <span>{comment[date]}</span>
+
 /***/ },
 /* 12 */
+/***/ function(module, exports) {
+
+	module.exports = React.createClass({
+		displayName: 'Day',
+
+		colors: {
+			'-3': '#90EBE1',
+			'-2': '#90EBE1',
+			'-1': '#90EBE1',
+			'0': '#F87C69',
+			'1': '#D31D5C',
+			'2': '#D31D5C',
+			'3': '#D31D5C'
+		},
+
+		render: function () {
+			if (this.props.commentType == "bot") {
+				var scoreBgColor = this.colors[parseInt(this.props.commentAfinnScore || 0)],
+				    commentStyle = { backgroundColor: scoreBgColor };
+			}
+
+			return React.createElement(
+				'div',
+				{ className: 'day container-fluid' },
+				React.createElement(
+					'div',
+					{ className: 'row' },
+					React.createElement(
+						'div',
+						{ className: 'day-time col-md-2' },
+						React.createElement(
+							'h1',
+							{ className: 'day-date' },
+							this.props.date
+						),
+						React.createElement(
+							'h1',
+							{ className: 'day-day' },
+							this.props.day
+						)
+					)
+				)
+			);
+		}
+	});
+
+/***/ },
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Header = __webpack_require__(4);
@@ -852,7 +914,7 @@
 	});
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	var Link = ReactRouter.Link;
@@ -883,7 +945,7 @@
 	});
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	var Link = ReactRouter.Link;
@@ -980,7 +1042,7 @@
 	});
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = React.createClass({
@@ -1064,37 +1126,6 @@
 						React.createElement('input', { type: 'submit', value: 'Enter' })
 					)
 				)
-			);
-		}
-	});
-
-/***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	module.exports = React.createClass({
-		displayName: 'Day',
-
-		colors: {
-			'-3': '#90EBE1',
-			'-2': '#90EBE1',
-			'-1': '#90EBE1',
-			'0': '#F87C69',
-			'1': '#D31D5C',
-			'2': '#D31D5C',
-			'3': '#D31D5C'
-		},
-
-		render: function () {
-			if (this.props.commentType == "bot") {
-				var scoreBgColor = this.colors[parseInt(this.props.commentAfinnScore || 0)],
-				    commentStyle = { backgroundColor: scoreBgColor };
-			}
-
-			return React.createElement(
-				'div',
-				{ className: 'day' },
-				this.props.children
 			);
 		}
 	});

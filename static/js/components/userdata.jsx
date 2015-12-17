@@ -51,11 +51,11 @@ module.exports = React.createClass({
 	// },
 	render: function() {
 		return (
-			<div className="userData main">
+			<div className="userData">
 				{ this.state.loaded ? 
 					(
 						<div>
-							<h2> This week </h2>
+							<div className="userData-week"><h2> This week </h2></div>
 							<MoodGraph data={this.state.data} />
 							<DaysList data={this.state.data} />
 						</div>
