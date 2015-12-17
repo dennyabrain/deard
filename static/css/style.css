@@ -331,11 +331,12 @@ textarea:focus {
 /* data dashboard */
 .userData {
   margin-top: 80px;
+  /*background-color: #EFEEEE;*/
 }
 
 .userData-week {
   text-align: center;
-  border-bottom: 1px solid #D8DBE0;
+  /*border-bottom: 1px solid #D8DBE0;*/
 }
 
 .userData-week h2 {
@@ -351,7 +352,7 @@ textarea:focus {
   width: 100%;
   height: 100px;
   margin: 5px;
-  background-color: #D8DBE0;
+  background-color: #EFEEEE;
 }
 
 .day h1 {
