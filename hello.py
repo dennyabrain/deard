@@ -107,7 +107,7 @@ def userstats():
 				if td.days<=6:
 					text[str(td.days)].append(item)
 
-		return jsonify(userKey=flaskLogin.current_user.id, comments=text)
+		return jsonify(comments=text)
 
 @app.route('/comments', methods=['POST','GET'])
 def comment():
