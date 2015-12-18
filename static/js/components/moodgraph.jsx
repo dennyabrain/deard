@@ -60,7 +60,6 @@ module.exports = React.createClass({
 		} // end of for loop
 		//console.log(days);
 
-
 		var chartData = {
 		    labels: days,
 		    datasets: [

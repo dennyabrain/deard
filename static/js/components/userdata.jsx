@@ -40,15 +40,12 @@ module.exports = React.createClass({
 			//this.enablePolling();
 		}.bind(this), 2000);
 	},
-	// componentWillUnmount: function() {
-	// 	this.disablePolling();
-	// },
-	// enablePolling: function() {
-	// 	this.checkInterval = setInterval(this.getCommentsFromServer, this.props.pollInterval);
-	// },
-	// disablePolling: function() {
-	// 	clearInterval(this.checkInterval);
-	// },
+	componentWillMount : function() {
+	   $('body').addClass('userData-mounted');
+	}, 
+	componentWillUnMount : function() {
+	   $('body').removeClass('userData-mounted');
+	},
 	render: function() {
 		return (
 			<div className="userData">
