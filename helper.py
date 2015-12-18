@@ -1,4 +1,5 @@
 import nltk
+nltk.download('punkt')
 
 def getNouns(text):
     tokens=nltk.word_tokenize(text)
