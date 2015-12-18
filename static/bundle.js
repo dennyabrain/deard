@@ -176,6 +176,12 @@
 
 	module.exports = React.createClass({
 		displayName: 'DiaryLayout',
+		componentWillMount: function () {
+			$('body').addClass('userData-mounted');
+		},
+		componentWillUnMount: function () {
+			$('body').removeClass('userData-mounted');
+		},
 		render: function () {
 			return React.createElement(
 				'div',
@@ -746,14 +752,19 @@
 				}
 			} // end of for loop
 			console.log(afinnAverage);
+			var ctx = document.getElementById("myChart").getContext("2d");
+			var gradient = ctx.createLinearGradient(500, 0, 0, 0);
+			gradient.addColorStop(0, 'rgba(137,239,229,1)');
+			gradient.addColorStop(0.4, 'rgba(253,120,97,1)');
+			gradient.addColorStop(0.8, 'rgba(212,20,90,1)');
 
 			var chartData = {
 				labels: days,
 				datasets: [{
 					label: "This week",
-					fillColor: "rgba(220,220,220,0.2)",
-					strokeColor: "rgba(220,220,220,1)",
-					pointColor: "rgba(220,220,220,1)",
+					fillColor: gradient,
+					strokeColor: gradient,
+					pointColor: "rgba(200,200,200,1)",
 					pointStrokeColor: "#fff",
 					pointHighlightFill: "#fff",
 					pointHighlightStroke: "rgba(220,220,220,1)",
@@ -769,11 +780,10 @@
 				datasetFill: false,
 				scaleLineColor: 'transparent',
 				scaleShowLabels: false,
-				datasetStrokeWidth: 6,
-				pointDotRadius: 5
+				datasetStrokeWidth: 10,
+				pointDotRadius: 8
 			};
 
-			var ctx = document.getElementById("myChart").getContext("2d");
 			var myLineChart = new Chart(ctx).Line(chartData, options);
 		},
 		componentDidUpdate: function (props, states, context) {
@@ -787,13 +797,13 @@
 				{ className: 'moodgraph container-fluid' },
 				React.createElement(
 					'div',
-					{ className: 'moodgraph-key col-md-1' },
+					{ className: 'moodgraph-key col-md-1 col-xs-1' },
 					React.createElement('img', { src: '/static/img/mood-happy.svg', width: '25' }),
 					React.createElement('img', { src: '/static/img/mood-sad.svg', width: '25' })
 				),
 				React.createElement(
 					'div',
-					{ className: 'col-md-11' },
+					{ className: 'col-md-11 col-xs-11' },
 					React.createElement('canvas', { id: 'myChart' })
 				)
 			);
@@ -806,103 +816,123 @@
 
 	
 	module.exports = React.createClass({
-		displayName: 'WordCount',
+			displayName: 'WordCount',
 
-		componentDidMount: function () {
-			// console.log(this.props.data);
-			var allData = this.props.data;
-			//var unixTimeKeys = []; // keys
-			var afinnCount = 0;
-			var afinnSum = 0;
-			var afinnAverage = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
-			var days = []; //[2, 3, 4, 5, 6, 0]
-			var todayDay = this.props.today.getDay();
-			//var arrayCount = 0;
-			for (var k in allData) {
-				if (allData.hasOwnProperty(k)) {
-					// store keys in array
-					//unixTimeKeys.push(k);
-					//var date = new Date(k*1000);
-					//console.log(k);
-					switch (todayDay) {
-						case 0:
-							days.push("SUN");
-							break;
-						case 1:
-							days.push("MON");
-							break;
-						case 2:
-							days.push("TUE");
-							break;
-						case 3:
-							days.push("WED");
-							break;
-						case 4:
-							days.push("THU");
-							break;
-						case 5:
-							days.push("FRI");
-							break;
-						case 6:
-							days.push("SAT");
-							break;
-						default:
-							break;
-					}
-					if (todayDay > 0) todayDay--;else todayDay = 6;
+			componentDidMount: function () {
+					// console.log(this.props.data);
+					var allData = this.props.data;
+					//var unixTimeKeys = []; // keys
+					var afinnCount = 0;
+					var afinnSum = 0;
+					var wordCounts = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
+					var words = []; //[2, 3, 4, 5, 6, 0]
+					var todayDay = this.props.today.getDay();
 
-					// for each array element, calculate afinn average
-					for (var i = 0; i < allData[k].length; i++) {
-						if (allData[k][i].afinn_score) {
-							afinnCount++;
-							afinnSum += allData[k][i].afinn_score;
-						}
-					}
-					if (afinnCount > 0) afinnAverage.push(Math.round(afinnSum / afinnCount * 100));else afinnAverage.push(0);
-					afinnCount = 0;
-					afinnSum = 0;
-				}
-			} // end of for loop
-			console.log(afinnAverage);
+					var dict = {};
+					var keys = [];
+					//var arrayCount = 0;
+					for (var k in allData) {
+							// for each array element, calculate afinn average
+							for (var i = 0; i < allData[k].length; i++) {
+									if (allData[k][i].nouns) {
+											var nouns = allData[k][i].nouns;
+											for (var w = 0; w < nouns.length; w++) {
+													var word = nouns[w];
+													if (!dict.hasOwnProperty(word)) {
+															dict[word] = 1;
+															keys.push(word);
+													} else {
+															dict[word]++;
+													}
+											}
+									}
+							}
+							//console.log(dict);
+							keys.sort(function (a, b) {
+									return dict[b] - dict[a];
+							});
 
-			var chartData = {
-				labels: days,
-				datasets: [{
-					label: "This week",
-					fillColor: "rgba(248,124,105,0.75)",
-					strokeColor: "rgba(220,220,220,1)",
-					highlightFill: "rgba(248,124,105,1)",
-					data: afinnAverage
-				}]
-			};
-			var options = {
-				scaleOverride: true,
-				scaleSteps: 10,
-				scaleStepWidth: 100,
-				scaleStartValue: -500,
-				scaleShowGridLines: false,
-				// datasetFill : false,
-				scaleLineColor: 'transparent',
-				scaleShowLabels: false,
-				barShowStroke: false
-			};
+							// function comparsion(key1, key2){
+							// 	var count1 = dict[key1];
+							// 	var count2 = dict[key2];
+							// 	return count2 - count1 // negative num, switch order of keys
+							// }
+					} // end of loop
 
-			var ctx = document.getElementById("myWordChart").getContext("2d");
-			var myBarChart = new Chart(ctx).Bar(chartData, options);
-		},
-		componentDidUpdate: function (props, states, context) {
-			// if (this.props.data && props.data && this.props.data.length != props.data.length) {
-			// 	this.scrollToLastComment()
-			// }
-		},
-		render: function () {
-			return React.createElement(
-				"div",
-				{ className: "wordcount" },
-				React.createElement("canvas", { id: "myWordChart" })
-			);
-		}
+					words = [keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[6]];
+					wordCounts = [dict[keys[0]], dict[keys[1]], dict[keys[2]], dict[keys[3]], dict[keys[4]], dict[keys[5]], dict[keys[6]]];
+
+					var chartData = {
+							labels: words,
+							datasets: [{
+									label: "This week",
+									fillColor: "rgba(248,124,105,0.75)",
+									strokeColor: "rgba(220,220,220,1)",
+									highlightFill: "rgba(248,124,105,1)",
+									data: wordCounts
+							}]
+					};
+					var options = {
+							// scaleOverride : true,
+							//       scaleSteps : 15,
+							//       scaleStepWidth : 1,
+							//       scaleStartValue : 0,
+							scaleShowGridLines: false,
+							// datasetFill : false,
+							scaleLineColor: 'transparent',
+							scaleShowLabels: false,
+							barShowStroke: false
+					};
+
+					var ctx = document.getElementById("myWordChart").getContext("2d");
+					var myBarChart = new Chart(ctx).Bar(chartData, options);
+			},
+			componentDidUpdate: function (props, states, context) {
+					// if (this.props.data && props.data && this.props.data.length != props.data.length) {
+					// 	this.scrollToLastComment()
+					// }
+			},
+			render: function () {
+					return React.createElement(
+							"div",
+							{ className: "wordcount" },
+							React.createElement("canvas", { id: "myWordChart" })
+					);
+			}
 	});
+
+	var dict = {};
+	var keys = [];
+
+	function process(txt) {
+
+			var tokens = txt.split(/\W+/);
+
+			dict = {};
+			keys = [];
+
+			for (var i = 0; i < tokens.length; i++) {
+					var word = tokens[i];
+					if (!dict.hasOwnProperty(word)) {
+							dict[word] = 1;
+							key.push(word);
+					} else {
+							dict[word]++;
+					}
+			}
+			console.log(dict);
+
+			keys.sort(comparison);
+
+			function comparsion(key1, key2) {
+					var count1 = dict[key1];
+					var count2 = dict[key2];
+
+					return count2 - count1; // negative num, switch order of keys
+			}
+
+			console.log(keys);
+	}
 
 /***/ },
 /* 12 */
@@ -1018,7 +1048,7 @@
 					{ className: 'row' },
 					React.createElement(
 						'div',
-						{ className: 'day-time col-md-2' },
+						{ className: 'day-time col-md-2 col-xs-2' },
 						React.createElement(
 							'h1',
 							{ className: 'day-date' },
@@ -1032,7 +1062,7 @@
 					),
 					React.createElement(
 						'div',
-						{ className: 'day-comments col-md-10' },
+						{ className: 'day-comments col-md-10 col-xs-10' },
 						days
 					)
 				)

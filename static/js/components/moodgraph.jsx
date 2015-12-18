@@ -61,15 +61,21 @@ module.exports = React.createClass({
     		}
 		} // end of for loop
 		console.log(afinnAverage);
+		var ctx = document.getElementById("myChart").getContext("2d");
+		var gradient = ctx.createLinearGradient(500, 0, 0, 0);
+		gradient.addColorStop(0, 'rgba(137,239,229,1)');   
+		gradient.addColorStop(0.4, 'rgba(253,120,97,1)');
+		gradient.addColorStop(0.8, 'rgba(212,20,90,1)');
+
 
 		var chartData = {
 		    labels: days,
 		    datasets: [
 		        {
 		            label: "This week",
-		            fillColor: "rgba(220,220,220,0.2)",
-		            strokeColor: "rgba(220,220,220,1)",
-		            pointColor: "rgba(220,220,220,1)",
+		            fillColor: gradient,
+		            strokeColor: gradient,
+		            pointColor: "rgba(200,200,200,1)",
 		            pointStrokeColor: "#fff",
 		            pointHighlightFill: "#fff",
 		            pointHighlightStroke: "rgba(220,220,220,1)",
@@ -86,11 +92,10 @@ module.exports = React.createClass({
 			datasetFill : false,
 			scaleLineColor: 'transparent',
 			scaleShowLabels: false,
-			datasetStrokeWidth : 6,
-			pointDotRadius : 5,
+			datasetStrokeWidth : 10,
+			pointDotRadius : 8,
 		}
 
-		var ctx = document.getElementById("myChart").getContext("2d");
 		var myLineChart = new Chart(ctx).Line(chartData, options);
 	},
 	componentDidUpdate : function(props, states, context) {
@@ -101,11 +106,11 @@ module.exports = React.createClass({
 	render: function() {
 		return (
 			<div className="moodgraph container-fluid">
-				<div className="moodgraph-key col-md-1">
+				<div className="moodgraph-key col-md-1 col-xs-1">
 					<img src="/static/img/mood-happy.svg" width="25"/>
 					<img src="/static/img/mood-sad.svg" width="25"/>
 				</div>
-				<div className="col-md-11">
+				<div className="col-md-11 col-xs-11">
 					<canvas id="myChart"></canvas>
 				</div>
 			</div>

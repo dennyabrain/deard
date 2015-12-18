@@ -27,11 +27,11 @@ module.exports = React.createClass({
 		return (
 			<div className="day container-fluid">
 				<div className="row">
-					<div className="day-time col-md-2">
+					<div className="day-time col-md-2 col-xs-2">
 						<h1 className="day-date">{this.props.date}</h1>
 						<h1 className="day-day">{this.props.day}</h1>
 					</div>
-					<div className="day-comments col-md-10">
+					<div className="day-comments col-md-10 col-xs-10">
 						{days}
 					</div>
 				</div>

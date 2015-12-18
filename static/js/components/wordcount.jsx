@@ -9,75 +9,63 @@ module.exports = React.createClass({
 		//var unixTimeKeys = []; // keys
 		var afinnCount = 0;
 		var afinnSum = 0;
-		var afinnAverage = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
-		var days = []; //[2, 3, 4, 5, 6, 0]
+		var wordCounts = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
+		var words = []; //[2, 3, 4, 5, 6, 0]
 		var todayDay = this.props.today.getDay();
+		
+		var dict = {};
+		var keys = [];
 		//var arrayCount = 0;
 		for (var k in allData) {
-			if (allData.hasOwnProperty(k)) {
-				// store keys in array
-         		//unixTimeKeys.push(k);
-         		//var date = new Date(k*1000);
-         		//console.log(k);
-				switch(todayDay) {
-		 			case 0:
-		 				days.push("SUN");
-		 				break;
-		 			case 1:
-		 				days.push("MON");
-		 				break;
-		 			case 2:
-		 				days.push("TUE");
-		 				break;
-		 			case 3:
-		 				days.push("WED");
-		 				break;
-		 			case 4:
-		 				days.push("THU");
-		 				break;
-		 			case 5:
-		 				days.push("FRI");
-		 				break;
-		 			case 6:
-		 				days.push("SAT");
-		 				break;
-		 			default: break;
-		 		}
-		 		if (todayDay>0) todayDay--;
-		 		else todayDay = 6;
+    		// for each array element, calculate afinn average
+     		for (var i = 0; i < allData[k].length; i++) {
+     			if (allData[k][i].nouns) {
+     				var nouns = allData[k][i].nouns;
+     				for (var w = 0; w < nouns.length; w++){
+					    var word = nouns[w];
+					    if (!dict.hasOwnProperty(word)){
+					      dict[word] = 1
+					      keys.push(word);
+					    } else {
+					      dict[word]++
+					    }    
+					}
+     			}
+     		}     		
+			//console.log(dict);
+			keys.sort(function(a, b) {
+			  return (dict[b] -  dict[a]);
+			});
 
-         		// for each array element, calculate afinn average
-         		for (var i = 0; i < allData[k].length; i++) {
-         			if (allData[k][i].afinn_score) {
-         				afinnCount++;
-         				afinnSum += allData[k][i].afinn_score;
-         			}
-         		}
-         		if (afinnCount > 0) afinnAverage.push(Math.round((afinnSum/afinnCount) * 100));
-         		else afinnAverage.push(0);
-         		afinnCount = 0;
-         		afinnSum = 0;
-    		}
-		} // end of for loop
-		console.log(afinnAverage);
+			// function comparsion(key1, key2){
+			// 	var count1 = dict[key1];
+			// 	var count2 = dict[key2];
+			// 	return count2 - count1 // negative num, switch order of keys
+			// }
+
+		} // end of loop
+
+		words = [keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[6]];
+		wordCounts = [dict[keys[0]], dict[keys[1]], dict[keys[2]], dict[keys[3]],
+				dict[keys[4]], dict[keys[5]], dict[keys[6]]];
 
 		var chartData = {
-		    labels: days,
+		    labels: words,
 		    datasets: [
 		        {
 		            label: "This week",
 		            fillColor: "rgba(248,124,105,0.75)",
 		            strokeColor: "rgba(220,220,220,1)",
 		            highlightFill: "rgba(248,124,105,1)",
-		            data: afinnAverage
+		            data: wordCounts
 		        }
 		    ]
 		};
 		var options = {
-			scaleOverride : true,
-	        scaleSteps : 10,
-	        scaleStepWidth : 100,
-	        scaleStartValue : -500, 
+			// scaleOverride : true,
+	  //       scaleSteps : 15,
+	  //       scaleStepWidth : 1,
+	  //       scaleStartValue : 0, 
 			scaleShowGridLines : false,
 			// datasetFill : false,
 			scaleLineColor: 'transparent',
@@ -101,4 +89,38 @@ module.exports = React.createClass({
 		);
 	}
 });
+
+var dict = {};
+var keys = [];
+
+function process(txt) {
+
+  var tokens = txt.split(/\W+/);
+
+  dict = {}
+  keys = []
+
+  for (var i = 0; i < tokens.length; i++){
+    var word = tokens[i];
+    if (!dict.hasOwnProperty(word)){
+      dict[word] = 1
+      key.push(word);
+    } else {
+      dict[word]++
+    }    
+  }
+  console.log(dict);
+
+  keys.sort(comparison)
+
+  function comparsion(key1, key2){
+    var count1 = dict[key1];
+    var count2 = dict[key2];
+
+    return count2 - count1 // negative num, switch order of keys
+  }
+
+  console.log(keys)
+
+}
 
