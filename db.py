@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 import time
 from datetime import datetime, timedelta, date, time
-from helper import getNouns
+#from helper import getNouns
 
 class db:
 	def __init__(self,dbName,collectionName,):
