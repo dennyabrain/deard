@@ -105,7 +105,7 @@ def userstats():
 			temp = []
 			if 'created_at' in item:
 				td=datetime.now()-item['created_at']
-				if td.days<=6:
+				if td.days<=6 and td.days>=0:
 					text[str(td.days)].append(item)
 		return jsonify(comments=text)
 
