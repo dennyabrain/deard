@@ -150,7 +150,7 @@ header {
 
 .commentList {
   margin-bottom: 200px;
-  margin-top: 25px;
+  margin-top: 80px;
   /*background-color: #fff;*/
 }
 
@@ -348,12 +348,21 @@ textarea:focus {
 }
 
 #myChart {
-  width: 100%;
-  height: 200px;
+  width: 90%;
+  height: 250px;
+  text-align: center;
+  display: block;
+  margin: 0px auto;
 }
 
 .moodgraph {
   background-color: #fff;
+  height: 300px;
+  padding-top: 25px;
+}
+
+.daysList {
+  margin-top: 25px;
 }
 
 .day {

@@ -66,7 +66,7 @@ module.exports = React.createClass({
 		//console.log(days);
 		
 		return (
-			<div className="commentList">
+			<div className="daysList">
 				{days} 
 			</div>
 		);

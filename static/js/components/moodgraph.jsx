@@ -56,9 +56,11 @@ module.exports = React.createClass({
          		}
          		if (afinnCount > 0) afinnAverage.push(Math.round((afinnSum/afinnCount) * 100));
          		else afinnAverage.push(0);
+         		afinnCount = 0;
+         		afinnSum = 0;
     		}
 		} // end of for loop
-		//console.log(days);
+		console.log(afinnAverage);
 
 		var chartData = {
 		    labels: days,
@@ -75,7 +77,16 @@ module.exports = React.createClass({
 		        }
 		    ]
 		};
-		var options = {}
+		var options = {
+			scaleOverride : true,
+	        scaleSteps : 10,
+	        scaleStepWidth : 50,
+	        scaleStartValue : -250, 
+			scaleShowGridLines : false,
+			datasetFill : false,
+			scaleLineColor: 'transparent',
+			scaleShowLabels: false
+		}
 
 		var ctx = document.getElementById("myChart").getContext("2d");
 		var myLineChart = new Chart(ctx).Line(chartData, options);
@@ -88,7 +99,9 @@ module.exports = React.createClass({
 	render: function() {
 		return (
 			<div className="moodgraph">
-				 <canvas id="myChart"></canvas>
+				<img src="/static/img/mood-happy.svg" width="30"/>
+				<img src="/static/img/mood-sad.svg" width="30"/>
+				<canvas id="myChart"></canvas>
 			</div>
 		);
 	}
