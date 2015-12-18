@@ -1,6 +1,6 @@
 import os
 import nltk
-nltk.data.path.append('nltk_data/')
+#nltk.data.path.append('nltk_data/')
 
 def getNouns(text):
 	print os.getcwd()
