@@ -30,8 +30,9 @@ class db:
 		for post in self.findMany({}):
 			if userId in post:
 				temp =userId+'.text'
-				nouns = getNouns(text)
-				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now(),"nouns":nouns}}})
+				#nouns = getNouns(text)
+				#self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now(),"nouns":nouns}}})
+				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now()}}})
 
 	def insertReply(self,userId,text,score=0):
 		for post in self.findMany({}):
