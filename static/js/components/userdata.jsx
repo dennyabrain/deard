@@ -1,5 +1,6 @@
 var Loader = require('./loader')
 var MoodGraph = require('./moodgraph')
+var WordCount = require('./wordcount')
 var DaysList = require('./dayslist')
 
 module.exports = React.createClass({
@@ -54,6 +55,7 @@ module.exports = React.createClass({
 						<div>
 							<div className="userData-week"><h2> This week </h2></div>
 							<MoodGraph data={this.state.data} today={this.state.todayDate}/>
+							<WordCount data={this.state.data} today={this.state.todayDate}/>
 							<DaysList data={this.state.data} today={this.state.todayDate}/>
 						</div>
 					) :

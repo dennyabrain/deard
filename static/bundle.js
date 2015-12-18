@@ -55,10 +55,10 @@
 	var DiaryLayout = __webpack_require__(3);
 	var Content = __webpack_require__(5);
 	var UserData = __webpack_require__(9);
-	var StaticLayout = __webpack_require__(13);
-	var Home = __webpack_require__(14);
-	var Login = __webpack_require__(15);
-	var Register = __webpack_require__(16);
+	var StaticLayout = __webpack_require__(14);
+	var Home = __webpack_require__(15);
+	var Login = __webpack_require__(16);
+	var Register = __webpack_require__(17);
 
 	ReactDOM.render(React.createElement(
 		Router,
@@ -534,7 +534,8 @@
 
 	var Loader = __webpack_require__(2);
 	var MoodGraph = __webpack_require__(10);
-	var DaysList = __webpack_require__(11);
+	var WordCount = __webpack_require__(11);
+	var DaysList = __webpack_require__(12);
 
 	module.exports = React.createClass({
 		displayName: 'UserData',
@@ -596,6 +597,7 @@
 						)
 					),
 					React.createElement(MoodGraph, { data: this.state.data, today: this.state.todayDate }),
+					React.createElement(WordCount, { data: this.state.data, today: this.state.todayDate }),
 					React.createElement(DaysList, { data: this.state.data, today: this.state.todayDate })
 				) : React.createElement(Loader, null)
 			);
@@ -761,12 +763,14 @@
 			var options = {
 				scaleOverride: true,
 				scaleSteps: 10,
-				scaleStepWidth: 50,
-				scaleStartValue: -250,
+				scaleStepWidth: 100,
+				scaleStartValue: -500,
 				scaleShowGridLines: false,
 				datasetFill: false,
 				scaleLineColor: 'transparent',
-				scaleShowLabels: false
+				scaleShowLabels: false,
+				datasetStrokeWidth: 6,
+				pointDotRadius: 5
 			};
 
 			var ctx = document.getElementById("myChart").getContext("2d");
@@ -780,20 +784,132 @@
 		render: function () {
 			return React.createElement(
 				'div',
-				{ className: 'moodgraph' },
-				React.createElement('img', { src: '/static/img/mood-happy.svg', width: '20' }),
-				React.createElement('img', { src: '/static/img/mood-sad.svg', width: '20' }),
-				React.createElement('canvas', { id: 'myChart' })
+				{ className: 'moodgraph container-fluid' },
+				React.createElement(
+					'div',
+					{ className: 'moodgraph-key col-md-1' },
+					React.createElement('img', { src: '/static/img/mood-happy.svg', width: '25' }),
+					React.createElement('img', { src: '/static/img/mood-sad.svg', width: '25' })
+				),
+				React.createElement(
+					'div',
+					{ className: 'col-md-11' },
+					React.createElement('canvas', { id: 'myChart' })
+				)
 			);
 		}
 	});
 
 /***/ },
 /* 11 */
+/***/ function(module, exports) {
+
+	
+	module.exports = React.createClass({
+		displayName: 'WordCount',
+
+		componentDidMount: function () {
+			// console.log(this.props.data);
+			var allData = this.props.data;
+			//var unixTimeKeys = []; // keys
+			var afinnCount = 0;
+			var afinnSum = 0;
+			var afinnAverage = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
+			var days = []; //[2, 3, 4, 5, 6, 0]
+			var todayDay = this.props.today.getDay();
+			//var arrayCount = 0;
+			for (var k in allData) {
+				if (allData.hasOwnProperty(k)) {
+					// store keys in array
+					//unixTimeKeys.push(k);
+					//var date = new Date(k*1000);
+					//console.log(k);
+					switch (todayDay) {
+						case 0:
+							days.push("SUN");
+							break;
+						case 1:
+							days.push("MON");
+							break;
+						case 2:
+							days.push("TUE");
+							break;
+						case 3:
+							days.push("WED");
+							break;
+						case 4:
+							days.push("THU");
+							break;
+						case 5:
+							days.push("FRI");
+							break;
+						case 6:
+							days.push("SAT");
+							break;
+						default:
+							break;
+					}
+					if (todayDay > 0) todayDay--;else todayDay = 6;
+
+					// for each array element, calculate afinn average
+					for (var i = 0; i < allData[k].length; i++) {
+						if (allData[k][i].afinn_score) {
+							afinnCount++;
+							afinnSum += allData[k][i].afinn_score;
+						}
+					}
+					if (afinnCount > 0) afinnAverage.push(Math.round(afinnSum / afinnCount * 100));else afinnAverage.push(0);
+					afinnCount = 0;
+					afinnSum = 0;
+				}
+			} // end of for loop
+			console.log(afinnAverage);
+
+			var chartData = {
+				labels: days,
+				datasets: [{
+					label: "This week",
+					fillColor: "rgba(248,124,105,0.75)",
+					strokeColor: "rgba(220,220,220,1)",
+					highlightFill: "rgba(248,124,105,1)",
+					data: afinnAverage
+				}]
+			};
+			var options = {
+				scaleOverride: true,
+				scaleSteps: 10,
+				scaleStepWidth: 100,
+				scaleStartValue: -500,
+				scaleShowGridLines: false,
+				// datasetFill : false,
+				scaleLineColor: 'transparent',
+				scaleShowLabels: false,
+				barShowStroke: false
+			};
+
+			var ctx = document.getElementById("myWordChart").getContext("2d");
+			var myBarChart = new Chart(ctx).Bar(chartData, options);
+		},
+		componentDidUpdate: function (props, states, context) {
+			// if (this.props.data && props.data && this.props.data.length != props.data.length) {
+			// 	this.scrollToLastComment()
+			// }
+		},
+		render: function () {
+			return React.createElement(
+				"div",
+				{ className: "wordcount" },
+				React.createElement("canvas", { id: "myWordChart" })
+			);
+		}
+	});
+
+/***/ },
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Loader = __webpack_require__(2);
-	var Day = __webpack_require__(12);
+	var Day = __webpack_require__(13);
 
 	module.exports = React.createClass({
 		displayName: 'DaysList',
@@ -816,7 +932,7 @@
 			var dateTemp;
 			var todayDay = this.props.today.getDay();
 			var todayDate = this.props.today.getDate();
-
+			//console.log(this.props.data);
 			for (var d in this.props.data) {
 				var comment = this.props.data[d];
 				if (this.props.data.hasOwnProperty(d)) {
@@ -848,8 +964,8 @@
 					}
 					if (todayDay > 0) todayDay--;else todayDay = 6;
 				} // end of if statement
-
-				days.push(React.createElement(Day, { key: 'comment-' + day, day: day, date: todayDate }));
+				//console.log(comment);
+				days.push(React.createElement(Day, { key: 'comment-' + day, day: day, date: todayDate, data: this.props.data[d] }));
 
 				todayDate--;
 			} // end of going through object
@@ -868,7 +984,7 @@
 	// <span>{comment[date]}</span>
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = React.createClass({
@@ -888,6 +1004,10 @@
 			if (this.props.commentType == "bot") {
 				var scoreBgColor = this.colors[parseInt(this.props.commentAfinnScore || 0)],
 				    commentStyle = { backgroundColor: scoreBgColor };
+			}
+			var days = [];
+			for (var i = 0; i < this.props.data.length; i++) {
+				days.push(React.createElement('div', { className: 'day-dots' }));
 			}
 
 			return React.createElement(
@@ -909,6 +1029,11 @@
 							{ className: 'day-day' },
 							this.props.day
 						)
+					),
+					React.createElement(
+						'div',
+						{ className: 'day-comments col-md-10' },
+						days
 					)
 				)
 			);
@@ -916,7 +1041,7 @@
 	});
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Header = __webpack_require__(4);
@@ -938,7 +1063,7 @@
 	});
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	var Link = ReactRouter.Link;
@@ -969,7 +1094,7 @@
 	});
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	var Link = ReactRouter.Link;
@@ -1066,7 +1191,7 @@
 	});
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = React.createClass({

@@ -348,7 +348,7 @@ textarea:focus {
 }
 
 #myChart {
-  width: 90%;
+  width: 95%;
   height: 250px;
   text-align: center;
   display: block;
@@ -360,6 +360,23 @@ textarea:focus {
   height: 300px;
   padding-top: 25px;
 }
+
+.moodgraph-key {
+  z-index: 10; 
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-right: -60px;
+  margin-left: 30px;
+}
+
+.moodgraph-key img:first-child {
+  display: block;
+}
+
+.moodgraph-key img:nth-child(2) {
+  margin-top: 200px;
+}
+
 
 .daysList {
   margin-top: 25px;
@@ -381,6 +398,8 @@ textarea:focus {
 
 .day-time {
   padding: 10px;
+  padding-left: 25px;
+  padding-top: 20px;
 }
 
 .day-date {
@@ -391,4 +410,33 @@ textarea:focus {
 .day-day {
   display: block;
   font-size: 18px;
+}
+
+.day-comments {
+  margin-top:30px;
+}
+
+.day-dots {
+  display: inline-block;
+  margin-right: 8px;
+  background-color: #fff;
+  border: 3px solid #000;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+.wordcount {
+  background-color: #fff;
+  height: 300px;
+  padding-top: 25px;
+  margin-top: 25px;
+}
+
+#myWordChart {
+  width: 95%;
+  height: 250px;
+  text-align: center;
+  display: block;
+  margin: 0px auto;
 }

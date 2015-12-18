@@ -22,7 +22,7 @@ module.exports = React.createClass({
 		var dateTemp;
 		var todayDay = this.props.today.getDay();
 		var todayDate = this.props.today.getDate();
-		
+		//console.log(this.props.data);
 		for(var d in this.props.data) {
 			var comment = this.props.data[d];
 			if (this.props.data.hasOwnProperty(d)) {
@@ -54,9 +54,9 @@ module.exports = React.createClass({
 		 		if (todayDay>0) todayDay--;
 		 		else todayDay = 6;
 		 	} // end of if statement
-		 	
+		 	//console.log(comment);
 			days.push((
-				<Day key={'comment-' + day} day={day} date={todayDate}>
+				<Day key={'comment-' + day} day={day} date={todayDate} data={this.props.data[d]}>
 				</Day>
 			));
 
