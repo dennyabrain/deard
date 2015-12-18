@@ -9,6 +9,13 @@ module.exports = React.createClass({
 	},
 	handleSubmit: function(e) {
 		e.preventDefault();
+		// var text;
+		// var paragraphs = this.state.text.split(/\n|\r/);
+		// for (var i = 0; i < paragraphs.length; i++){
+		// 	if (paragraphs[i]) 
+		// 		text += paragraphs[i].trim() + "\n";
+		// }
+		// console.log(paragraphs);
 		var text = this.state.text.trim();
 		if (!text) {
 			return;

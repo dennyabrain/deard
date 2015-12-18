@@ -17,6 +17,14 @@ module.exports = React.createClass({
 					commentStyle = { backgroundColor : scoreBgColor };
 		}
 
+		var comment = this.props.children;
+		var paragraphs = comment.split(/\n/);
+		var p = paragraphs.map(function(paragraph,i){
+			return (
+				<p>{paragraph}</p>
+			)
+		});
+
 		return (
 			<span>
 			{ this.props.timeAt ? 
@@ -27,7 +35,7 @@ module.exports = React.createClass({
 				this.props.commentType == "user" ?
 					(
 						<div className="comment comment-user tk-anonymous-pro">
-							{this.props.children}
+							{p}
 						</div>
 					) :
 					(
