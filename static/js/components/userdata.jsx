@@ -29,7 +29,7 @@ module.exports = React.createClass({
 		console.log(this.state.data);
 	},
 	getInitialState: function() {
-		return {data:[], loaded: false};
+		return {data:[], loaded: false, todayDate: new Date()};
 	}, 
 	getDefaultProps : function() { 
 		return {url:"/userstats", pollInterval: 3000}; 
@@ -56,8 +56,8 @@ module.exports = React.createClass({
 					(
 						<div>
 							<div className="userData-week"><h2> This week </h2></div>
-							<MoodGraph data={this.state.data} />
-							<DaysList data={this.state.data} />
+							<MoodGraph data={this.state.data} today={this.state.todayDate}/>
+							<DaysList data={this.state.data} today={this.state.todayDate}/>
 						</div>
 					) :
 					(<Loader />)

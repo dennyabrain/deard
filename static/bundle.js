@@ -562,7 +562,7 @@
 			console.log(this.state.data);
 		},
 		getInitialState: function () {
-			return { data: [], loaded: false };
+			return { data: [], loaded: false, todayDate: new Date() };
 		},
 		getDefaultProps: function () {
 			return { url: "/userstats", pollInterval: 3000 };
@@ -598,8 +598,8 @@
 							' This week '
 						)
 					),
-					React.createElement(MoodGraph, { data: this.state.data }),
-					React.createElement(DaysList, { data: this.state.data })
+					React.createElement(MoodGraph, { data: this.state.data, today: this.state.todayDate }),
+					React.createElement(DaysList, { data: this.state.data, today: this.state.todayDate })
 				) : React.createElement(Loader, null)
 			);
 		}
@@ -699,6 +699,7 @@
 			var afinnSum = 0;
 			var afinnAverage = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
 			var days = []; //[2, 3, 4, 5, 6, 0]
+			var todayDay = this.props.today.getDay();
 			//var arrayCount = 0;
 			for (var k in allData) {
 				if (allData.hasOwnProperty(k)) {
@@ -706,32 +707,32 @@
 					//unixTimeKeys.push(k);
 					//var date = new Date(k*1000);
 					//console.log(k);
-
-					switch (k) {
-						case "0":
+					switch (todayDay) {
+						case 0:
+							days.push("SUN");
+							break;
+						case 1:
 							days.push("MON");
 							break;
-						case "1":
+						case 2:
 							days.push("TUE");
 							break;
-						case "2":
+						case 3:
 							days.push("WED");
 							break;
-						case "3":
+						case 4:
 							days.push("THU");
 							break;
-						case "4":
+						case 5:
 							days.push("FRI");
 							break;
-						case "5":
+						case 6:
 							days.push("SAT");
-							break;
-						case "6":
-							days.push("SUN");
 							break;
 						default:
 							break;
 					}
+					if (todayDay > 0) todayDay--;else todayDay = 6;
 
 					// for each array element, calculate afinn average
 					for (var i = 0; i < allData[k].length; i++) {
@@ -743,7 +744,7 @@
 					if (afinnCount > 0) afinnAverage.push(Math.round(afinnSum / afinnCount * 100));else afinnAverage.push(0);
 				}
 			} // end of for loop
-			console.log(days);
+			//console.log(days);
 
 			var chartData = {
 				labels: days,
@@ -802,38 +803,48 @@
 			var day;
 			var days = [];
 			var date;
+			var dateTemp;
+			var todayDay = this.props.today.getDay();
+			var todayDate = this.props.today.getDate();
 
 			for (var d in this.props.data) {
+				var comment = this.props.data[d];
 				if (this.props.data.hasOwnProperty(d)) {
-					date = new Date(d * 1000);
-					switch (date.getUTCDay()) {
+
+					switch (todayDay) {
 						case 0:
-							day = "MON";
+							day = "SUN";
 							break;
 						case 1:
-							day = "TUE";
+							day = "MON";
 							break;
 						case 2:
-							day = "WED";
+							day = "TUE";
 							break;
 						case 3:
-							day = "THU";
+							day = "WED";
 							break;
 						case 4:
-							day = "FRI";
+							day = "THU";
 							break;
 						case 5:
-							day = "SAT";
+							day = "FRI";
 							break;
 						case 6:
-							day = "SUN";
+							day = "SAT";
 							break;
 						default:
 							break;
 					}
+					if (todayDay > 0) todayDay--;else todayDay = 6;
 				} // end of if statement
-				days.push(React.createElement(Day, { key: 'comment-' + day, day: day, date: date.getDate() }));
-			}
+
+				days.push(React.createElement(Day, { key: 'comment-' + day, day: day, date: todayDate }));
+
+				todayDate--;
+			} // end of going through object
+
+			//console.log(days);
 
 			return React.createElement(
 				'div',

@@ -19,40 +19,51 @@ module.exports = React.createClass({
 		var day;
 		var days = [];
 		var date;
+		var dateTemp;
+		var todayDay = this.props.today.getDay();
+		var todayDate = this.props.today.getDate();
 		
 		for(var d in this.props.data) {
+			var comment = this.props.data[d];
 			if (this.props.data.hasOwnProperty(d)) {
-				date = new Date(d*1000);
-		 		switch(date.getUTCDay()) {
+				
+		 		switch(todayDay) {
 		 			case 0:
-		 				day = "MON";
+		 				day = "SUN";
 		 				break;
 		 			case 1:
-		 				day = "TUE";
+		 				day = "MON";
 		 				break;
 		 			case 2:
-		 				day = "WED";
+		 				day = "TUE";
 		 				break;
 		 			case 3:
-		 				day = "THU";
+		 				day = "WED";
 		 				break;
 		 			case 4:
-		 				day = "FRI";
+		 				day = "THU";
 		 				break;
 		 			case 5:
-		 				day = "SAT";
+		 				day = "FRI";
 		 				break;
 		 			case 6:
-		 				day = "SUN";
+		 				day = "SAT";
 		 				break;
 		 			default: break;
 		 		}
+		 		if (todayDay>0) todayDay--;
+		 		else todayDay = 6;
 		 	} // end of if statement
+		 	
 			days.push((
-				<Day key={'comment-' + day} day={day} date={date.getDate()}>
+				<Day key={'comment-' + day} day={day} date={todayDate}>
 				</Day>
 			));
-		}
+
+			todayDate--;
+		} // end of going through object
+
+		//console.log(days);
 		
 		return (
 			<div className="commentList">
