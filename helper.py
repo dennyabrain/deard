@@ -1,10 +1,8 @@
 import os
 import nltk
-#nltk.data.path.append('nltk_data/')
+nltk.data.path.append('nltk_data/')
 
 def getNouns(text):
-	print os.getcwd()
-	print nltk.data.path
 	tokens=nltk.word_tokenize(text)
 	taggedWords=nltk.pos_tag(tokens)
 	nouns=[word for word,pos in taggedWords if pos=='NN']
