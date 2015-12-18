@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 import time
 from datetime import datetime, timedelta, date, time
-#from helper import getNouns
+from helper import getNouns
 
 class db:
 	def __init__(self,dbName,collectionName,):
@@ -30,7 +30,7 @@ class db:
 		for post in self.findMany({}):
 			if userId in post:
 				temp =userId+'.text'
-				#nouns = getNouns(text)
+				nouns = getNouns(text)
 				#self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now(),"nouns":nouns}}})
 				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now()}}})
 
