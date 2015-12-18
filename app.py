@@ -15,6 +15,10 @@ database = db('heroku_lmx991zw','responseCollection')
 databaseUser = db('heroku_lmx991zw','users')
 
 app = Flask(__name__)
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
+
 app.secret_key='itp'
 loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
