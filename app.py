@@ -6,6 +6,7 @@ import json
 import flask.ext.login as flaskLogin
 import afinn
 from datetime import datetime, timedelta, date, time
+import logging
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -15,6 +16,10 @@ database = db('heroku_lmx991zw','responseCollection')
 databaseUser = db('heroku_lmx991zw','users')
 
 app = Flask(__name__)
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
+
 app.secret_key='itp'
 loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
