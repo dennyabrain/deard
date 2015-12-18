@@ -6,6 +6,7 @@ import json
 import flask.ext.login as flaskLogin
 import afinn
 from datetime import datetime, timedelta, date, time
+import logging
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
