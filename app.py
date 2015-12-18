@@ -104,6 +104,7 @@ def userstats():
 		for item in comments:
 			temp = []
 			if 'created_at' in item:
+				#print item['created_at']
 				td=datetime.now()-item['created_at']
 				if td.days<=6 and td.days>=0:
 					text[str(td.days)].append(item)
