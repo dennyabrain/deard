@@ -692,9 +692,9 @@
 		displayName: 'MoodGraph',
 
 		componentDidMount: function () {
-			console.log(this.props.data);
+			// console.log(this.props.data);
 			var allData = this.props.data;
-			var unixTimeKeys = []; // keys
+			//var unixTimeKeys = []; // keys
 			var afinnCount = 0;
 			var afinnSum = 0;
 			var afinnAverage = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
@@ -703,28 +703,30 @@
 			for (var k in allData) {
 				if (allData.hasOwnProperty(k)) {
 					// store keys in array
-					unixTimeKeys.push(k);
-					var date = new Date(k * 1000);
-					switch (date.getUTCDay()) {
-						case 0:
+					//unixTimeKeys.push(k);
+					//var date = new Date(k*1000);
+					//console.log(k);
+
+					switch (k) {
+						case "0":
 							days.push("MON");
 							break;
-						case 1:
+						case "1":
 							days.push("TUE");
 							break;
-						case 2:
+						case "2":
 							days.push("WED");
 							break;
-						case 3:
+						case "3":
 							days.push("THU");
 							break;
-						case 4:
+						case "4":
 							days.push("FRI");
 							break;
-						case 5:
+						case "5":
 							days.push("SAT");
 							break;
-						case 6:
+						case "6":
 							days.push("SUN");
 							break;
 						default:
@@ -740,12 +742,13 @@
 					}
 					if (afinnCount > 0) afinnAverage.push(Math.round(afinnSum / afinnCount * 100));else afinnAverage.push(0);
 				}
-			}
+			} // end of for loop
+			console.log(days);
 
 			var chartData = {
 				labels: days,
 				datasets: [{
-					label: "My First dataset",
+					label: "This week",
 					fillColor: "rgba(220,220,220,0.2)",
 					strokeColor: "rgba(220,220,220,1)",
 					pointColor: "rgba(220,220,220,1)",
