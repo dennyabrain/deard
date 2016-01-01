@@ -7,6 +7,7 @@ import flask.ext.login as flaskLogin
 import afinn
 from datetime import datetime, timedelta, date, time
 import logging
+from ml import ml
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -14,6 +15,8 @@ payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
 #database = db('slack','responseCollection')
 database = db('heroku_lmx991zw','responseCollection')
 databaseUser = db('heroku_lmx991zw','users')
+
+#ML = ml();
 
 app = Flask(__name__)
 
@@ -127,6 +130,7 @@ def comment():
 		"""
 		text = str(request.form['text'])
 		afinnScore = afinn.sentiment(text)
+		#mlScore=ML.getAnalysis()
 		print("******** SENTIMENT SCORE: %6.2f ********** %s" % (afinnScore, text))
 		if afinnScore > 0:
 			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f That's great!" % (afinnScore), score=afinnScore)
