@@ -626,83 +626,6 @@
 			);
 		}
 	});
-	/*
-	- week: this week
-	  - mood graph
-	  - words
-	  - days
-	    - each day
-	    <MoodGraph data={this.state.data} />
-	    
-	<DaysList data={this.state.data} />
-
-	BACKEND ---
-
-
-	import datetime
-
-
-	time.time()
-	startDate = time.today() - timedelta(days=7)
-
-
-	commentsEachDay = {}
-
-	for loop 7 times
-		- mon
-		- tue
-		- wed
-		....
-
-		date = 1234543.345
-		date = '2015-12-05'
-		commentsEachDay[ date ] = [
-			cooments, ...
-		]
-
-
-
-		where(creatd_at >= startDte)
-
-	[
-		{comment1},
-		...
-
-	]
-
-
-	FRONTEND ---
-	- pass data 
-	inside moodgraph
-
-		foreach day
-
-
-	- GET  on componentdidMount
-
-	*/
-
-	// <div>
-	//   <h2> This week </h2>
-	// 	<MoodGraph data={this.state.data} />
-	// 	<DaysList data={this.state.data} />
-	// </div>
-
-	// moodgraph.jsx
-	// <div></div>
-
-	// daysList.jsx
-	// <Day time={}>
-	//  {}
-	// </Day>
-
-	// day.jsx
-	// <div>
-	// 	<div>date</div>
-	// 	<div>
-	// 		moods
-	// 	</div>
-	// </div>
 
 /***/ },
 /* 10 */
@@ -978,7 +901,8 @@
 			var date;
 			var dateTemp;
 			var todayDay = this.props.today.getDay();
-			var todayDate = this.props.today.getDate();
+			// var todayDate = this.props.today.getDate();
+			var todayDate = this.props.today;
 			//console.log(this.props.data);
 			for (var d in this.props.data) {
 				var comment = this.props.data[d];
@@ -1012,9 +936,10 @@
 					if (todayDay > 0) todayDay--;else todayDay = 6;
 				} // end of if statement
 				//console.log(comment);
-				days.push(React.createElement(Day, { key: 'comment-' + day, day: day, date: todayDate, data: this.props.data[d] }));
+				days.push(React.createElement(Day, { key: 'comment-' + day, day: day, date: todayDate.getDate(), data: this.props.data[d] }));
 
-				todayDate--;
+				todayDate -= 1000 * 60 * 60 * 24;
+				todayDate = new Date(todayDate);
 			} // end of going through object
 
 			//console.log(days);
@@ -1054,7 +979,10 @@
 			}
 			var days = [];
 			for (var i = 0; i < this.props.data.length; i++) {
-				days.push(React.createElement('div', { className: 'day-dots' }));
+				if (this.props.data[i].type = "user") {
+					days.push(React.createElement('div', { className: 'day-dots' }));
+					console.log(this.props.data);
+				}
 			}
 
 			return React.createElement(

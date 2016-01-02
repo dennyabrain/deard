@@ -21,7 +21,8 @@ module.exports = React.createClass({
 		var date;
 		var dateTemp;
 		var todayDay = this.props.today.getDay();
-		var todayDate = this.props.today.getDate();
+		// var todayDate = this.props.today.getDate();
+		var todayDate = this.props.today;
 		//console.log(this.props.data);
 		for(var d in this.props.data) {
 			var comment = this.props.data[d];
@@ -56,11 +57,12 @@ module.exports = React.createClass({
 		 	} // end of if statement
 		 	//console.log(comment);
 			days.push((
-				<Day key={'comment-' + day} day={day} date={todayDate} data={this.props.data[d]}>
+				<Day key={'comment-' + day} day={day} date={todayDate.getDate()} data={this.props.data[d]}>
 				</Day>
 			));
 
-			todayDate--;
+			todayDate -= (1000 * 60 * 60 * 24); 
+			todayDate = new Date(todayDate);
 		} // end of going through object
 
 		//console.log(days);

@@ -18,10 +18,13 @@ module.exports = React.createClass({
 		}
 		var days = [];
 		for (var i = 0; i<this.props.data.length; i++) {
-			days.push((
-				<div className="day-dots">
-				</div>
-			));
+			if (this.props.data[i].type = "user") {
+				days.push((
+					<div className="day-dots">
+					</div>
+				));
+				console.log(this.props.data);
+			}
 		}
 
 		return (
