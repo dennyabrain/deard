@@ -574,7 +574,7 @@
 				dataType: 'json',
 				cache: false,
 				success: (function (data) {
-					//console.log(data)
+					//var c = $.extend(true, {},data);
 					//this.context.setUserKey(data.userKey)
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments });
 				}).bind(this),
@@ -583,7 +583,7 @@
 					this.context.history.pushState(null, "/", {});
 				}).bind(this)
 			});
-			console.log(this.state.data);
+			//console.log(this.state.data);
 		},
 		getInitialState: function () {
 			return { data: [], loaded: false, todayDate: new Date() };
@@ -637,7 +637,7 @@
 		displayName: 'MoodGraph',
 
 		componentDidMount: function () {
-			// console.log(this.props.data);
+			console.log(this.props.data);
 			var allData = this.props.data;
 			//var unixTimeKeys = []; // keys
 			var afinnCount = 0;
@@ -654,25 +654,25 @@
 					//console.log(k);
 					switch (todayDay) {
 						case 0:
-							days.push("SUN");
+							days.unshift("SUN");
 							break;
 						case 1:
-							days.push("MON");
+							days.unshift("MON");
 							break;
 						case 2:
-							days.push("TUE");
+							days.unshift("TUE");
 							break;
 						case 3:
-							days.push("WED");
+							days.unshift("WED");
 							break;
 						case 4:
-							days.push("THU");
+							days.unshift("THU");
 							break;
 						case 5:
-							days.push("FRI");
+							days.unshift("FRI");
 							break;
 						case 6:
-							days.push("SAT");
+							days.unshift("SAT");
 							break;
 						default:
 							break;
@@ -686,17 +686,22 @@
 							afinnSum += allData[k][i].afinn_score;
 						}
 					}
-					if (afinnCount > 0) afinnAverage.push(Math.round(afinnSum / afinnCount * 100));else afinnAverage.push(0);
+					if (afinnCount > 0) afinnAverage.unshift(Math.round(afinnSum / afinnCount * 100));else afinnAverage.unshift(null);
 					afinnCount = 0;
 					afinnSum = 0;
 				}
 			} // end of for loop
 			console.log(afinnAverage);
 			var ctx = document.getElementById("myChart").getContext("2d");
-			var gradient = ctx.createLinearGradient(500, 0, 0, 0);
-			gradient.addColorStop(0, 'rgba(137,239,229,1)');
-			gradient.addColorStop(0.4, 'rgba(253,120,97,1)');
-			gradient.addColorStop(0.8, 'rgba(212,20,90,1)');
+			var gradient = ctx.createLinearGradient(0, 0, 0, 200);
+			// gradient.addColorStop(0, 'rgba(137,239,229,1)');  
+			// gradient.addColorStop(0.8, 'rgba(253,120,97,1)');
+			// gradient.addColorStop(0.4, 'rgba(212,20,90,1)');
+
+			gradient.addColorStop(1.0, 'rgba(137,239,229,1)'); //blue
+			gradient.addColorStop(0.5, 'rgba(253,120,97,0.6)');
+			gradient.addColorStop(0.0, 'rgba(212,20,90,1)'); //red
+			// gradient.addColorStop(0.6, 'rgba(128,128,128,1)');
 
 			var chartData = {
 				labels: days,
@@ -756,89 +761,113 @@
 
 	
 	module.exports = React.createClass({
-			displayName: 'WordCount',
+		displayName: 'WordCount',
 
-			componentDidMount: function () {
-					// console.log(this.props.data);
-					var allData = this.props.data;
-					//var unixTimeKeys = []; // keys
-					var afinnCount = 0;
-					var afinnSum = 0;
-					var wordCounts = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
-					var words = []; //[2, 3, 4, 5, 6, 0]
-					var todayDay = this.props.today.getDay();
+		getInitialState: function () {
+			return { noWordsText: null };
+		},
+		componentDidMount: function () {
+			// console.log(this.props.data);
+			var allData = this.props.data;
+			//var unixTimeKeys = []; // keys
+			var afinnCount = 0;
+			var afinnSum = 0;
+			var wordCounts = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
+			var words = []; //[2, 3, 4, 5, 6, 0]
+			var todayDay = this.props.today.getDay();
 
-					var dict = {};
-					var keys = [];
-					//var arrayCount = 0;
-					for (var k in allData) {
-							// for each array element, calculate afinn average
-							for (var i = 0; i < allData[k].length; i++) {
-									if (allData[k][i].nouns) {
-											var nouns = allData[k][i].nouns;
-											for (var w = 0; w < nouns.length; w++) {
-													var word = nouns[w];
-													if (!dict.hasOwnProperty(word)) {
-															dict[word] = 1;
-															keys.push(word);
-													} else {
-															dict[word]++;
-													}
-											}
-									}
+			var dict = {};
+			var keys = [];
+
+			//var arrayCount = 0;
+			for (var k in allData) {
+				// for each array element, calculate afinn average
+				for (var i = 0; i < allData[k].length; i++) {
+					if (allData[k][i].nouns) {
+						var nouns = allData[k][i].nouns;
+						for (var w = 0; w < nouns.length; w++) {
+							var word = nouns[w];
+							if (!dict.hasOwnProperty(word)) {
+								dict[word] = 1;
+								keys.push(word);
+							} else {
+								dict[word]++;
 							}
-							//console.log(dict);
-							keys.sort(function (a, b) {
-									return dict[b] - dict[a];
-							});
+						}
+					}
+				}
+				//console.log(dict);
+				keys.sort(function (a, b) {
+					return dict[b] - dict[a];
+				});
 
-							// function comparsion(key1, key2){
-							// 	var count1 = dict[key1];
-							// 	var count2 = dict[key2];
-							// 	return count2 - count1 // negative num, switch order of keys
-							// }
-					} // end of loop
+				// function comparsion(key1, key2){
+				// 	var count1 = dict[key1];
+				// 	var count2 = dict[key2];
+				// 	return count2 - count1 // negative num, switch order of keys
+				// }
+			} // end of loop
 
-					words = [keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[6]];
-					wordCounts = [dict[keys[0]], dict[keys[1]], dict[keys[2]], dict[keys[3]], dict[keys[4]], dict[keys[5]], dict[keys[6]]];
-
-					var chartData = {
-							labels: words,
-							datasets: [{
-									label: "This week",
-									fillColor: "rgba(248,124,105,0.75)",
-									strokeColor: "rgba(220,220,220,1)",
-									highlightFill: "rgba(248,124,105,1)",
-									data: wordCounts
-							}]
-					};
-					var options = {
-							// scaleOverride : true,
-							//       scaleSteps : 15,
-							//       scaleStepWidth : 1,
-							//       scaleStartValue : 0,
-							scaleShowGridLines: false,
-							// datasetFill : false,
-							scaleLineColor: 'transparent',
-							scaleShowLabels: false,
-							barShowStroke: false
-					};
-
-					var ctx = document.getElementById("myWordChart").getContext("2d");
-					var myBarChart = new Chart(ctx).Bar(chartData, options);
-			},
-			componentDidUpdate: function (props, states, context) {
-					// if (this.props.data && props.data && this.props.data.length != props.data.length) {
-					// 	this.scrollToLastComment()
-					// }
-			},
-			render: function () {
-					return React.createElement(
-							"div",
-							{ className: "wordcount" },
-							React.createElement("canvas", { id: "myWordChart" })
-					);
+			words = [keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[6]];
+			var numOfWords = 7;
+			for (var i = 0; i < words.length; i++) {
+				if (!words[i]) {
+					words[i] = "";numOfWords--;
+				}
 			}
+			//console.log("NUM OF WORDS: "+numOfWords);
+			wordCounts = [dict[keys[0]] || 0, dict[keys[1]] || 0, dict[keys[2]] || 0, dict[keys[3]] || 0, dict[keys[4]] || 0, dict[keys[5]] || 0, dict[keys[6]] || 0];
+
+			if (numOfWords == 0) {
+				this.setState({ noWordsText: "There are no words." });
+			}
+			var chartData = {
+				labels: words,
+				datasets: [{
+					label: "This week",
+					fillColor: "rgba(248,124,105,0.75)",
+					strokeColor: "rgba(220,220,220,1)",
+					highlightFill: "rgba(248,124,105,1)",
+					data: wordCounts
+				}]
+			};
+			var options = {
+				scaleOverride: false,
+				scaleSteps: 15,
+				scaleStepWidth: 1,
+				scaleBeginAtZero: false,
+				scaleShowGridLines: false,
+				// datasetFill : false,
+				scaleLineColor: 'transparent',
+				scaleShowLabels: false,
+				barShowStroke: false
+			};
+
+			//console.log(chartData, options)
+			var ctx = document.getElementById("myWordChart").getContext("2d");
+			var myBarChart = new Chart(ctx).Bar(chartData, options);
+		},
+		componentDidUpdate: function (props, states, context) {
+			// if (this.props.data && props.data && this.props.data.length != props.data.length) {
+			// 	this.scrollToLastComment()
+			// }
+		},
+		//{ this.state.noWordsText ? "no words" : this.state.noWordsText }
+		render: function () {
+			return React.createElement(
+				"div",
+				{ className: "wordcount" },
+				this.state.noWordsText ? React.createElement(
+					"div",
+					{ className: "myWordChart-noWords" },
+					React.createElement(
+						"p",
+						null,
+						this.state.noWordsText
+					)
+				) : React.createElement("canvas", { id: "myWordChart" })
+			);
+		}
 	});
 
 	var dict = {};
@@ -846,32 +875,32 @@
 
 	function process(txt) {
 
-			var tokens = txt.split(/\W+/);
+		var tokens = txt.split(/\W+/);
 
-			dict = {};
-			keys = [];
+		dict = {};
+		keys = [];
 
-			for (var i = 0; i < tokens.length; i++) {
-					var word = tokens[i];
-					if (!dict.hasOwnProperty(word)) {
-							dict[word] = 1;
-							key.push(word);
-					} else {
-							dict[word]++;
-					}
+		for (var i = 0; i < tokens.length; i++) {
+			var word = tokens[i];
+			if (!dict.hasOwnProperty(word)) {
+				dict[word] = 1;
+				key.push(word);
+			} else {
+				dict[word]++;
 			}
-			console.log(dict);
+		}
+		console.log(dict);
 
-			keys.sort(comparison);
+		keys.sort(comparison);
 
-			function comparsion(key1, key2) {
-					var count1 = dict[key1];
-					var count2 = dict[key2];
+		function comparsion(key1, key2) {
+			var count1 = dict[key1];
+			var count2 = dict[key2];
 
-					return count2 - count1; // negative num, switch order of keys
-			}
+			return count2 - count1; // negative num, switch order of keys
+		}
 
-			console.log(keys);
+		console.log(keys);
 	}
 
 /***/ },
@@ -979,9 +1008,9 @@
 			}
 			var days = [];
 			for (var i = 0; i < this.props.data.length; i++) {
-				if (this.props.data[i].type = "user") {
+				if (this.props.data[i].type == "user") {
 					days.push(React.createElement('div', { className: 'day-dots' }));
-					console.log(this.props.data);
+					console.log(this.props.data[i]);
 				}
 			}
 

@@ -5,7 +5,7 @@ module.exports = React.createClass({
 
 
 	componentDidMount : function() {
-		// console.log(this.props.data);
+		console.log(this.props.data);
 		var allData = this.props.data;
 		//var unixTimeKeys = []; // keys
 		var afinnCount = 0;
@@ -22,25 +22,25 @@ module.exports = React.createClass({
          		//console.log(k);
 				switch(todayDay) {
 		 			case 0:
-		 				days.push("SUN");
+		 				days.unshift("SUN");
 		 				break;
 		 			case 1:
-		 				days.push("MON");
+		 				days.unshift("MON");
 		 				break;
 		 			case 2:
-		 				days.push("TUE");
+		 				days.unshift("TUE");
 		 				break;
 		 			case 3:
-		 				days.push("WED");
+		 				days.unshift("WED");
 		 				break;
 		 			case 4:
-		 				days.push("THU");
+		 				days.unshift("THU");
 		 				break;
 		 			case 5:
-		 				days.push("FRI");
+		 				days.unshift("FRI");
 		 				break;
 		 			case 6:
-		 				days.push("SAT");
+		 				days.unshift("SAT");
 		 				break;
 		 			default: break;
 		 		}
@@ -54,20 +54,24 @@ module.exports = React.createClass({
          				afinnSum += allData[k][i].afinn_score;
          			}
          		}
-         		if (afinnCount > 0) afinnAverage.push(Math.round((afinnSum/afinnCount) * 100));
-         		else afinnAverage.push(0);
+         		if (afinnCount > 0) afinnAverage.unshift(Math.round((afinnSum/afinnCount) * 100));
+         		else afinnAverage.unshift(null);
          		afinnCount = 0;
          		afinnSum = 0;
     		}
 		} // end of for loop
 		console.log(afinnAverage);
 		var ctx = document.getElementById("myChart").getContext("2d");
-		var gradient = ctx.createLinearGradient(500, 0, 0, 0);
-		gradient.addColorStop(0, 'rgba(137,239,229,1)');   
-		gradient.addColorStop(0.4, 'rgba(253,120,97,1)');
-		gradient.addColorStop(0.8, 'rgba(212,20,90,1)');
-
-
+		var gradient = ctx.createLinearGradient(0, 0, 0, 200);
+		// gradient.addColorStop(0, 'rgba(137,239,229,1)');   
+		// gradient.addColorStop(0.8, 'rgba(253,120,97,1)');
+		// gradient.addColorStop(0.4, 'rgba(212,20,90,1)');
+		
+		gradient.addColorStop(1.0, 'rgba(137,239,229,1)'); //blue
+		gradient.addColorStop(0.5, 'rgba(253,120,97,0.6)');
+		gradient.addColorStop(0.0, 'rgba(212,20,90,1)'); //red
+		// gradient.addColorStop(0.6, 'rgba(128,128,128,1)');
+		
 		var chartData = {
 		    labels: days,
 		    datasets: [

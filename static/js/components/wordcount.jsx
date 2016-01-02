@@ -2,7 +2,9 @@
 module.exports = React.createClass({
 	displayName: 'WordCount',
 
-
+	getInitialState: function() {
+		return {noWordsText: null};
+	}, 
 	componentDidMount : function() {
 		// console.log(this.props.data);
 		var allData = this.props.data;
@@ -15,6 +17,7 @@ module.exports = React.createClass({
 		
 		var dict = {};
 		var keys = [];
+		
 		//var arrayCount = 0;
 		for (var k in allData) {
     		// for each array element, calculate afinn average
@@ -46,9 +49,15 @@ module.exports = React.createClass({
 		} // end of loop
 
 		words = [keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[6]];
-		wordCounts = [dict[keys[0]], dict[keys[1]], dict[keys[2]], dict[keys[3]],
-				dict[keys[4]], dict[keys[5]], dict[keys[6]]];
+		var numOfWords = 7;
+		for (var i = 0; i < words.length; i++) {
+			if (!words[i]) { words[i] = ""; numOfWords--; }
+		}
+		//console.log("NUM OF WORDS: "+numOfWords);
+		wordCounts = [dict[keys[0]] || 0, dict[keys[1]] || 0, dict[keys[2]] || 0, dict[keys[3]] || 0,
+				dict[keys[4]] || 0, dict[keys[5]] || 0, dict[keys[6]] || 0];
 
+		if (numOfWords == 0) { this.setState({noWordsText: "There are no words."}); }
 		var chartData = {
 		    labels: words,
 		    datasets: [
@@ -62,10 +71,10 @@ module.exports = React.createClass({
 		    ]
 		};
 		var options = {
-			// scaleOverride : true,
-	  //       scaleSteps : 15,
-	  //       scaleStepWidth : 1,
-	  //       scaleStartValue : 0, 
+			scaleOverride : false,
+	        scaleSteps : 15,
+	        scaleStepWidth : 1,
+	  		scaleBeginAtZero : false,
 			scaleShowGridLines : false,
 			// datasetFill : false,
 			scaleLineColor: 'transparent',
@@ -73,6 +82,7 @@ module.exports = React.createClass({
 			barShowStroke : false
 		}
 
+		//console.log(chartData, options)
 		var ctx = document.getElementById("myWordChart").getContext("2d");
 		var myBarChart = new Chart(ctx).Bar(chartData, options);
 	},
@@ -81,10 +91,11 @@ module.exports = React.createClass({
 		// 	this.scrollToLastComment()
 		// }
 	},
+	//{ this.state.noWordsText ? "no words" : this.state.noWordsText }
 	render: function() {
 		return (
 			<div className="wordcount">
-					<canvas id="myWordChart"></canvas>
+				{ this.state.noWordsText ? (<div className="myWordChart-noWords"><p>{this.state.noWordsText }</p></div>) : (<canvas id="myWordChart"></canvas>) }
 			</div>
 		);
 	}

@@ -17,9 +17,9 @@ module.exports = React.createClass({
 			dataType: 'json',
 			cache: false,
 			success: function(data){
-				//console.log(data)
+				//var c = $.extend(true, {},data);
 				//this.context.setUserKey(data.userKey)
-				this.setState({loadingResponse: false, loaded: true, data:data.comments});
+				this.setState({loadingResponse: false, loaded: true, data: data.comments});
 
 			}.bind(this),
 			error: function(ehx, status, err) {
@@ -27,7 +27,7 @@ module.exports = React.createClass({
 				this.context.history.pushState(null, "/", {});
 			}.bind(this)
 		});
-		console.log(this.state.data);
+		//console.log(this.state.data);
 	},
 	getInitialState: function() {
 		return {data:[], loaded: false, todayDate: new Date()};
