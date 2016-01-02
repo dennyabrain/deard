@@ -103,20 +103,45 @@ def register():
 	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your day today?" % request.form['username'])
 	return '{"status":"success"}'
 
+# Get from 30 day range:   /userstats?range=30
+# Get from specified date:   /userstats?startdate=2015-12-01
+# Get 30 days from specified date:   /userstats?range=30&startdate=2015-12-01
+
 @app.route('/userstats', methods=['GET'])
 def userstats():
 	if request.method=='GET':
-		text={"0":[],"1":[],"2":[],"3":[],"4":[],"5":[],"6":[]}
+		# Set the date range (default: 7 days)
+		daterange = int(request.args.get('range', 7))
+		if daterange < 1 or daterange > 90:
+			daterange = 7
+
+		# Set startdate (default: today) and enddate
+		startdate_str = request.args.get('startdate', None)
+		if not startdate_str:
+			startdate = datetime.today()
+		else:
+			startdate = datetime.strptime(startdate_str, '%Y-%m-%d') # 2015-12-31
+		enddate = (startdate - timedelta(days=daterange))
+
+		# Initialize results
+		text = {}
+		for i in range(daterange):
+			text[ str(i) ] = []
+
+		# Get comments from database
 		comments = databaseUser.listAllText(flaskLogin.current_user.id)
-		#print comments
 		for item in comments:
 			temp = []
 			if 'created_at' in item:
-				#print item['created_at']
-				td=datetime.now()-item['created_at']
-				if td.days<=6 and td.days>=0:
-					text[str(td.days)].append(item)
-		return jsonify(comments=text)
+				# Calculate difference based on each day
+				td = ( startdate.date() - item['created_at'].date() ).days
+
+				# Ensure comment is in date range, add to array for that day
+				if td < daterange and td >= 0:
+					text[ str(td) ].append(item)
+
+		# Return results
+		return jsonify(comments=text,daterange=daterange,startdate=startdate.strftime('%Y-%m-%d'),enddate=enddate.strftime('%Y-%m-%d'))
 
 @app.route('/comments', methods=['POST','GET'])
 def comment():
