@@ -161,7 +161,8 @@ def login2():
 					user = User()
 					user.id=request.form['userKey']
 					flaskLogin.login_user(user)
-					databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'])
+					#LOOK INTO THIS LATER. 
+					#databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'])
 					print ('flask has logged in and user is : ')
 					print (flaskLogin.current_user.id)
 					return '{"status":"success"}'
