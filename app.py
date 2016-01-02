@@ -9,6 +9,7 @@ from datetime import datetime, timedelta, date, time
 import logging
 from ml import ml
 from uuid import uuid4
+from flask.ext.bcrypt import Bcrypt
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -27,6 +28,7 @@ app.logger.setLevel(logging.ERROR)
 app.secret_key='itp'
 loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
+bcrypt = Bcrypt(app)
 
 class User(flaskLogin.UserMixin):
 	pass
@@ -83,9 +85,12 @@ def register():
 	if request.method=='GET':
 		return render_template('index.html')
 
-		
+	#Creating Hashed Password:
+	pw_hash=bcrypt.generate_password_hash(request.form['pw']);
+
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
-	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':request.form['pw'],'text':[]}})
+
+	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':pw_hash,'text':[]}})
 	user = User()
 	user.id=request.form['username']
 	flaskLogin.login_user(user)
@@ -179,7 +184,7 @@ def login2():
 	if request.method=='POST':
 		for post in databaseUser.findMany({}):
 			if request.form['userKey'] in post:
-				if request.form['password']==post[request.form['userKey']]['pw']:
+				if bcrypt.check_password_hash(post[request.form['userKey']]['pw'],request.form['password']):
 					user = User()
 					user.id=request.form['userKey']
 					flaskLogin.login_user(user)
