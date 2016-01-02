@@ -333,6 +333,8 @@ textarea:focus {
 /* data dashboard */
 .userData {
   margin-top: 80px;
+  margin-left: -8px;
+  margin-right: -8px;
   /*background-color: #EFEEEE;*/
 }
 
