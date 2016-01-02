@@ -58,22 +58,6 @@ def reply():
 def home():
 	return render_template('index.html')
 
-@app.route('/login',methods=['POST','GET'])
-def login():
-	if request.method=='GET':
-		return render_template('index.html')
-
-	for post in databaseUser.findMany({}):
-		if request.form['username'] in post:
-			if request.form['pw']==post[request.form['username']]['pw']:
-				user = User()
-				user.id=request.form['username']
-				flaskLogin.login_user(user)
-				return redirect(url_for('diary'))
-				#return "Can Log In"
-			#return str(post[request.form['username']]['pw'])
-	return "Username and Password don't match"
-
 @app.route('/logout')
 def logout():
 	flaskLogin.logout_user()
@@ -84,6 +68,11 @@ def logout():
 def register():
 	if request.method=='GET':
 		return render_template('index.html')
+
+	#Check if the user exists:
+	for post in databaseUser.findMany({}):
+		if request.form['userKey'] in post:
+			return'{"status":"userExists"}'
 
 	#Creating Hashed Password:
 	pw_hash=bcrypt.generate_password_hash(request.form['pw']);
