@@ -8,6 +8,7 @@ import afinn
 from datetime import datetime, timedelta, date, time
 import logging
 from ml import ml
+from uuid import uuid4
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -55,18 +56,6 @@ def reply():
 def home():
 	return render_template('index.html')
 
-@app.route('/diary', methods=['POST','GET'])
-@flaskLogin.login_required
-def diary():
-	if request.method=='POST':
-		requests.post(url, data=json.dumps({'text':request.form['text']}))
-		#requests.post(url, data=json.dumps({'text':flaskLogin.current_user.id}))
-		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])
-		return redirect(url_for('diary'))
-		#return 'posted'
-	
-	return render_template('diary.html',database=databaseUser.listAll(),database2=databaseUser.listAll())
-
 @app.route('/login',methods=['POST','GET'])
 def login():
 	if request.method=='GET':
@@ -100,7 +89,8 @@ def register():
 	user = User()
 	user.id=request.form['username']
 	flaskLogin.login_user(user)
-	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your day today?" % request.form['username'])
+	postId=uuid4()
+	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your day today?" % request.form['username'],postId,0.0)
 	return '{"status":"success"}'
 
 # Get from 30 day range:   /userstats?range=30
@@ -146,9 +136,11 @@ def userstats():
 @app.route('/comments', methods=['POST','GET'])
 def comment():
 	if request.method=='POST':
-		#print(flaskLogin.current_user.id)
-		#print(request.form['text'])
-		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'])		
+		postId=uuid4()
+		"""
+		Inserting User Post into slack and database
+		"""
+		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],postId)		
 		requests.post(url, data=json.dumps({'text':str(str(flaskLogin.current_user.id)+' says: ' +str(request.form['text']))}))
 		"""
 		Trying out simplest sentiment analysis: returns a float score based on text
@@ -158,11 +150,16 @@ def comment():
 		#mlScore=ML.getAnalysis()
 		print("******** SENTIMENT SCORE: %6.2f ********** %s" % (afinnScore, text))
 		if afinnScore > 0:
-			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f That's great!" % (afinnScore), score=afinnScore)
+			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f That's great!" % (afinnScore), postId, score=afinnScore)
 		elif afinnScore == 0:
-			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f Gotcha." % (afinnScore), score=afinnScore)
+			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f Gotcha." % (afinnScore), postId, score=afinnScore)
 		else:
-			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f Sorry to hear :(" % (afinnScore), score=afinnScore)
+			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f Sorry to hear :(" % (afinnScore), postId, score=afinnScore)
+
+		"""
+		Post Question on mTurk
+		"""
+
 		return jsonify(status='commentInsert')
 
 	if request.method=='GET':
