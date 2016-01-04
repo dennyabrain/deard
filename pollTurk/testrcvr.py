@@ -6,7 +6,6 @@ app=Flask(__name__)
 def home():
 	if request.method=='POST':
 		print 'got HTTP Post' + str(request.values['mTurkResponse'])
-		#print 'got HTTP Post' + str(request.args['value'])
 		return jsonify(value=request.values['mTurkResponse'])
 	else:
 		return 'Get Successfully'
