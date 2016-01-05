@@ -1,6 +1,6 @@
 from db import db
 import sys
-from flask import Flask, request, redirect, url_for, render_template, jsonify
+from flask import Flask, request, redirect, url_for, render_template, jsonify, session
 import requests
 import json
 import flask.ext.login as flaskLogin
@@ -14,18 +14,16 @@ from flask.ext.bcrypt import Bcrypt
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
 
-#database = db('slack','responseCollection')
 database = db('heroku_lmx991zw','responseCollection')
 databaseUser = db('heroku_lmx991zw','users')
 
-#ML = ml();
 
 app = Flask(__name__)
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
 
-app.secret_key='itp'
 loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
@@ -58,22 +56,6 @@ def reply():
 def home():
 	return render_template('index.html')
 
-@app.route('/login',methods=['POST','GET'])
-def login():
-	if request.method=='GET':
-		return render_template('index.html')
-
-	for post in databaseUser.findMany({}):
-		if request.form['username'] in post:
-			if request.form['pw']==post[request.form['username']]['pw']:
-				user = User()
-				user.id=request.form['username']
-				flaskLogin.login_user(user)
-				return redirect(url_for('diary'))
-				#return "Can Log In"
-			#return str(post[request.form['username']]['pw'])
-	return "Username and Password don't match"
-
 @app.route('/logout')
 def logout():
 	flaskLogin.logout_user()
@@ -84,6 +66,11 @@ def logout():
 def register():
 	if request.method=='GET':
 		return render_template('index.html')
+
+	#Check if the user exists:
+	for post in databaseUser.findMany({}):
+		if request.form['userKey'] in post:
+			return'{"status":"userExists"}'
 
 	#Creating Hashed Password:
 	pw_hash=bcrypt.generate_password_hash(request.form['pw']);
@@ -188,13 +175,14 @@ def login2():
 					user = User()
 					user.id=request.form['userKey']
 					flaskLogin.login_user(user)
-					#LOOK INTO THIS LATER. 
-					#databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'])
+					# CREATE A NEW SESSION ID ASSOCIATED WITH THIS USER
+					session['id']=uuid4()
+					databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'], session['id'],"greeting",0)
+					databaseUser.insertReply(request.form['userKey'],"Good morning.", session['id'],"mood",0)
 					print ('flask has logged in and user is : ')
 					print (flaskLogin.current_user.id)
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
 
 if __name__=='__main__':
-
 	app.run(debug=True, host='0.0.0.0')
