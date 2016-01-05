@@ -34,11 +34,11 @@ class db:
 				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now(),"nouns":nouns, "post_id":postId}}})
 				#self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now()}}})
 
-	def insertReply(self,userId,text,postId,score=0):
+	def insertReply(self,userId,text,postId,commentFormType,score=0):
 		for post in self.findMany({}):
 			if userId in post:
 				temp =userId+'.text'
-				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text, "afinn_score": score, "created_at": datetime.now(), "post_id":postId}}})
+				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text, "afinn_score": score, "created_at": datetime.now(), "post_id":postId,"commentFormType":commentFormType}}})
 
 	def listAllText(self,userId):
 		for post in self.findMany({}):
