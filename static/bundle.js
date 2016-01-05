@@ -360,7 +360,7 @@
 			});
 		},
 		getInitialState: function () {
-			return { data: [], loaded: false, commentFormType: "situation" };
+			return { data: [], loaded: false, commentFormType: "mood" };
 		},
 		getDefaultProps: function () {
 			return { url: "/comments", pollInterval: 3000 };
