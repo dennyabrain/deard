@@ -17,7 +17,20 @@ module.exports = React.createClass({
 			cache: false,
 			success: function(data){
 				this.context.setUserKey(data.userKey)
-				this.setState({loadingResponse: false, loaded: true, data:data.comments});
+				this.setState({loadingResponse: false, loaded: true, data:data.comments}, function() {
+        				// Update the commentFormType on latest bot response.
+					var revComments = (this.state.data.comments || []).reverse();
+					for (var c in revComments) {
+						if (c.type == 'bot') {
+							if (c.commentFormType) {
+								if (this.state.commentFormType != c.commentFormType) {
+									this.setState({commentFormType : c.commentFormType});
+								}
+							}							
+							break;
+						}
+					}
+				});
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());
@@ -47,9 +60,6 @@ module.exports = React.createClass({
 			type: 'POST',
 			data: comment,
 			success: function(data){
-				// var arr=[];
-				// arr[0]=data;
-				// // you will need to append to comment list, or send back all comments
 
 				// In order to "fake" the loading, disable comment polling until we're done
 				// Wait 3 seconds, and then get new comments from server and re-enable polling.
@@ -66,7 +76,7 @@ module.exports = React.createClass({
 		});
 	},
 	getInitialState: function() {
-		return {data:[], loaded: false};
+		return {data:[], loaded: false, commentFormType: "situation"};
 	}, 
 	getDefaultProps : function() { 
 		return {url:"/comments", pollInterval: 3000}; 
@@ -95,7 +105,7 @@ module.exports = React.createClass({
 				}
 				<div className="commentFormArea">
 					<div className="container">
-						<CommentForm onCommentSubmit={this.handleCommentSubmit} />
+						<CommentForm commentFormType={this.state.commentFormType} onCommentSubmit={this.handleCommentSubmit} />
 					</div>
 				</div>
 			</div>

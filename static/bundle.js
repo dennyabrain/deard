@@ -301,7 +301,20 @@
 				cache: false,
 				success: (function (data) {
 					this.context.setUserKey(data.userKey);
-					this.setState({ loadingResponse: false, loaded: true, data: data.comments });
+					this.setState({ loadingResponse: false, loaded: true, data: data.comments }, function () {
+						// Update the commentFormType on latest bot response.
+						var revComments = (this.state.data.comments || []).reverse();
+						for (var c in revComments) {
+							if (c.type == 'bot') {
+								if (c.commentFormType) {
+									if (this.state.commentFormType != c.commentFormType) {
+										this.setState({ commentFormType: c.commentFormType });
+									}
+								}
+								break;
+							}
+						}
+					});
 				}).bind(this),
 				error: (function (ehx, status, err) {
 					console.log(this.props.url, status, err.toString());
@@ -331,9 +344,6 @@
 				type: 'POST',
 				data: comment,
 				success: (function (data) {
-					// var arr=[];
-					// arr[0]=data;
-					// // you will need to append to comment list, or send back all comments
 
 					// In order to "fake" the loading, disable comment polling until we're done
 					// Wait 3 seconds, and then get new comments from server and re-enable polling.
@@ -350,7 +360,7 @@
 			});
 		},
 		getInitialState: function () {
-			return { data: [], loaded: false };
+			return { data: [], loaded: false, commentFormType: "situation" };
 		},
 		getDefaultProps: function () {
 			return { url: "/comments", pollInterval: 3000 };
@@ -381,7 +391,7 @@
 					React.createElement(
 						'div',
 						{ className: 'container' },
-						React.createElement(CommentForm, { onCommentSubmit: this.handleCommentSubmit })
+						React.createElement(CommentForm, { commentFormType: this.state.commentFormType, onCommentSubmit: this.handleCommentSubmit })
 					)
 				)
 			);
@@ -396,39 +406,210 @@
 		displayName: 'CommentForm',
 
 		getInitialState: function () {
-			return { text: '' };
+			return { text: "" };
 		},
 		handleTextChange: function (e) {
 			this.setState({ text: e.target.value });
 		},
 		handleSubmit: function (e) {
 			e.preventDefault();
-			// var text;
-			// var paragraphs = this.state.text.split(/\n|\r/);
-			// for (var i = 0; i < paragraphs.length; i++){
-			// 	if (paragraphs[i])
-			// 		text += paragraphs[i].trim() + "\n";
-			// }
-			// console.log(paragraphs);
-			var text = this.state.text.trim();
-			if (!text) {
+			//var text = this.state.text.trim();
+			// console.log(e);
+			// var text = e;
+			if (!this.state.text) {
 				return;
 			}
-			this.props.onCommentSubmit({ text: text });
-			this.setState({ text: '' });
+			this.props.onCommentSubmit({ text: this.state.text });
+			this.setState({ text: "" });
 
 			var elem = document.getElementById('commentList');
 			elem.scrollTop = elem.scrollHeight;
 		},
+		setTextInput: function (input) {
+			//console.log(input);
+			this.setState({ text: input.text });
+		},
+		render: function () {
+			var formContent;
+			switch (this.props.commentFormType) {
+				case "situation" || "feelings" || "thoughts":
+					formContent = React.createElement(TextFieldInput, { commentFormType: this.props.commentFormType,
+						textInput: this.setTextInput });
+					break;
+				case "preMechTurk":
+					formContent = React.createElement(ButtonInput, { commentFormType: this.props.commentFormType,
+						textInput: this.setTextInput });
+					break;
+				case "review":
+					formContent = React.createElement(RatingSelectionInput, {
+						textInput: this.setTextInput });
+					break;
+				case "mood":
+					formContent = React.createElement(MoodSelectionInput, {
+						textInput: this.setTextInput });
+					break;
+				default:
+					formContent = "";
+			}
+
+			return React.createElement(
+				"form",
+				{ className: "commentForm container-fluid tk-anonymous-pro", onSubmit: this.handleSubmit },
+				formContent
+			);
+		}
+	});
+
+	/*
+		Form Input Classes
+	*/
+
+	var TextFieldInput = React.createClass({
+		displayName: 'TextFieldInput',
+
+		getInitialState: function () {
+			return { text: "" };
+		},
+		handleTextChange: function (e) {
+			this.setState({ text: e.target.value });
+		},
+		handleInput: function (e) {
+			this.props.textInput({ text: this.state.text });
+			this.setState({ text: "" });
+		},
 		render: function () {
 			return React.createElement(
-				'form',
-				{ className: 'commentForm tk-anonymous-pro', onSubmit: this.handleSubmit },
-				React.createElement('textarea', { className: 'form-control',
-					placeholder: 'Say something... ',
+				"span",
+				null,
+				React.createElement("textarea", { className: "form-control",
+					placeholder: "Say something... ",
 					value: this.state.text,
 					onChange: this.handleTextChange }),
-				React.createElement('input', { type: 'submit', value: 'Post' })
+				React.createElement("input", { id: "input-post", type: "submit", value: "Post",
+					onClick: this.handleInput })
+			);
+		}
+	});
+
+	// var TextFieldInput = React.createClass({
+	// 	displayName: 'TextFieldInput',
+	// 	render: function() {
+	// 		return (
+	// 			<span>
+	// 				<textarea className="form-control" 
+	// 					placeholder="Say something... "
+	// 					value={this.state.text}
+	// 					onChange={this.handleTextChange} />
+	// 				<input id="input-post" type="submit" value="Post" />
+	// 			</span>
+	// 		)
+	// 	}
+	// });
+
+	var ButtonInput = React.createClass({
+		displayName: 'ButtonInput',
+
+		handleInput: function (e) {
+			this.props.textInput({ text: e.target.value });
+		},
+		render: function () {
+			return React.createElement(
+				"span",
+				null,
+				React.createElement(
+					"button",
+					{ type: "submit", value: "Ok", onClick: this.handleInput },
+					"OK"
+				)
+			);
+		}
+	});
+
+	var RatingSelectionInput = React.createClass({
+		displayName: 'RatingSelectionInput',
+
+		handleInput: function (e) {
+			this.props.textInput({ text: e.target.value });
+		},
+		render: function () {
+			return React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement("div", { className: "col-md-1" }),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("input", { type: "submit", value: "wtf", onClick: this.handleInput })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("input", { type: "submit", value: "bad", onClick: this.handleInput })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("input", { type: "submit", value: "meh", onClick: this.handleInput })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("input", { type: "submit", value: "good", onClick: this.handleInput })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("input", { type: "submit", value: "great", onClick: this.handleInput })
+				),
+				React.createElement("div", { className: "col-md-1" })
+			);
+		}
+	});
+
+	var MoodSelectionInput = React.createClass({
+		displayName: 'MoodSelectionInput',
+
+		handleInput: function (e) {
+			//e.preventDefault();
+			this.props.textInput({ text: e.target.value });
+			console.log(e.target.value);
+		},
+		render: function () {
+			return React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement("div", { className: "col-md-1" }),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
+						onClick: this.handleInput, value: ":D" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
+						onClick: this.handleInput, value: ":)" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
+						onClick: this.handleInput, value: ":/" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
+						onClick: this.handleInput, value: ":(" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
+						onClick: this.handleInput, value: ":'(" })
+				),
+				React.createElement("div", { className: "col-md-1" })
 			);
 		}
 	});

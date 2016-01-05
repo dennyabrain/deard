@@ -222,7 +222,7 @@ textarea:focus {
   padding-right: 50px;
 }
 
-.commentForm input {
+.commentForm #input-post {
   border: 2px solid black;
   border-radius: 20px;
   padding: 4px 8px;
@@ -249,6 +249,12 @@ textarea:focus {
 
 .commentForm textarea {
   margin-bottom: 5px;
+}
+
+.commentForm-selections {
+  position: relative;
+  padding-top: 20px;
+  /*padding-right: 50px;*/
 }
 
 /* sign in page */
