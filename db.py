@@ -40,6 +40,12 @@ class db:
 				temp =userId+'.text'
 				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text, "afinn_score": score, "created_at": datetime.now(), "post_id":postId,"commentFormType":commentFormType}}})
 
+	def updateCFT(self,userId,cft):
+		for post in self.findMany({}):
+			if userId in post:
+				temp =userId
+				self.collection.update_one({'name': userId}, {'$push': {temp: {"cft":cft}}})
+
 	def listAllText(self,userId):
 		for post in self.findMany({}):
 			if userId in post:

@@ -20,4 +20,5 @@ def getNounsTuple(text):
     else:
         return tuple(nouns)
 
-
+def incrementCFT(index):
+    return (index+1)%8

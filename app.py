@@ -10,6 +10,7 @@ import logging
 from ml import ml
 from uuid import uuid4
 from flask.ext.bcrypt import Bcrypt
+from helper import incrementCFT
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -27,6 +28,8 @@ app.logger.setLevel(logging.ERROR)
 loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
+
+commentFormType=['greeting','mood','situation','feeling','thoughts','preMechTurk','review','rethinking','bye']
 
 class User(flaskLogin.UserMixin):
 	pass
@@ -81,8 +84,9 @@ def register():
 	user = User()
 	user.id=request.form['username']
 	flaskLogin.login_user(user)
-	postId=uuid4()
-	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your day today?" % request.form['username'],postId,0.0)
+	session['id']=uuid4()
+	session['index']=1
+	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your mood today?" % request.form['username'],session['id'],"mood",0.0)
 	return '{"status":"success"}'
 
 # Get from 30 day range:   /userstats?range=30
@@ -128,25 +132,40 @@ def userstats():
 @app.route('/comments', methods=['POST','GET'])
 def comment():
 	if request.method=='POST':
-		postId=uuid4()
-		"""
-		Inserting User Post into slack and database
-		"""
-		databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],postId)		
-		requests.post(url, data=json.dumps({'text':str(str(flaskLogin.current_user.id)+' says: ' +str(request.form['text']))}))
-		"""
-		Trying out simplest sentiment analysis: returns a float score based on text
-		"""
-		text = str(request.form['text'])
-		afinnScore = afinn.sentiment(text)
-		#mlScore=ML.getAnalysis()
-		print("******** SENTIMENT SCORE: %6.2f ********** %s" % (afinnScore, text))
-		if afinnScore > 0:
-			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f That's great!" % (afinnScore), postId, score=afinnScore)
-		elif afinnScore == 0:
-			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f Gotcha." % (afinnScore), postId, score=afinnScore)
-		else:
-			databaseUser.insertReply(flaskLogin.current_user.id,"%6.2f Sorry to hear :(" % (afinnScore), postId, score=afinnScore)
+		postId=session['id']
+		if session['index']==1:
+			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 1",session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
+		elif session['index']==2:
+			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 2",session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
+		elif session['index']==3:
+			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 3",session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
+		elif session['index']==4:
+			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 4",session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
+		elif session['index']==5:
+			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 5",session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
+		elif session['index']==6:
+			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 6",session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
+		elif session['index']==7:
+			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 7",session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
+		elif session['index']==8:
+			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 8",session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
+
 
 		"""
 		Post Question on mTurk
@@ -177,8 +196,11 @@ def login2():
 					flaskLogin.login_user(user)
 					# CREATE A NEW SESSION ID ASSOCIATED WITH THIS USER
 					session['id']=uuid4()
+					session['index']=1
 					databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'], session['id'],"greeting",0)
-					databaseUser.insertReply(request.form['userKey'],"Good morning.", session['id'],"mood",0)
+					databaseUser.insertReply(request.form['userKey'],"Good morning. How is your mood today?", session['id'],"mood",0)
+					print ('index')
+					print (session['index'])
 					print ('flask has logged in and user is : ')
 					print (flaskLogin.current_user.id)
 					return '{"status":"success"}'
