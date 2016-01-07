@@ -29,7 +29,7 @@ loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
 
-commentFormType=['greeting','mood','situation','feeling','thoughts','preMechTurk','review','rethinking','bye']
+commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
 
 class User(flaskLogin.UserMixin):
 	pass
@@ -72,7 +72,7 @@ def register():
 
 	#Check if the user exists:
 	for post in databaseUser.findMany({}):
-		if request.form['userKey'] in post:
+		if request.form['username'] in post:
 			return'{"status":"userExists"}'
 
 	#Creating Hashed Password:

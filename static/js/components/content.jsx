@@ -17,16 +17,21 @@ module.exports = React.createClass({
 			cache: false,
 			success: function(data){
 				this.context.setUserKey(data.userKey)
+				
 				this.setState({loadingResponse: false, loaded: true, data:data.comments}, function() {
         				// Update the commentFormType on latest bot response.
-					var revComments = (this.state.data.comments || []).reverse();
+					var revComments = (data.comments).reverse();
+					//var revComments = (data.comments);
+					
+					
 					for (var c in revComments) {
-						if (c.type == 'bot') {
-							if (c.commentFormType) {
-								if (this.state.commentFormType != c.commentFormType) {
-									this.setState({commentFormType : c.commentFormType});
-								}
-							}							
+						console.log(revComments[c].commentFormType);
+						if (revComments[c].type == "bot") {						
+							if (this.state.commentFormType != revComments[c].commentFormType) {
+								this.setState({commentFormType : revComments[c].commentFormType});
+								console.log("COMMENT FORMT TYPE FROM SERVER")
+								console.log(revComments[c].commentFormType)
+							}
 							break;
 						}
 					}
@@ -76,7 +81,7 @@ module.exports = React.createClass({
 		});
 	},
 	getInitialState: function() {
-		return {data:[], loaded: false, commentFormType: "mood"};
+		return {data:[], loaded: false, commentFormType: "nothing"};
 	}, 
 	getDefaultProps : function() { 
 		return {url:"/comments", pollInterval: 3000}; 

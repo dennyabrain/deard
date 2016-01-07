@@ -28,11 +28,15 @@ module.exports = React.createClass({
 	render: function() {
 		var formContent;
 		switch(this.props.commentFormType) {
-		    case "situation" || "feelings" || "thoughts":
+		    case "feeling":
+		    case "situation":
+		    case "thought":
+		    case "rethinking":
 		    	formContent = <TextFieldInput commentFormType={this.props.commentFormType} 
 		    				textInput={this.setTextInput} />;
 		        break;
 		    case "preMechTurk":
+		    case "bye":
 		        formContent = <ButtonInput commentFormType={this.props.commentFormType} 
 		        			textInput={this.setTextInput} />;
 		        break;

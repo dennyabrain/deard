@@ -301,15 +301,19 @@
 				cache: false,
 				success: (function (data) {
 					this.context.setUserKey(data.userKey);
+
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments }, function () {
 						// Update the commentFormType on latest bot response.
-						var revComments = (this.state.data.comments || []).reverse();
+						// var revComments = (data.comments).reverse();
+						var revComments = data.comments;
+
 						for (var c in revComments) {
-							if (c.type == 'bot') {
-								if (c.commentFormType) {
-									if (this.state.commentFormType != c.commentFormType) {
-										this.setState({ commentFormType: c.commentFormType });
-									}
+							console.log(revComments[c].commentFormType);
+							if (revComments[c].type == "bot") {
+								if (this.state.commentFormType != revComments[c].commentFormType) {
+									this.setState({ commentFormType: revComments[c].commentFormType });
+									console.log("COMMENT FORMT TYPE FROM SERVER");
+									console.log(revComments[c].commentFormType);
 								}
 								break;
 							}
@@ -360,7 +364,7 @@
 			});
 		},
 		getInitialState: function () {
-			return { data: [], loaded: false, commentFormType: "mood" };
+			return { data: [], loaded: false, commentFormType: "nothing" };
 		},
 		getDefaultProps: function () {
 			return { url: "/comments", pollInterval: 3000 };
@@ -432,11 +436,15 @@
 		render: function () {
 			var formContent;
 			switch (this.props.commentFormType) {
-				case "situation" || "feelings" || "thoughts":
+				case "feeling":
+				case "situation":
+				case "thought":
+				case "rethinking":
 					formContent = React.createElement(TextFieldInput, { commentFormType: this.props.commentFormType,
 						textInput: this.setTextInput });
 					break;
 				case "preMechTurk":
+				case "bye":
 					formContent = React.createElement(ButtonInput, { commentFormType: this.props.commentFormType,
 						textInput: this.setTextInput });
 					break;
