@@ -1,0 +1,56 @@
+{
+	"greeting": {
+		"early morning": ["You are up early!", "Were you up all night?", "someone's up before the sun :)", "I should recommend you to sleep but I wanna hear what you have to say...", "what a wonderful time to be alive and awake ", "woah, did you reach out to me before you reached out for coffee ? I 'm flattered :) whats up?", "you're giving roosters a run for their money : ).ssup ? ", "Early morning diary entry!D approves: )"],
+		"morning": ["Good morning.", "Good morning sunshine :P", "Oh hey, we woke up together today.", "a diary entry and then we sieze the day.", "give way to a magical morning, tadaaa!", "rise and shine earthling.", "I sense human activity. Hello!", "look who is visiting me this moring! its my favourite writer!"],
+		"noon": ["Hey there.", "half way through this day, eh?", "this day wasn't that bad so far, right?", "almost there, buddy."],
+		"evening": ["Good evening.", "well this day is over.", "now might be a good time to reflect upon the day", "you are just in time before my bed time ;)", "ok, lets talk about the day.", "nothing like a refreshing chat with me before we end the day :P", "well, well, well... look who's here", "just finished giving you a standing ovation for getting through this day."]
+	},
+
+	"mood": ["How are you?", "How's it going?", "What's your mood like now?", "How do you feel?", "How would you describe your state of mind?", "try to put your mood into one of these categories", "lets try to label your current emotion", "what describes you more accurately right now?"],
+
+	"situation": {
+		"happy": ["Yay! What's up?", "oh tell me more.", "sounds great!", "that sounds awesome!", "That's good to know.", "Lovely.,well then you don't really need me today. jk ;)", "Cool!"],
+		"ok": ["What's happening?", "Let's talk about it.", "I am all ears/mics. ;P", "I want to know more.", "ok, lets describe this a bit.", "let's see if there's more to this?", "words, words, i need more words. type away! :P", "go on, I'm listening."],
+		"bad": ["Aww. What happened?", "oh, that sucks. go on...", "that's sad. let's discuss this.", "you did sound a bit off today. tell me more.", "i'm so sorry. what went wrong?", "that doesn't sound good. go on.", "oh :( what happened?", "it sounds serious. lets talk about this."]
+	},
+
+	"feeling": {
+		"happy": ["What specific feelings do you have about this?", "let's try to think this through.", "let's try to be very specific about how you feel."],
+		"ok": ["What specific feelings do you have about this?", "let's elaborate a little"],
+		"bad": ["Sorry to hear. How does this make you feel?", "let's try to analyze this further."]
+	},
+
+	"thought": {
+		"happy": ["What are your thoughts on this?", "how do you see this?"],
+		"ok": ["how does this feel?", "let's describe this as specifically as posisble."],
+		"bad": ["What's your most pessimistic thoughts on this?", "what would you say is the most negative way of looking at this?"]
+	},
+
+	"preMechTurk": {
+		"happy": ["I have noted everything you said. Let me get back to you in a while"],
+		"ok": ["ok i will be right back with something helpful to say :)"],
+		"bad": ["It’s tough to be positive when things are not going well. Let me think about this, and give you some advice.", "I get why you would think like that. Let me get back to you with an alternate way to look at this."]
+	},
+
+	"review": {
+		"great": ["I’m glad that helped.", "Phew. Relieved to be of your help.", "Great!"],
+		"good": ["Almost there :) Glad to be of help.", "Ok. I see there's scope for improvement. I'll work on this.", "Your review is duly noted."],
+		"meh": ["meh. that wasn't too impressive for a smart diary. I hope I can mend this next time.", "Well, that wasn't satisfactory for a smart diary. I promise I'll do a better job next time.", "gah :/ I know I can do better. You'll see improvement next time."],
+		"bad": ["That was dissapointing. I will work on my skills now.", "Oh shucks. I guess I am the one who needs help now. Don't worry, will fix this for sure.", "Ok, I think i need to go talk to my diary :P I'll rectify this next time.", "I'm sorry that I could not help this time. Please bear with me till next time."],
+		"wtf": ["Oh wow! I was that off? I'll try to do a better job next time.", "Damn, that was bad, huh? I'll try to improve.", "Alright, I need to get my shit together. I assure you it would be better next time."]
+	},
+
+	"rethinking": {
+		"great": ["Now you try it. How would you rethink this?", "Why don't you go ahead and try rethinking this situation.", "let's see how would you write about your situation now"],
+		"good": ["Now you try it. How would you rethink this?", "Why don't you go ahead and try rethinking this situation.", "let's see how would you write about your situation now"],
+		"meh": ["Now let's see if you can reword your situation after reading my response.", "I want you to write what you feel about your situation now, given my response.", "Ok then, lets see if you can use my response to write about your situation in a different light."],
+		"bad": ["Till then, try to think of this situation positively.", "I suggest you to write about your situation again but this time with a more positive outlook.", "May I then ask you to please try and formulate your thoughts on this situation again? This time, try to think how does this help you in the longer run?", "Till then, lets try writing what could be a nicer way to think about it."],
+		"wtf": ["Meanwhile, why don't you try to think of a positive way to think about this situation. Trust me writing it out will help you.", "In the meantime, lets try this. Try to find a silver lining in this situation. Thinking about it can help you look at this situation more positively.", "For now, try to write a positive aspect of the situation. Doing this can help you see this in a different light."]
+	},
+
+	"bye": {
+		"happy": ["i'm happy you had a good day. See ya later then!"],
+		"ok": ["i hope this was helpful. till later then."],
+		"bad": ["It helps to look at things from a more positive way.", "Be careful about falling in this trap again.", "We tend to over exaggerate negative emotions and its good to look at things from a different perspective."]
+	}
+}

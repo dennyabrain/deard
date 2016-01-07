@@ -11,6 +11,7 @@ from ml import ml
 from uuid import uuid4
 from flask.ext.bcrypt import Bcrypt
 from helper import incrementCFT
+from responseHelper import Response
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -28,6 +29,8 @@ app.logger.setLevel(logging.ERROR)
 loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
+
+response=Response()
 
 commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
 
@@ -133,39 +136,45 @@ def userstats():
 def comment():
 	if request.method=='POST':
 		postId=session['id']
-		if session['index']==1:
-			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 1",session['id'])
-			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
-		elif session['index']==2:
-			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 2",session['id'])
-			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
-		elif session['index']==3:
-			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 3",session['id'])
-			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
-		elif session['index']==4:
-			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 4",session['id'])
-			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
-		elif session['index']==5:
-			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 5",session['id'])
-			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
-		elif session['index']==6:
-			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 6",session['id'])
-			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
-		elif session['index']==7:
-			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 7",session['id'])
-			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
-		elif session['index']==8:
-			databaseUser.insertInput(flaskLogin.current_user.id,"test mode 8",session['id'])
-			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,"Gotcha.", session['id'], commentFormType[session['index']],0)
+		if session['index']==1: #MOOD
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			#HACKY MOOD MAPPING
+			if request.form['text']==':D' or request.form['text']==':)':
+				mood="happy"
+			elif request.form['text']==':/':
+				mood="ok"
+			else:
+				mood="bad"
 
+			session['mood']=mood
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,response.getSituation(session['mood']), session['id'], commentFormType[session['index']],0)
+		elif session['index']==2: #SITUATION
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,response.getFeeling(session['mood']), session['id'], commentFormType[session['index']],0)
+		elif session['index']==3: #FEELING
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,response.getThought(session['mood']), session['id'], commentFormType[session['index']],0)
+		elif session['index']==4: #THOUGHT
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,response.getPreMechTurk(session['mood']), session['id'], commentFormType[session['index']],0)
+		elif session['index']==5: #PREMECHTURK
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,"insert mechanicalTurkReponse here", session['id'], commentFormType[session['index']],0)
+		elif session['index']==6: #REVIEW
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			session['review']=request.form['text']
+			databaseUser.insertReply(flaskLogin.current_user.id,response.getReview(session['review']), session['id'], commentFormType[session['index']],0)
+			databaseUser.insertReply(flaskLogin.current_user.id,response.getRethinking(session['review']), session['id'], commentFormType[session['index']],0)
+		elif session['index']==7: #RETHINKING
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			databaseUser.insertReply(flaskLogin.current_user.id,response.getBye(session['mood']), session['id'], commentFormType[session['index']],0)
 
 		"""
 		Post Question on mTurk
