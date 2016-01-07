@@ -304,8 +304,8 @@
 
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments }, function () {
 						// Update the commentFormType on latest bot response.
-						// var revComments = (data.comments).reverse();
-						var revComments = data.comments;
+						var revComments = data.comments.reverse();
+						//var revComments = (data.comments);
 
 						for (var c in revComments) {
 							console.log(revComments[c].commentFormType);
