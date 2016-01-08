@@ -20,8 +20,8 @@ module.exports = React.createClass({
 				
 				this.setState({loadingResponse: false, loaded: true, data:data.comments}, function() {
         				// Update the commentFormType on latest bot response.
-					var revComments = (data.comments).reverse();
-					//var revComments = (data.comments);
+					//var revComments = (data.comments).reverse();
+					var revComments = (data.comments);
 					
 					
 					for (var c in revComments) {
@@ -57,7 +57,7 @@ module.exports = React.createClass({
 		var newComments = comments.concat([comment]);
 
 		this.setState({data: newComments, loadingResponse: true});
-		this.disablePolling();
+		//this.disablePolling();
 
 		$.ajax({
 			url: this.props.url,
@@ -65,15 +65,16 @@ module.exports = React.createClass({
 			type: 'POST',
 			data: comment,
 			success: function(data){
-
+				console.log("success POST");
+				console.log(data);
 				// In order to "fake" the loading, disable comment polling until we're done
 				// Wait 3 seconds, and then get new comments from server and re-enable polling.
-				setTimeout(function() {
-					this.setState({loadingResponse: false}, function() {
-						this.getCommentsFromServer();
-						this.enablePolling();
-					});
-				}.bind(this), 3000);
+				// setTimeout(function() {
+				// 	this.setState({loadingResponse: false}, function() {
+				// 		this.getCommentsFromServer();
+				// 		//this.enablePolling();
+				// 	});
+				// }.bind(this), 3000);
 			}.bind(this),
 			error: function(ehx, status, err) {
 				console.log(this.props.url, status, err.toString());
@@ -81,26 +82,51 @@ module.exports = React.createClass({
 		});
 	},
 	getInitialState: function() {
-		return {data:[], loaded: false, commentFormType: "nothing"};
+		return {data:[], loaded: false, commentFormType: "nothing", status: 'disconnected'};
 	}, 
 	getDefaultProps : function() { 
-		return {url:"/comments", pollInterval: 3000}; 
+		return {url:"/comments"}; 
 	},
+	// SOCKET STUFF
+	componentWillMount: function() {
+        this.socket = io.connect('http://' + document.domain + ':' + location.port);
+        this.socket.on('connect', this.connect);
+        this.socket.on('disconnect', this.disconnect);
+        this.socket.on('insert',this.insert);
+        // this.socket.on('insert',function(text){
+        //     console.log('Got Event')
+        // })
+    },
+    connect: function() {
+    	this.setState({ status: 'connected' });
+    	console.log("connected: "+ this.socket.id);
+    },
+    disconnect: function() {
+    	this.setState({ status: 'disconnected' });
+    },
+    insert: function(text) {
+    	console.log(text);
+    },
 	componentDidMount: function() {
 		setTimeout(function() {
 			this.getCommentsFromServer();
-			this.enablePolling();
-		}.bind(this), 2000);
+			//.enablePolling();
+		}.bind(this), 1000);
+
+		// this.socket.on('comments',function(text){
+		//     console.log('getCommentsFromServer')
+		//     this.getCommentsFromServer();
+		// })
 	},
-	componentWillUnmount: function() {
-		this.disablePolling();
-	},
-	enablePolling: function() {
-		this.checkInterval = setInterval(this.getCommentsFromServer, this.props.pollInterval);
-	},
-	disablePolling: function() {
-		clearInterval(this.checkInterval);
-	},
+	// componentWillUnmount: function() {
+	// 	this.disablePolling();
+	// },
+	// enablePolling: function() {
+	// 	this.checkInterval = setInterval(this.getCommentsFromServer, this.props.pollInterval);
+	// },
+	// disablePolling: function() {
+	// 	clearInterval(this.checkInterval);
+	// },
 	render: function() {
 		return (
 			<div className="content main">
