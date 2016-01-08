@@ -157,35 +157,35 @@ def comment():
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getFeeling(session['mood']), session['id'], commentFormType[session['index']],0)
-			#emit('insert','hello')
+			socket.emit('insert','hello')
 		elif session['index']==3: #FEELING
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getThought(session['mood']), session['id'], commentFormType[session['index']],0)
-			#emit('insert','hello')
+			socket.emit('insert','hello')
 		elif session['index']==4: #THOUGHT
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getPreMechTurk(session['mood']), session['id'], commentFormType[session['index']],0)
-			#emit('insert','hello')
+			socket.emit('insert','hello')
 		elif session['index']==5: #PREMECHTURK
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,"insert mechanicalTurkReponse here", session['id'], commentFormType[session['index']],0)
-			#emit('insert','hello')
+			socket.emit('insert','hello')
 		elif session['index']==6: #REVIEW
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			session['review']=request.form['text']
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getReview(session['review']), session['id'], commentFormType[session['index']],0)
-			#emit('insert','hello')
+			socket.emit('insert','hello')
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getRethinking(session['review']), session['id'], commentFormType[session['index']],0)
-			#emit('insert','hello')
+			socket.emit('insert','hello')
 		elif session['index']==7: #RETHINKING
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getBye(session['mood']), session['id'], commentFormType[session['index']],0)
-			#emit('insert','hello')
+			socket.emit('insert','hello')
 
 		"""
 		Post Question on mTurk
