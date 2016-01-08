@@ -12,6 +12,7 @@ from uuid import uuid4
 from flask.ext.bcrypt import Bcrypt
 from helper import incrementCFT
 from responseHelper import Response
+from flask.ext.socketio import SocketIO, emit
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -29,6 +30,8 @@ app.logger.setLevel(logging.ERROR)
 loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
+
+socket = SocketIO(app)
 
 response=Response()
 
@@ -149,32 +152,40 @@ def comment():
 			session['mood']=mood
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getSituation(session['mood']), session['id'], commentFormType[session['index']],0)
+			socket.emit('insert','hello')
 		elif session['index']==2: #SITUATION
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getFeeling(session['mood']), session['id'], commentFormType[session['index']],0)
+			#emit('insert','hello')
 		elif session['index']==3: #FEELING
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getThought(session['mood']), session['id'], commentFormType[session['index']],0)
+			#emit('insert','hello')
 		elif session['index']==4: #THOUGHT
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getPreMechTurk(session['mood']), session['id'], commentFormType[session['index']],0)
+			#emit('insert','hello')
 		elif session['index']==5: #PREMECHTURK
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,"insert mechanicalTurkReponse here", session['id'], commentFormType[session['index']],0)
+			#emit('insert','hello')
 		elif session['index']==6: #REVIEW
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			session['review']=request.form['text']
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getReview(session['review']), session['id'], commentFormType[session['index']],0)
+			#emit('insert','hello')
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getRethinking(session['review']), session['id'], commentFormType[session['index']],0)
+			#emit('insert','hello')
 		elif session['index']==7: #RETHINKING
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getBye(session['mood']), session['id'], commentFormType[session['index']],0)
+			#emit('insert','hello')
 
 		"""
 		Post Question on mTurk
@@ -216,4 +227,5 @@ def login2():
 		return '{"status":"fail"}'
 
 if __name__=='__main__':
-	app.run(debug=True, host='0.0.0.0')
+	#app.run(debug=True, host='0.0.0.0')
+	socket.run(app)
