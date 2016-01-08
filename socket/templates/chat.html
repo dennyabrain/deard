@@ -7,8 +7,8 @@
         socket.emit('my event', {data: 'I\'m connected!'});
     });
 
-    socket.on('response',function(text){
-    	console.log(text)
+    socket.on('insert',function(text){
+    	console.log('Got Event')
     })
 </script>
 <body>
