@@ -362,6 +362,14 @@
 			this.setState({ data: newComments, loadingResponse: true });
 			//this.disablePolling();
 
+			// this.socket.emit('event', comment, function(d) {
+			// 	console.log('emit retdata')
+			// 	this.insert();
+			// });
+
+			//return
+			// ignore below
+
 			$.ajax({
 				url: this.props.url,
 				dataType: 'json',
@@ -408,6 +416,12 @@
 			this.setState({ status: 'disconnected' });
 		},
 		insert: function (comment) {
+			// I JUST WROTE IF YOU WERE RECEIVING THE RESULT.
+			// IF YOU ARE TRYING TO SEND THE RESULT, NOT SURE.
+			// IS THAT WHAT YOU ARE TRYING TO DO?
+
+			// I also need to render comment if I submit
+			console.log(comment);
 			var data = this.state.data;
 			data.push(comment);
 			this.setState({ data: data, loadingResponse: false, loaded: true });
