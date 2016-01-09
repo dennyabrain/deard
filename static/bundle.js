@@ -407,8 +407,12 @@
 		disconnect: function () {
 			this.setState({ status: 'disconnected' });
 		},
-		insert: function (text) {
-			console.log(text);
+		insert: function (comment) {
+			var data = this.state.data;
+			data.push(comment);
+			this.setState({ data: data, loadingResponse: false, loaded: true });
+			console.log(comment);
+			// NEED TO RENDER TEXT
 		},
 		componentDidMount: function () {
 			setTimeout((function () {

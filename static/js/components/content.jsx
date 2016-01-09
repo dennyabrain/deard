@@ -105,6 +105,17 @@ module.exports = React.createClass({
     	this.setState({ status: 'disconnected' });
     },
     insert: function(comment) {
+    	if (comment == 'hello')
+    		return
+    	// I JUST WROTE IF YOU WERE RECEIVING THE RESULT.
+    	// IF YOU ARE TRYING TO SEND THE RESULT, NOT SURE.
+    	// IS THAT WHAT YOU ARE TRYING TO DO?
+
+    	// I also need to render comment if I submit
+
+    	var data = this.state.data;
+    	data.push(comment);
+    	this.setState({data: data, loadingResponse: false, loaded: true});
     	console.log(comment);
     	// NEED TO RENDER TEXT 
     },
