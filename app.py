@@ -152,7 +152,7 @@ def comment():
 			session['mood']=mood
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getSituation(session['mood']), session['id'], commentFormType[session['index']],0)
-			socket.emit('insert','hello')
+			socket.emit('insert',jsonify(text=response.getSituation(session['mood'], commentFormType=commentFormType[session['index']))
 		elif session['index']==2: #SITUATION
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
