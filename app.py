@@ -242,6 +242,12 @@ def login2():
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
 
+@app.route('/deard', methods=['POST'])
+def reply():
+	if request.method=='POST':
+		#print request.form['test']
+		return '{"status":"successDbInsert"}'
+
 if __name__=='__main__':
 	#app.run(debug=True, host='0.0.0.0')
 	socket.run(app)

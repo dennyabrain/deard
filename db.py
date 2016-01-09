@@ -84,6 +84,8 @@ class db:
 											'name': userId
 											}, 
 											{'$set': {'lastHit':{'text':text,
-																'hidID':hitID,
+																'hitID':hitID,
+																'response':"",
+																'assignmentID':""
 																}}})
 
