@@ -104,8 +104,9 @@ module.exports = React.createClass({
     disconnect: function() {
     	this.setState({ status: 'disconnected' });
     },
-    insert: function(text) {
-    	console.log(text);
+    insert: function(comment) {
+    	console.log(comment);
+    	// NEED TO RENDER TEXT 
     },
 	componentDidMount: function() {
 		setTimeout(function() {
