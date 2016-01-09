@@ -1,1 +1,1 @@
-gunicorn --worker-class eventlet module:app
+web: gunicorn --worker-class eventlet module:hello
