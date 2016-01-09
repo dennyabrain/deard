@@ -152,13 +152,14 @@ def comment():
 			session['mood']=mood
 			session['index']=incrementCFT(session['index'])
 			databaseUser.insertReply(flaskLogin.current_user.id,response.getSituation(session['mood']), session['id'], commentFormType[session['index']],0)
+			#Converting datetime.now and uuid to str because they are not JSON serializable. Also I know they aren't being used in the front end.
 			socket.emit('insert',{
-								text=response.getSituation(session['mood']),
-								affin_score=0,
-								created_at=datetime.now(),
-								post_id=session['id'],
-								type='bot', 
-								commentFormType=commentFormType[session['index']]})
+								'text':response.getSituation(session['mood']),
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
 		elif session['index']==2: #SITUATION
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
