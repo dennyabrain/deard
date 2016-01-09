@@ -76,3 +76,14 @@ class db:
 				break
 
 		return days
+
+	def insertLastHit(self,userId,text,hitID):
+		for post in self.findMany({}):
+			if userId in post:
+				self.collection.update_one({
+											'name': userId
+											}, 
+											{'$set': {'lastHit':{'text':text,
+																'hidID':hitID,
+																}}})
+
