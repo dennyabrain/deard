@@ -32,5 +32,5 @@ ReactDOM.render((
 	</Router>
 ), document.getElementById('app'));
 
-// <Route path="comments" component={Content} />
+// <Route path="comments" component={DiaryLayout}>
 
