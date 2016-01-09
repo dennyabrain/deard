@@ -304,7 +304,7 @@ def login2():
 		return '{"status":"fail"}'
 
 @app.route('/deard', methods=['POST'])
-def reply():
+def deard():
 	if request.method=='POST':
 		#print request.form['test']
 		return '{"status":"successDbInsert"}'
