@@ -121,8 +121,10 @@ module.exports = React.createClass({
     	console.log(comment);
     	var data = this.state.data;
     	data.push(comment);
-    	this.setState({data: data, loadingResponse: false, loaded: true});
-    	console.log(comment);
+    	this.setState({data: data, 
+    		loadingResponse: false, 
+    		loaded: true,
+    		commentFormType: comment.commentFormType});
     	// NEED TO RENDER TEXT 
     },
 	componentDidMount: function() {

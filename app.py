@@ -165,36 +165,78 @@ def comment():
 		elif session['index']==2: #SITUATION
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,response.getFeeling(session['mood']), session['id'], commentFormType[session['index']],0)
-			socket.emit('insert','hello situation')
+			botResponse = response.getFeeling(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':botResponse,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
 		elif session['index']==3: #FEELING
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,response.getThought(session['mood']), session['id'], commentFormType[session['index']],0)
-			socket.emit('insert','hello feeling')
+			botResponse = response.getThought(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':botResponse,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
 		elif session['index']==4: #THOUGHT
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,response.getPreMechTurk(session['mood']), session['id'], commentFormType[session['index']],0)
-			socket.emit('insert','hello thought')
+			botResponse = response.getPreMechTurk(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':botResponse,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
 		elif session['index']==5: #PREMECHTURK
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
+			#botResponse = response.getPreMechTurk(session['mood'])
 			databaseUser.insertReply(flaskLogin.current_user.id,"insert mechanicalTurkReponse here", session['id'], commentFormType[session['index']],0)
-			socket.emit('insert','hello pre mturk')
+			socket.emit('insert',{
+								'text':'insert mechanicalTurkReponse here',
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
 		elif session['index']==6: #REVIEW
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
 			session['review']=request.form['text']
-			databaseUser.insertReply(flaskLogin.current_user.id,response.getReview(session['review']), session['id'], commentFormType[session['index']],0)
-			socket.emit('insert','hello review')
-			databaseUser.insertReply(flaskLogin.current_user.id,response.getRethinking(session['review']), session['id'], commentFormType[session['index']],0)
-			socket.emit('insert','hello')
+			botResponse = response.getRethinking(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
+			#socket.emit('insert','hello review')
+			#databaseUser.insertReply(flaskLogin.current_user.id,response.getRethinking(session['review']), session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':botResponse,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
 		elif session['index']==7: #RETHINKING
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			session['index']=incrementCFT(session['index'])
-			databaseUser.insertReply(flaskLogin.current_user.id,response.getBye(session['mood']), session['id'], commentFormType[session['index']],0)
-			socket.emit('insert','hello rethink')
+			botResponse = response.getBye(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':botResponse,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
 
 		"""
 		Post Question on mTurk
