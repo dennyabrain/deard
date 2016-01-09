@@ -1,1 +1,1 @@
-web: gunicorn hello:app --log-file=-
+gunicorn --worker-class eventlet module:app
