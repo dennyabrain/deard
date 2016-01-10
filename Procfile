@@ -1,1 +1,1 @@
-web: gunicorn hello:app --log-file=- --sendfile=no
+web: gunicorn hello:app --log-file=- --no-sendfile
