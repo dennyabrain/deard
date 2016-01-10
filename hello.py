@@ -12,7 +12,7 @@ from uuid import uuid4
 from flask.ext.bcrypt import Bcrypt
 from helper import incrementCFT
 from responseHelper import Response
-from flask.ext.socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit
 from mTurk import mTurk
 
 url = 'https://hooks.slack.com/services/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'
@@ -21,7 +21,7 @@ payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
 database = db('heroku_lmx991zw','responseCollection')
 databaseUser = db('heroku_lmx991zw','users')
 
-
+ 	
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
