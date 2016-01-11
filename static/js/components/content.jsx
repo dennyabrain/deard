@@ -1,6 +1,7 @@
 var CommentForm = require('./commentform')
 var CommentList = require('./commentList')
 var Loader = require('./loader')
+var Header = require('./header')
 
 module.exports = React.createClass({
 	displayName: 'Content',
@@ -22,7 +23,8 @@ module.exports = React.createClass({
         				// Update the commentFormType on latest bot response.
 					//var revComments = (data.comments).reverse();
 					var revComments = (data.comments);
-					
+
+					this.setState({ date:revComments[0].created_at });
 					
 					for (var c in revComments) {
 						console.log(revComments[c].commentFormType);
@@ -90,7 +92,8 @@ module.exports = React.createClass({
 		});
 	},
 	getInitialState: function() {
-		return {data:[], loaded: false, commentFormType: "nothing", status: 'disconnected'};
+		return {data:[], loaded: false, commentFormType: "nothing", 
+			status: 'disconnected', date: null}
 	}, 
 	getDefaultProps : function() { 
 		return {url:"/comments"}; 
@@ -149,9 +152,13 @@ module.exports = React.createClass({
 	// },
 	render: function() {
 		return (
+			<span>
+			<Header headerType="chat" date={this.state.date} logoIcon={true} showDate={true}/> 
 			<div className="content main">
 				{ this.state.loaded ? 
-					(<CommentList data={this.state.data} loading={this.state.loadingResponse}/>) :
+					(
+						<CommentList data={this.state.data} loading={this.state.loadingResponse}/>
+					) :
 					(<Loader />)
 				}
 				<div className="commentFormArea">
@@ -160,6 +167,7 @@ module.exports = React.createClass({
 					</div>
 				</div>
 			</div>
+			</span>
 		)
 	}
 });

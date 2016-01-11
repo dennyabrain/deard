@@ -13,6 +13,7 @@ var StaticLayout = require('./components/staticlayout')
 var Home = require('./components/home')
 var Login = require('./components/login')
 var Register = require('./components/register')
+//var Header = require('./header')
 
 
 

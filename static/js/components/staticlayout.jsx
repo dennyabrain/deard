@@ -6,7 +6,7 @@ module.exports = React.createClass({
 		return(
 			<div className="layout-static">
 				<div className="container">
-					<Header /> 
+					<Header headerType="static"/> 
 					{this.props.children}
 				</div>
 			</div>

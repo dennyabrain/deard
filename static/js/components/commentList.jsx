@@ -14,9 +14,11 @@ module.exports = React.createClass({
 	},
 	scrollToLastComment : function() {
 		var c = this.refs.commentList.getDOMNode().lastChild;
+		console.log(c);
 		if (typeof(c) != 'undefined') {
 			var pos = this.getPosition(c);
 			// window.scrollTo(0,pos.y);
+			//console.log(pos);
 			$('html, body').animate({scrollTop: pos.y}, 500);
 		}
 	},
