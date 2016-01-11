@@ -323,5 +323,8 @@ def login2():
 def deard():
 	if request.method=='POST':
 		#print request.form['test']
+		text = request.form['text'].split(' ',1)
+		print text[0]
+		print text[1]
 		return '{"status":"successDbInsert"}'
 

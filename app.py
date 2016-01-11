@@ -319,11 +319,23 @@ def login2():
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
 
-@app.route('/deard', methods=['POST'])
+@app.route('/approve', methods=['POST'])
 def deard():
 	if request.method=='POST':
 		#print request.form['test']
-		return '{"status":"successDbInsert"}'
+		text = request.form['text'].split(' ',1)
+		print text[0]
+		print text[1]
+		return '{"status":"coming back from Approve"}'
+
+@app.route('/reject', methods=['POST'])
+def deard():
+	if request.method=='POST':
+		#print request.form['test']
+		text = request.form['text'].split(' ',1)
+		print text[0]
+		print text[1]
+		return '{"status":"coming back from Reject"}'
 
 if __name__=='__main__':
 	#app.run(debug=True, host='0.0.0.0')
