@@ -5,7 +5,9 @@
     var socket = io.connect('http://' + document.domain + ':' + location.port);
     
     socket.on('connected',function(text){
-        console.log(text)
+        console.log(text);
+        console.log(document.domain);
+        console.log(location.port);
     })
 </script>
 <body>
