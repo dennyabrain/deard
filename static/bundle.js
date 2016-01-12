@@ -400,7 +400,8 @@
 		},
 		// SOCKET STUFF
 		componentWillMount: function () {
-			this.socket = io.connect('http://' + document.domain + ':' + location.port);
+			this.url = 'http://' + document.domain + ':' + location.port
+			this.socket = io.connect(this.url);
 			this.socket.on('connect', this.connect);
 			this.socket.on('disconnect', this.disconnect);
 			this.socket.on('insert', this.insert);
@@ -410,6 +411,7 @@
 		},
 		connect: function () {
 			this.setState({ status: 'connected' });
+			console.log("url : " + this.url);
 			console.log("connected: " + this.socket.id);
 		},
 		disconnect: function () {
