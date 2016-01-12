@@ -32,7 +32,7 @@ loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
 
-socket = SocketIO(app)
+socket = SocketIO(app,logger=True, engineio_logger=True)
 
 mturk = mTurk()
 
