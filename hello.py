@@ -32,7 +32,7 @@ loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
 
-socket = SocketIO(app)
+socket = SocketIO(app, logger=True, engineio_logger=True)
 
 mturk = mTurk()
 
@@ -319,12 +319,24 @@ def login2():
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
 
-@app.route('/deard', methods=['POST'])
-def deard():
+@app.route('/approve', methods=['POST'])
+def approve():
 	if request.method=='POST':
 		#print request.form['test']
 		text = request.form['text'].split(' ',1)
 		print text[0]
 		print text[1]
-		return '{"status":"successDbInsert"}'
+		return '{"status":"coming back from Approve"}'
 
+@app.route('/reject', methods=['POST'])
+def reject():
+	if request.method=='POST':
+		#print request.form['test']
+		text = request.form['text'].split(' ',1)
+		print text[0]
+		print text[1]
+		return '{"status":"coming back from Reject"}'
+
+if __name__=='__main__':
+	#app.run(debug=True, host='0.0.0.0')
+	socket.run(app)

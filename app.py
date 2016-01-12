@@ -32,7 +32,7 @@ loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
 
-socket = SocketIO(app)
+socket = SocketIO(app, logger=True, engineio_logger=True)
 
 mturk = mTurk()
 
@@ -320,7 +320,7 @@ def login2():
 		return '{"status":"fail"}'
 
 @app.route('/approve', methods=['POST'])
-def deard():
+def approve():
 	if request.method=='POST':
 		#print request.form['test']
 		text = request.form['text'].split(' ',1)
@@ -329,7 +329,7 @@ def deard():
 		return '{"status":"coming back from Approve"}'
 
 @app.route('/reject', methods=['POST'])
-def deard():
+def reject():
 	if request.method=='POST':
 		#print request.form['test']
 		text = request.form['text'].split(' ',1)
