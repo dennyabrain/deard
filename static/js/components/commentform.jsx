@@ -54,7 +54,7 @@ module.exports = React.createClass({
 	
 
 		return (
-			<form className="commentForm container-fluid tk-anonymous-pro" onSubmit={this.handleSubmit}>
+			<form className="commentForm tk-anonymous-pro" onSubmit={this.handleSubmit}>
 				{formContent}
 			</form>
 		)
@@ -155,28 +155,28 @@ var MoodSelectionInput = React.createClass({
 	render: function() {
 		return (
 			<div className="row">
-				<div className="col-md-1" />
-				<div className="col-md-2">
+				<div className="col-xs-1" />
+				<div className="col-xs-2">
 					<input type="image" src="/static/img/emoji1.svg" width="35" height="35" alt="Submit" 
 						onClick={this.handleInput} value=":D" />
 				</div>
-				<div className="col-md-2">
+				<div className="col-xs-2">
 					<input type="image" src="/static/img/emoji1.svg" width="35" height="35" alt="Submit" 
 						onClick={this.handleInput} value=":)" />
 				</div>
-				<div className="col-md-2">
+				<div className="col-xs-2">
 					<input type="image" src="/static/img/emoji1.svg" width="35" height="35" alt="Submit" 
 						onClick={this.handleInput} value=":/" />
 				</div>
-				<div className="col-md-2">
+				<div className="col-xs-2">
 					<input type="image" src="/static/img/emoji1.svg" width="35" height="35" alt="Submit" 
 						onClick={this.handleInput} value=":(" />
 				</div>
-				<div className="col-md-2">
+				<div className="col-xs-2">
 					<input type="image" src="/static/img/emoji1.svg" width="35" height="35" alt="Submit" 
 						onClick={this.handleInput} value=":'(" />
 				</div>
-				<div className="col-md-1" />
+				<div className="col-xs-1" />
 			</div>
 		)
 	}

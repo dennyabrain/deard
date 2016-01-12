@@ -2,6 +2,7 @@ var Loader = require('./loader')
 var MoodGraph = require('./moodgraph')
 var WordCount = require('./wordcount')
 var DaysList = require('./dayslist')
+var Header = require('./header')
 
 module.exports = React.createClass({
 	displayName: 'UserData',
@@ -49,6 +50,8 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return (
+			<span>
+			<Header headerType="mood" logoIcon={true} showDate={true}/> 
 			<div className="userData">
 				{ this.state.loaded ? 
 					(
@@ -62,6 +65,7 @@ module.exports = React.createClass({
 					(<Loader />)
 				}
 			</div>
+			</span>
 		)
 	}
 });

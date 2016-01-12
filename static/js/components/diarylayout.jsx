@@ -11,7 +11,7 @@ module.exports = React.createClass({
 	render: function() {
 		return(
 			<div className="container layout-diary">
-				<Header logoIcon={true} showDate={true}/> 
+					
 				{this.props.children}
 			</div>
 		)

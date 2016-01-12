@@ -14,7 +14,7 @@ module.exports = React.createClass({
 	render: function() {
 		if (this.props.commentType == "bot") {
 			var scoreBgColor = this.colors[ parseInt(this.props.commentAfinnScore || 0) ],
-					commentStyle = { backgroundColor : scoreBgColor };
+					commentStyle = { color : scoreBgColor };
 		}
 
 		var comment = this.props.children;
@@ -44,6 +44,7 @@ module.exports = React.createClass({
 						</div>
 					)
 			}
+			<div className="clearfix" />
 			</span>
 		)
 	}

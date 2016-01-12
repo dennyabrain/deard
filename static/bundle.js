@@ -59,6 +59,7 @@
 	var Home = __webpack_require__(15);
 	var Login = __webpack_require__(16);
 	var Register = __webpack_require__(17);
+	//var Header = require('./header')
 
 	ReactDOM.render(React.createElement(
 		Router,
@@ -206,7 +207,6 @@
 			return React.createElement(
 				'div',
 				{ className: 'container layout-diary' },
-				React.createElement(Header, { logoIcon: true, showDate: true }),
 				this.props.children
 			);
 		}
@@ -226,45 +226,70 @@
 			userKey: React.PropTypes.any,
 			setUserKey: React.PropTypes.func
 		},
+		getInitialState: function () {
+			return { headerStatus: "chat" };
+		},
+		changeHeader: function () {
+			if (this.state.headerStatus == "chat") this.setState({ headerStatus: "mood" });else if (this.state.headerStatus == "mood") this.setState({ headerStatus: "chat" });
+		},
 		logout: function () {
 			this.context.setUserKey(null);
 		},
 		render: function () {
+			var month = new Array();
+			month[0] = "Jan";month[1] = "Feb";
+			month[2] = "Mar";month[3] = "Apr";
+			month[4] = "May";month[5] = "Jun";
+			month[6] = "Jul";month[7] = "Aug";
+			month[8] = "Sep";month[9] = "Oct";
+			month[10] = "Nov";month[11] = "Dec";
+			//var m = month[this.props.date.getMonth()];
+			//var d = this.props.date.getDate();
+			console.log("THIS PROPS DATE OBJECT");
+			console.log(this.props.date);
+			var header, m, d;
+			switch (this.props.headerType) {
+				case "static":
+					header = React.createElement(StaticHeader, null);
+					break;
+				case "chat":
+					m = month[this.props.date.getMonth()];
+					d = this.props.date.getDate();
+					header = React.createElement(ChatHeader, { headerType: this.state.headerStatus, month: m, date: d, changeHeader: this.changeHeader });
+					break;
+				case "mood":
+					header = React.createElement(ChatHeader, { headerType: this.props.headerType, changeHeader: this.changeHeader });
+					break;
+				default:
+					header = "";
+			}
+
 			return React.createElement(
 				"header",
-				null,
+				{ className: "container" },
+				header
+			);
+		}
+	});
+
+	var StaticHeader = React.createClass({
+		displayName: 'StaticHeader',
+
+		render: function () {
+			return React.createElement(
+				"div",
+				{ className: "row" },
 				React.createElement(
 					"div",
-					{ className: "container" },
+					{ className: "title col-xs-8" },
+					React.createElement("img", { src: "/static/img/key.svg", width: "55" }),
+					React.createElement("img", { src: "/static/img/logo-dear.svg", width: "100" }),
+					React.createElement("img", { src: "/static/img/logo-d-w.svg", width: "22" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-4" },
 					React.createElement(
-						"div",
-						{ className: "title-data" },
-						this.props.showDate ? React.createElement(
-							Link,
-							{ to: "/comments/data" },
-							React.createElement("img", { src: "/static/img/data-icon.svg", width: "25" })
-						) : ""
-					),
-					React.createElement(
-						"div",
-						null,
-						this.props.logoIcon ? React.createElement(
-							"span",
-							{ className: "logo-d" },
-							React.createElement(
-								Link,
-								{ to: "/comments" },
-								React.createElement("img", { src: "/static/img/logo-d.svg", width: "30" })
-							)
-						) : React.createElement(
-							"span",
-							{ className: "title" },
-							React.createElement("img", { src: "/static/img/key.svg", width: "55" }),
-							React.createElement("img", { src: "/static/img/logo-dear.svg", width: "100" }),
-							React.createElement("img", { src: "/static/img/logo-d-w.svg", width: "22" })
-						)
-					),
-					this.context.userKey == null ? React.createElement(
 						"div",
 						{ className: "right header-login" },
 						React.createElement(
@@ -272,18 +297,14 @@
 							{ to: "/register" },
 							"new account"
 						)
-					) : "",
+					),
 					React.createElement(
 						"div",
 						{ className: "right header-login" },
-						this.context.userKey == null ? React.createElement(
+						React.createElement(
 							Link,
 							{ to: "/login" },
 							"login"
-						) : React.createElement(
-							"a",
-							{ href: "/logout", onClick: this.logout },
-							"logout"
 						)
 					)
 				)
@@ -291,12 +312,79 @@
 		}
 	});
 
-	// <div className="title-date">
-	// 	{ this.props.showDate ?
-	// 		(<p>{this.context.showDate}</p>) :
-	// 		""
-	// 	}
-	// </div>
+	var ChatHeader = React.createClass({
+		displayName: 'ChatHeader',
+
+		getInitialState: function () {
+			return { headerStatus: this.props.headerType };
+		},
+		changeHeader: function () {
+			if (this.state.headerStatus == "chat") this.setState({ headerStatus: "mood" });else if (this.state.headerStatus == "mood") this.setState({ headerStatus: "chat" });
+			console.log("HEADER TYPE CHANGED!");
+			console.log(this.state.headerStatus);
+		},
+		render: function () {
+			return React.createElement(
+				"div",
+				{ className: "row" },
+				this.state.headerStatus == "mood" ? React.createElement(
+					"span",
+					null,
+					React.createElement(
+						"div",
+						{ className: "logo-d col-xs-10" },
+						React.createElement(
+							"p",
+							null,
+							"This week"
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "right logo-d col-xs-2" },
+						React.createElement(
+							Link,
+							{ to: "/comments" },
+							React.createElement("img", { src: "/static/img/logo-d.svg", width: "30", onClick: this.changeHeader })
+						)
+					)
+				) : React.createElement(
+					"span",
+					null,
+					React.createElement(
+						"div",
+						{ className: "title-data col-xs-2" },
+						React.createElement(
+							Link,
+							{ to: "/comments/data" },
+							React.createElement("img", { src: "/static/img/data-icon.svg", width: "25",
+								onClick: this.changeHeader })
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "logo-d col-xs-8" },
+						React.createElement(
+							"p",
+							null,
+							this.props.month,
+							" ",
+							this.props.date
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "right col-xs-2" },
+						React.createElement(
+							"a",
+							{ href: "/logout", onClick: this.logout },
+							React.createElement("img", { src: "/static/img/logout.svg", width: "10" })
+						)
+					)
+				)
+			);
+		}
+	});
 
 /***/ },
 /* 5 */
@@ -305,6 +393,7 @@
 	var CommentForm = __webpack_require__(6);
 	var CommentList = __webpack_require__(7);
 	var Loader = __webpack_require__(2);
+	var Header = __webpack_require__(4);
 
 	module.exports = React.createClass({
 		displayName: 'Content',
@@ -326,6 +415,8 @@
 						// Update the commentFormType on latest bot response.
 						//var revComments = (data.comments).reverse();
 						var revComments = data.comments;
+
+						//this.setState({ date:revComments[0].created_at });
 
 						for (var c in revComments) {
 							console.log(revComments[c].commentFormType);
@@ -360,15 +451,6 @@
 			var newComments = comments.concat([comment]);
 
 			this.setState({ data: newComments, loadingResponse: true });
-			//this.disablePolling();
-
-			// this.socket.emit('event', comment, function(d) {
-			// 	console.log('emit retdata')
-			// 	this.insert();
-			// });
-
-			//return
-			// ignore below
 
 			$.ajax({
 				url: this.props.url,
@@ -378,14 +460,6 @@
 				success: (function (data) {
 					console.log("success POST");
 					console.log(data);
-					// In order to "fake" the loading, disable comment polling until we're done
-					// Wait 3 seconds, and then get new comments from server and re-enable polling.
-					// setTimeout(function() {
-					// 	this.setState({loadingResponse: false}, function() {
-					// 		this.getCommentsFromServer();
-					// 		//this.enablePolling();
-					// 	});
-					// }.bind(this), 3000);
 				}).bind(this),
 				error: (function (ehx, status, err) {
 					console.log(this.props.url, status, err.toString());
@@ -393,7 +467,8 @@
 			});
 		},
 		getInitialState: function () {
-			return { data: [], loaded: false, commentFormType: "nothing", status: 'disconnected' };
+			return { data: [], loaded: false, commentFormType: "nothing",
+				status: 'disconnected', date: new Date() };
 		},
 		getDefaultProps: function () {
 			return { url: "/comments" };
@@ -405,9 +480,6 @@
 			this.socket.on('connect', this.connect);
 			this.socket.on('disconnect', this.disconnect);
 			this.socket.on('insert', this.insert);
-			// this.socket.on('insert',function(text){
-			//     console.log('Got Event')
-			// })
 		},
 		connect: function () {
 			this.setState({ status: 'connected' });
@@ -418,11 +490,6 @@
 			this.setState({ status: 'disconnected' });
 		},
 		insert: function (comment) {
-			// I JUST WROTE IF YOU WERE RECEIVING THE RESULT.
-			// IF YOU ARE TRYING TO SEND THE RESULT, NOT SURE.
-			// IS THAT WHAT YOU ARE TRYING TO DO?
-
-			// I also need to render comment if I submit
 			console.log(comment);
 			var data = this.state.data;
 			data.push(comment);
@@ -430,40 +497,31 @@
 				loadingResponse: false,
 				loaded: true,
 				commentFormType: comment.commentFormType });
-			// NEED TO RENDER TEXT
 		},
 		componentDidMount: function () {
 			setTimeout((function () {
 				this.getCommentsFromServer();
-				//.enablePolling();
 			}).bind(this), 1000);
-
-			// this.socket.on('comments',function(text){
-			//     console.log('getCommentsFromServer')
-			//     this.getCommentsFromServer();
-			// })
 		},
-		// componentWillUnmount: function() {
-		// 	this.disablePolling();
-		// },
-		// enablePolling: function() {
-		// 	this.checkInterval = setInterval(this.getCommentsFromServer, this.props.pollInterval);
-		// },
-		// disablePolling: function() {
-		// 	clearInterval(this.checkInterval);
-		// },
 		render: function () {
+			// console.log("THIS STATE DATE GETMONTH");
+			// console.log(this.state.date.getMonth());
 			return React.createElement(
-				'div',
-				{ className: 'content main' },
-				this.state.loaded ? React.createElement(CommentList, { data: this.state.data, loading: this.state.loadingResponse }) : React.createElement(Loader, null),
+				'span',
+				null,
+				React.createElement(Header, { headerType: 'chat', date: this.state.date, logoIcon: true, showDate: true }),
 				React.createElement(
 					'div',
-					{ className: 'commentFormArea' },
+					{ className: 'content main' },
+					this.state.loaded ? React.createElement(CommentList, { data: this.state.data, loading: this.state.loadingResponse }) : React.createElement(Loader, null),
 					React.createElement(
 						'div',
-						{ className: 'container' },
-						React.createElement(CommentForm, { commentFormType: this.state.commentFormType, onCommentSubmit: this.handleCommentSubmit })
+						{ className: 'commentFormArea' },
+						React.createElement(
+							'div',
+							{ className: 'container' },
+							React.createElement(CommentForm, { commentFormType: this.state.commentFormType, onCommentSubmit: this.handleCommentSubmit })
+						)
 					)
 				)
 			);
@@ -530,7 +588,7 @@
 
 			return React.createElement(
 				"form",
-				{ className: "commentForm container-fluid tk-anonymous-pro", onSubmit: this.handleSubmit },
+				{ className: "commentForm tk-anonymous-pro", onSubmit: this.handleSubmit },
 				formContent
 			);
 		}
@@ -654,38 +712,38 @@
 			return React.createElement(
 				"div",
 				{ className: "row" },
-				React.createElement("div", { className: "col-md-1" }),
+				React.createElement("div", { className: "col-xs-1" }),
 				React.createElement(
 					"div",
-					{ className: "col-md-2" },
+					{ className: "col-xs-2" },
 					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
 						onClick: this.handleInput, value: ":D" })
 				),
 				React.createElement(
 					"div",
-					{ className: "col-md-2" },
+					{ className: "col-xs-2" },
 					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
 						onClick: this.handleInput, value: ":)" })
 				),
 				React.createElement(
 					"div",
-					{ className: "col-md-2" },
+					{ className: "col-xs-2" },
 					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
 						onClick: this.handleInput, value: ":/" })
 				),
 				React.createElement(
 					"div",
-					{ className: "col-md-2" },
+					{ className: "col-xs-2" },
 					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
 						onClick: this.handleInput, value: ":(" })
 				),
 				React.createElement(
 					"div",
-					{ className: "col-md-2" },
+					{ className: "col-xs-2" },
 					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
 						onClick: this.handleInput, value: ":'(" })
 				),
-				React.createElement("div", { className: "col-md-1" })
+				React.createElement("div", { className: "col-xs-1" })
 			);
 		}
 	});
@@ -710,9 +768,11 @@
 		},
 		scrollToLastComment: function () {
 			var c = this.refs.commentList.getDOMNode().lastChild;
+			console.log(c);
 			if (typeof c != 'undefined') {
 				var pos = this.getPosition(c);
 				// window.scrollTo(0,pos.y);
+				//console.log(pos);
 				$('html, body').animate({ scrollTop: pos.y }, 500);
 			}
 		},
@@ -774,7 +834,7 @@
 		render: function () {
 			if (this.props.commentType == "bot") {
 				var scoreBgColor = this.colors[parseInt(this.props.commentAfinnScore || 0)],
-				    commentStyle = { backgroundColor: scoreBgColor };
+				    commentStyle = { color: scoreBgColor };
 			}
 
 			var comment = this.props.children;
@@ -803,7 +863,8 @@
 					'div',
 					{ className: 'comment comment-bot tk-anonymous-pro', style: commentStyle },
 					this.props.children
-				)
+				),
+				React.createElement('div', { className: 'clearfix' })
 			);
 		}
 	});
@@ -816,6 +877,7 @@
 	var MoodGraph = __webpack_require__(10);
 	var WordCount = __webpack_require__(11);
 	var DaysList = __webpack_require__(12);
+	var Header = __webpack_require__(4);
 
 	module.exports = React.createClass({
 		displayName: 'UserData',
@@ -862,24 +924,29 @@
 		},
 		render: function () {
 			return React.createElement(
-				'div',
-				{ className: 'userData' },
-				this.state.loaded ? React.createElement(
+				'span',
+				null,
+				React.createElement(Header, { headerType: 'mood', logoIcon: true, showDate: true }),
+				React.createElement(
 					'div',
-					null,
-					React.createElement(
+					{ className: 'userData' },
+					this.state.loaded ? React.createElement(
 						'div',
-						{ className: 'userData-week' },
+						null,
 						React.createElement(
-							'h2',
-							null,
-							' This week '
-						)
-					),
-					React.createElement(MoodGraph, { data: this.state.data, today: this.state.todayDate }),
-					React.createElement(WordCount, { data: this.state.data, today: this.state.todayDate }),
-					React.createElement(DaysList, { data: this.state.data, today: this.state.todayDate })
-				) : React.createElement(Loader, null)
+							'div',
+							{ className: 'userData-week' },
+							React.createElement(
+								'h2',
+								null,
+								' This week '
+							)
+						),
+						React.createElement(MoodGraph, { data: this.state.data, today: this.state.todayDate }),
+						React.createElement(WordCount, { data: this.state.data, today: this.state.todayDate }),
+						React.createElement(DaysList, { data: this.state.data, today: this.state.todayDate })
+					) : React.createElement(Loader, null)
+				)
 			);
 		}
 	});
@@ -1316,7 +1383,7 @@
 				React.createElement(
 					'div',
 					{ className: 'container' },
-					React.createElement(Header, null),
+					React.createElement(Header, { headerType: 'static' }),
 					this.props.children
 				)
 			);
