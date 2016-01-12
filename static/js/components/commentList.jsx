@@ -14,7 +14,7 @@ module.exports = React.createClass({
 	},
 	scrollToLastComment : function() {
 		var c = this.refs.commentList.getDOMNode().lastChild;
-		console.log(c);
+		//console.log(c);
 		if (typeof(c) != 'undefined') {
 			var pos = this.getPosition(c);
 			// window.scrollTo(0,pos.y);

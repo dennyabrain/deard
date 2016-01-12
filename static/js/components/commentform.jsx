@@ -1,6 +1,10 @@
 module.exports = React.createClass({
 	displayName: 'CommentForm',
 
+	contextTypes : {
+		mood : React.PropTypes.any,
+		setMood : React.PropTypes.func
+	},
 	getInitialState: function() {
 		return {text: ""};
 	},
@@ -23,7 +27,30 @@ module.exports = React.createClass({
 	},
 	setTextInput: function(input) {
 		//console.log(input);
-		this.setState({text: input.text});
+		this.setState({text: input.text}, function() {
+			if (this.props.commentFormType == "mood") {
+				switch(this.state.text) {
+		        	case ":D":
+		        		this.context.setMood("great");
+		        		console.log("SET MOOD IN COMMENTFORM");
+		        		break;
+		        	case ":)":
+						this.context.setMood("good");
+		        		break;
+		        	case ":/":
+		        		this.context.setMood("ok");
+		        		break;
+		        	case ":(":
+		        		this.context.setMood("bad");
+		        		break;
+		        	case ":'(":
+		        		this.context.setMood("worst");
+		        		break;
+		        	default:
+		        		break;
+		        }
+		    }
+		});
 	},
 	render: function() {
 		var formContent;
@@ -47,6 +74,7 @@ module.exports = React.createClass({
 		    case "mood":
 		        formContent = <MoodSelectionInput 
 		        			textInput={this.setTextInput} />;
+		        //console.log("setTextInput: "+this.setTextInput)
 		        break;
 		    default:
 		    	formContent = "";

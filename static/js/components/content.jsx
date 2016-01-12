@@ -9,7 +9,9 @@ module.exports = React.createClass({
 	contextTypes : {
 		userKey : React.PropTypes.any,
 		setUserKey : React.PropTypes.func,
-		history : React.PropTypes.object	
+		history : React.PropTypes.object,
+		mood : React.PropTypes.any,
+		setMood : React.PropTypes.func
 	},
 	getCommentsFromServer: function() {
 		$.ajax({
@@ -76,7 +78,7 @@ module.exports = React.createClass({
 	},
 	getInitialState: function() {
 		return {data:[], loaded: false, commentFormType: "nothing", 
-			status: 'disconnected', date: new Date()}
+			status: 'disconnected', date: new Date(), mood: "good"}
 	}, 
 	getDefaultProps : function() { 
 		return {url:"/comments"}; 
@@ -97,7 +99,7 @@ module.exports = React.createClass({
     	this.setState({ status: 'disconnected' });
     },
     insert: function(comment) {
-    	console.log(comment);
+    	//console.log(comment);
     	var data = this.state.data;
     	data.push(comment);
     	this.setState({data: data, 

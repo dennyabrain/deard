@@ -30,8 +30,8 @@ module.exports = React.createClass({
 		month[10] = "Nov"; month[11] = "Dec"; 
 		//var m = month[this.props.date.getMonth()];
 		//var d = this.props.date.getDate();
-		console.log("THIS PROPS DATE OBJECT")
-		console.log(this.props.date);
+		//console.log("THIS PROPS DATE OBJECT")
+		//console.log(this.props.date);
 		var header, m, d;
 		switch(this.props.headerType) {
 		    case "static":
@@ -95,8 +95,8 @@ var ChatHeader = React.createClass({
 			this.setState({headerStatus: "mood"});
 		else if (this.state.headerStatus == "mood")
 			this.setState({headerStatus: "chat"});
-		console.log("HEADER TYPE CHANGED!")
-		console.log(this.state.headerStatus);
+		//console.log("HEADER TYPE CHANGED!")
+		//console.log(this.state.headerStatus);
 	},
 	render: function() {
 		return (

@@ -197,16 +197,42 @@
 
 	module.exports = React.createClass({
 		displayName: 'DiaryLayout',
+		colors: {
+			'great': '#f9c4c0',
+			'good': '#fcd6d0',
+			'ok': '#ead7ca',
+			'bad': '#d7dbcc',
+			'worst': '#c3d8d1'
+		},
+		childContextTypes: {
+			mood: React.PropTypes.any,
+			setMood: React.PropTypes.func
+		},
+		getChildContext: function () {
+			return {
+				mood: this.state.mood,
+				setMood: this.setMood
+			};
+		},
 		componentWillMount: function () {
 			$('body').addClass('userData-mounted');
 		},
 		componentWillUnMount: function () {
 			$('body').removeClass('userData-mounted');
 		},
+		setMood: function (data) {
+			this.setState({ mood: data });
+			console.log("SET MOOD IN DIARYLAYOUT: " + data);
+		},
+		getInitialState: function () {
+			return { mood: "good" };
+		},
 		render: function () {
+			var bgColor = this.colors[this.state.mood],
+			    bgStyle = { backgroundColor: bgColor };
 			return React.createElement(
 				'div',
-				{ className: 'container layout-diary' },
+				{ className: 'container layout-diary', style: bgStyle },
 				this.props.children
 			);
 		}
@@ -245,8 +271,8 @@
 			month[10] = "Nov";month[11] = "Dec";
 			//var m = month[this.props.date.getMonth()];
 			//var d = this.props.date.getDate();
-			console.log("THIS PROPS DATE OBJECT");
-			console.log(this.props.date);
+			//console.log("THIS PROPS DATE OBJECT")
+			//console.log(this.props.date);
 			var header, m, d;
 			switch (this.props.headerType) {
 				case "static":
@@ -320,8 +346,8 @@
 		},
 		changeHeader: function () {
 			if (this.state.headerStatus == "chat") this.setState({ headerStatus: "mood" });else if (this.state.headerStatus == "mood") this.setState({ headerStatus: "chat" });
-			console.log("HEADER TYPE CHANGED!");
-			console.log(this.state.headerStatus);
+			//console.log("HEADER TYPE CHANGED!")
+			//console.log(this.state.headerStatus);
 		},
 		render: function () {
 			return React.createElement(
@@ -401,7 +427,9 @@
 		contextTypes: {
 			userKey: React.PropTypes.any,
 			setUserKey: React.PropTypes.func,
-			history: React.PropTypes.object
+			history: React.PropTypes.object,
+			mood: React.PropTypes.any,
+			setMood: React.PropTypes.func
 		},
 		getCommentsFromServer: function () {
 			$.ajax({
@@ -468,7 +496,7 @@
 		},
 		getInitialState: function () {
 			return { data: [], loaded: false, commentFormType: "nothing",
-				status: 'disconnected', date: new Date() };
+				status: 'disconnected', date: new Date(), mood: "good" };
 		},
 		getDefaultProps: function () {
 			return { url: "/comments" };
@@ -488,7 +516,7 @@
 			this.setState({ status: 'disconnected' });
 		},
 		insert: function (comment) {
-			console.log(comment);
+			//console.log(comment);
 			var data = this.state.data;
 			data.push(comment);
 			this.setState({ data: data,
@@ -533,6 +561,10 @@
 	module.exports = React.createClass({
 		displayName: 'CommentForm',
 
+		contextTypes: {
+			mood: React.PropTypes.any,
+			setMood: React.PropTypes.func
+		},
 		getInitialState: function () {
 			return { text: "" };
 		},
@@ -555,7 +587,30 @@
 		},
 		setTextInput: function (input) {
 			//console.log(input);
-			this.setState({ text: input.text });
+			this.setState({ text: input.text }, function () {
+				if (this.props.commentFormType == "mood") {
+					switch (this.state.text) {
+						case ":D":
+							this.context.setMood("great");
+							console.log("SET MOOD IN COMMENTFORM");
+							break;
+						case ":)":
+							this.context.setMood("good");
+							break;
+						case ":/":
+							this.context.setMood("ok");
+							break;
+						case ":(":
+							this.context.setMood("bad");
+							break;
+						case ":'(":
+							this.context.setMood("worst");
+							break;
+						default:
+							break;
+					}
+				}
+			});
 		},
 		render: function () {
 			var formContent;
@@ -579,6 +634,7 @@
 				case "mood":
 					formContent = React.createElement(MoodSelectionInput, {
 						textInput: this.setTextInput });
+					//console.log("setTextInput: "+this.setTextInput)
 					break;
 				default:
 					formContent = "";
@@ -766,7 +822,7 @@
 		},
 		scrollToLastComment: function () {
 			var c = this.refs.commentList.getDOMNode().lastChild;
-			console.log(c);
+			//console.log(c);
 			if (typeof c != 'undefined') {
 				var pos = this.getPosition(c);
 				// window.scrollTo(0,pos.y);
