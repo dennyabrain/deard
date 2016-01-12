@@ -12,7 +12,7 @@ from uuid import uuid4
 from flask.ext.bcrypt import Bcrypt
 from helper import incrementCFT
 from responseHelper import Response
-from flask.ext.socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit
 from mTurk import mTurk
 
 url = 'https://hooks.slack.com/services/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'
