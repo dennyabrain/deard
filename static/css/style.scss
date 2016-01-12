@@ -13,6 +13,21 @@ $chat-background-color: #e8dada;
   display: block;
 }
 
+@mixin button-element {
+  border: 2px solid black;
+  border-radius: 20px;
+  /*padding: 4px 8px;*/ /*4px 50px*/
+  font-size: 18px;
+  /*margin-right: 5px;
+  margin-bottom: 5px;*/
+  /*margin-left: 5px;*/
+  background-color: transparent;
+  outline: none;
+  /*position: absolute;*/
+  /*right: 0px;*/ /*no need*/
+  top: 8px;
+}
+
 body, html, #app, .layout-static {
   height:100%;
 }
@@ -266,21 +281,31 @@ textarea {
 
 .commentForm {
   position: relative;
-  padding-right: 50px;
+  /*padding-right: 50px;*/
+  padding-left: 0px;
 
   #input-post {
-    border: 2px solid black;
-    border-radius: 20px;
+    @include button-element;
+    /*border: 2px solid black;
+    border-radius: 20px;*/
     padding: 4px 8px;
-    font-size: 18px;
+    /*font-size: 18px;*/
     margin-right: 5px;
     margin-bottom: 5px;
     margin-left: 5px;
-    background-color: transparent;
-    outline: none;
+    /*background-color: transparent;
+    outline: none;*/
     position: absolute;
     right: 0px;
-    top: 8px;
+    /*top: 8px;*/
+  }
+
+  button {
+    @include button-element;
+    text-align: center;
+    margin: 10px auto 0px auto;
+    display: block;
+    padding: 4px 50px;
   }
 
   textarea {
@@ -330,7 +355,8 @@ textarea {
 
 /* spinner */
 
-/*@-webkit-keyframes load_glitter {
+
+@-webkit-keyframes load_glitter {
   0% {-webkit-transform: scale(1);}
   50% {-webkit-transform: scale(2);}
   100% {-webkit-transform: scale(1);}
@@ -339,7 +365,9 @@ textarea {
   0% {transform: scale(1);}
   50% {transform: scale(2);}
   100% {transform: scale(1);}
-}*/
+}
+
+
 
 .loader {
   /*margin-top: -20px;*/

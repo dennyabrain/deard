@@ -615,7 +615,7 @@
 
 			return React.createElement(
 				"form",
-				{ className: "commentForm container-fluid tk-anonymous-pro", onSubmit: this.handleSubmit },
+				{ className: "commentForm tk-anonymous-pro", onSubmit: this.handleSubmit },
 				formContent
 			);
 		}
@@ -890,7 +890,8 @@
 					'div',
 					{ className: 'comment comment-bot tk-anonymous-pro', style: commentStyle },
 					this.props.children
-				)
+				),
+				React.createElement('div', { className: 'clearfix' })
 			);
 		}
 	});

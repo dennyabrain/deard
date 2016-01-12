@@ -54,7 +54,7 @@ module.exports = React.createClass({
 	
 
 		return (
-			<form className="commentForm container-fluid tk-anonymous-pro" onSubmit={this.handleSubmit}>
+			<form className="commentForm tk-anonymous-pro" onSubmit={this.handleSubmit}>
 				{formContent}
 			</form>
 		)

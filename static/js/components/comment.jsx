@@ -44,6 +44,7 @@ module.exports = React.createClass({
 						</div>
 					)
 			}
+			<div className="clearfix" />
 			</span>
 		)
 	}
