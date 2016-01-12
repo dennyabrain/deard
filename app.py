@@ -71,7 +71,7 @@ def home():
 @app.route('/logout')
 def logout():
 	flaskLogin.logout_user()
-	print("logged out")
+	#print("logged out")
 	return redirect("/", code=302)
 	
 @app.route('/register',methods=['POST','GET'])
@@ -296,10 +296,10 @@ def login2():
 					session['index']=1
 					databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'], session['id'],"greeting",0)
 					databaseUser.insertReply(request.form['userKey'],"Good morning. How is your mood today?", session['id'],"mood",0)
-					print ('index')
-					print (session['index'])
-					print ('flask has logged in and user is : ')
-					print (flaskLogin.current_user.id)
+					#print ('index')
+					#print (session['index'])
+					#print ('flask has logged in and user is : ')
+					#print (flaskLogin.current_user.id)
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
 
@@ -308,8 +308,8 @@ def approve():
 	if request.method=='POST':
 		#print request.form['test']
 		text = request.form['text'].split(' ',1)
-		print text[0]
-		print text[1]
+		#print text[0]
+		#print text[1]
 		return '{"status":"coming back from Approve"}'
 
 @app.route('/reject', methods=['POST'])
@@ -317,8 +317,8 @@ def reject():
 	if request.method=='POST':
 		#print request.form['test']
 		text = request.form['text'].split(' ',1)
-		print text[0]
-		print text[1]
+		#print text[0]
+		#print text[1]
 		return '{"status":"coming back from Reject"}'
 
 if __name__=='__main__':

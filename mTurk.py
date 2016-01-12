@@ -17,7 +17,7 @@ class mTurk:
 		self.mtc=MTurkConnection(aws_access_key_id=self.ACCESS_ID, 
 			aws_secret_access_key=self.SECRET_KEY, 
 			host=self.HOST)
-		print(self.mtc.get_account_balance())
+		#print(self.mtc.get_account_balance())
 
 	def buildOverview(self):
 		self.overview=Overview()

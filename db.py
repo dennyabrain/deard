@@ -50,7 +50,7 @@ class db:
 		for post in self.findMany({}):
 			if userId in post:
 			#	if 'text' in post:
-				print(post)
+				#print(post)
 				return post[userId]['text']
 			#	else:
 			#		return []
