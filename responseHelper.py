@@ -58,4 +58,4 @@ class Response:
 
 	def getBye(self,mood):
 		index=randrange(0,len(self.data['preMechTurk'][mood]))
-		return self.data['preMechTurk'][mood][index]
+		return self.data['bye'][mood][index]
