@@ -32,7 +32,7 @@ loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
 
-socket = SocketIO(app, logger=True, engineio_logger=True)
+socket = SocketIO(app)
 
 mturk = mTurk()
 
@@ -71,7 +71,7 @@ def home():
 @app.route('/logout')
 def logout():
 	flaskLogin.logout_user()
-	#print("logged out")
+	print("logged out")
 	return redirect("/", code=302)
 	
 @app.route('/register',methods=['POST','GET'])
@@ -105,11 +105,198 @@ def register():
 @app.route('/userstats', methods=['GET'])
 def userstats():
 	if request.method=='GET':
-		return 'userstats'
+		# Set the date range (default: 7 days)
+		daterange = int(request.args.get('range', 7))
+		if daterange < 1 or daterange > 90:
+			daterange = 7
+
+		# Set startdate (default: today) and enddate
+		startdate_str = request.args.get('startdate', None)
+		if not startdate_str:
+			startdate = datetime.today()
+		else:
+			startdate = datetime.strptime(startdate_str, '%Y-%m-%d') # 2015-12-31
+		enddate = (startdate - timedelta(days=daterange))
+
+		# Initialize results
+		text = {}
+		for i in range(daterange):
+			text[ str(i) ] = []
+
+		# Get comments from database
+		comments = databaseUser.listAllText(flaskLogin.current_user.id)
+		for item in comments:
+			temp = []
+			if 'created_at' in item:
+				# Calculate difference based on each day
+				td = ( startdate.date() - item['created_at'].date() ).days
+
+				# Ensure comment is in date range, add to array for that day
+				if td < daterange and td >= 0:
+					text[ str(td) ].append(item)
+
+		# Return results
+		return jsonify(comments=text,daterange=daterange,startdate=startdate.strftime('%Y-%m-%d'),enddate=enddate.strftime('%Y-%m-%d'))
 
 @app.route('/comments', methods=['POST','GET'])
 def comment():
-	return 'comment'
+	if request.method=='POST':
+		postId=session['id']
+		if session['index']==1: #MOOD
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			#HACKY MOOD MAPPING
+			if request.form['text']==':D' or request.form['text']==':)':
+				mood="happy"
+			elif request.form['text']==':/':
+				mood="ok"
+			else:
+				mood="bad"
+
+			session['mood']=mood
+			session['index']=incrementCFT(session['index'])
+			text = response.getSituation(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
+
+			#Converting datetime.now and uuid to str because they are not JSON serializable. Also I know they aren't being used in the front end.
+			socket.emit('insert',{
+								'text':text,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
+
+		elif session['index']==2: #SITUATION
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			text = response.getFeeling(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':text,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
+			session['text']=request.form['text']
+		elif session['index']==3: #FEELING
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			text = response.getThought(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':text,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
+			session['text']+='\n Feelings :'+request.form['text']
+		elif session['index']==4: #THOUGHT
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			#session['thought']=request.form['text']
+			text = response.getPreMechTurk(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':text,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
+			session['text']+='\n Thoughts : '+request.form['text']+'\n'
+		elif session['index']==5: #PREMECHTURK
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			#session['index']=incrementCFT(session['index'])
+			id=mturk.createHit(session['text'])
+			databaseUser.insertLastHit(flaskLogin.current_user.id,session['text'],id)
+			#databaseUser.insertReply(flaskLogin.current_user.id,"insert mechanicalTurkReponse here", session['id'], commentFormType[session['index']],0)
+			#socket.emit('insert','hello')
+			#botResponse = response.getFeeling(session['mood'])
+			#databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
+			#socket.emit('insert',{
+			#					'text':botResponse,
+			#					'affin_score':0,
+			#					'created_at':str(datetime.now()),
+			#					'post_id':str(session['id']),
+			#					'type':'bot', 
+			#					'commentFormType':commentFormType[session['index']]})
+		elif session['index']==3: #FEELING
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			botResponse = response.getThought(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':botResponse,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
+		elif session['index']==4: #THOUGHT
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			botResponse = response.getPreMechTurk(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':botResponse,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
+		elif session['index']==5: #PREMECHTURK
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			#session['index']=incrementCFT(session['index'])
+			#botResponse = response.getPreMechTurk(session['mood'])
+			#databaseUser.insertReply(flaskLogin.current_user.id,"insert mechanicalTurkReponse here", session['id'], commentFormType[session['index']],0)
+			
+		elif session['index']==6: #REVIEW
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			session['review']=request.form['text']
+			botResponse = response.getRethinking(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
+			#socket.emit('insert','hello review')
+			#databaseUser.insertReply(flaskLogin.current_user.id,response.getRethinking(session['review']), session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':botResponse,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
+		elif session['index']==7: #RETHINKING
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			session['index']=incrementCFT(session['index'])
+			botResponse = response.getBye(session['mood'])
+			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
+			socket.emit('insert',{
+								'text':botResponse,
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':commentFormType[session['index']]})
+
+		"""
+		Post Question on mTurk
+		"""
+
+		return jsonify(status='commentInsert')
+
+	if request.method=='GET':
+		#obj{}
+		# TODO : GET ALL COMMENTS FROM DB FROM THAT USER
+		if request_wants_json():
+			if flaskLogin.current_user and flaskLogin.current_user.id:
+				comments = databaseUser.listAllText(flaskLogin.current_user.id)
+				return jsonify(userKey=flaskLogin.current_user.id, comments=comments)
+			else:
+				return jsonify(error='true')
+		else:
+			return render_template('index.html')
 
 @app.route('/login2',methods=['POST'])
 def login2():
@@ -125,20 +312,18 @@ def login2():
 					session['index']=1
 					databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'], session['id'],"greeting",0)
 					databaseUser.insertReply(request.form['userKey'],"Good morning. How is your mood today?", session['id'],"mood",0)
-					#print ('index')
-					#print (session['index'])
-					#print ('flask has logged in and user is : ')
-					#print (flaskLogin.current_user.id)
+					print ('index')
+					print (session['index'])
+					print ('flask has logged in and user is : ')
+					print (flaskLogin.current_user.id)
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
 
-@app.route('/approve', methods=['POST'])
-def approve():
-	return '{"status":"coming back from Approve"}'
-
-@app.route('/reject', methods=['POST'])
-def reject():
-	return '{"status":"coming back from Reject"}'
+@app.route('/deard', methods=['POST'])
+def deard():
+	if request.method=='POST':
+		#print request.form['test']
+		return '{"status":"successDbInsert"}'
 
 if __name__=='__main__':
 	#app.run(debug=True, host='0.0.0.0')
