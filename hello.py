@@ -105,38 +105,7 @@ def register():
 @app.route('/userstats', methods=['GET'])
 def userstats():
 	if request.method=='GET':
-		# Set the date range (default: 7 days)
-		daterange = int(request.args.get('range', 7))
-		if daterange < 1 or daterange > 90:
-			daterange = 7
-
-		# Set startdate (default: today) and enddate
-		startdate_str = request.args.get('startdate', None)
-		if not startdate_str:
-			startdate = datetime.today()
-		else:
-			startdate = datetime.strptime(startdate_str, '%Y-%m-%d') # 2015-12-31
-		enddate = (startdate - timedelta(days=daterange))
-
-		# Initialize results
-		text = {}
-		for i in range(daterange):
-			text[ str(i) ] = []
-
-		# Get comments from database
-		comments = databaseUser.listAllText(flaskLogin.current_user.id)
-		for item in comments:
-			temp = []
-			if 'created_at' in item:
-				# Calculate difference based on each day
-				td = ( startdate.date() - item['created_at'].date() ).days
-
-				# Ensure comment is in date range, add to array for that day
-				if td < daterange and td >= 0:
-					text[ str(td) ].append(item)
-
-		# Return results
-		return jsonify(comments=text,daterange=daterange,startdate=startdate.strftime('%Y-%m-%d'),enddate=enddate.strftime('%Y-%m-%d'))
+		return 'userstats'
 
 @app.route('/comments', methods=['POST','GET'])
 def comment():
@@ -165,21 +134,11 @@ def login2():
 
 @app.route('/approve', methods=['POST'])
 def approve():
-	if request.method=='POST':
-		#print request.form['test']
-		text = request.form['text'].split(' ',1)
-		#print text[0]
-		#print text[1]
-		return '{"status":"coming back from Approve"}'
+	return '{"status":"coming back from Approve"}'
 
 @app.route('/reject', methods=['POST'])
 def reject():
-	if request.method=='POST':
-		#print request.form['test']
-		text = request.form['text'].split(' ',1)
-		#print text[0]
-		#print text[1]
-		return '{"status":"coming back from Reject"}'
+	return '{"status":"coming back from Reject"}'
 
 if __name__=='__main__':
 	#app.run(debug=True, host='0.0.0.0')
