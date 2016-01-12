@@ -400,7 +400,7 @@
 		},
 		// SOCKET STUFF
 		componentWillMount: function () {
-			this.url = 'http://' + document.domain + ':8000'
+			this.url = 'http://' + document.domain + ':' + location.port
 			this.socket = io.connect(this.url);
 			this.socket.on('connect', this.connect);
 			this.socket.on('disconnect', this.disconnect);
