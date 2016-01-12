@@ -248,7 +248,7 @@ def comment():
 								'commentFormType':commentFormType[session['index']]})
 		elif session['index']==5: #PREMECHTURK
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
-			#session['index']=incrementCFT(session['index'])
+			session['index']=incrementCFT(session['index'])
 			#botResponse = response.getPreMechTurk(session['mood'])
 			#databaseUser.insertReply(flaskLogin.current_user.id,"insert mechanicalTurkReponse here", session['id'], commentFormType[session['index']],0)
 			
