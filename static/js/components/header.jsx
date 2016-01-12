@@ -16,20 +16,31 @@ module.exports = React.createClass({
 			this.setState({headerStatus: "mood"});
 		else if (this.state.headerStatus == "mood")
 			this.setState({headerStatus: "chat"});
-		//console.log("HEADER TYPE CHANGED!")
 	},
 	logout: function() {
 		this.context.setUserKey(null);
 	},
 	render: function() {
-		<header></header>
-		var header;
+		var month = new Array();
+		month[0] = "Jan"; month[1] = "Feb"; 
+		month[2] = "Mar"; month[3] = "Apr"; 
+		month[4] = "May"; month[5] = "Jun"; 
+		month[6] = "Jul"; month[7] = "Aug"; 
+		month[8] = "Sep"; month[9] = "Oct"; 
+		month[10] = "Nov"; month[11] = "Dec"; 
+		//var m = month[this.props.date.getMonth()];
+		//var d = this.props.date.getDate();
+		console.log("THIS PROPS DATE OBJECT")
+		console.log(this.props.date);
+		var header, m, d;
 		switch(this.props.headerType) {
 		    case "static":
 		    	header = <StaticHeader />;
 		        break;
 		    case "chat":
-		        header = <ChatHeader headerType={this.state.headerStatus} date={this.props.date} changeHeader={this.changeHeader} />;
+				m = month[this.props.date.getMonth()];
+				d = this.props.date.getDate();
+		        header = <ChatHeader headerType={this.state.headerStatus} month={m} date={d} changeHeader={this.changeHeader} />;
 		        break;
 	        case "mood":
 	        	header = <ChatHeader headerType={this.props.headerType} changeHeader={this.changeHeader} />;
@@ -88,9 +99,6 @@ var ChatHeader = React.createClass({
 		console.log(this.state.headerStatus);
 	},
 	render: function() {
-		//console.log("header status: "+this.props.headerStatus);
-		var date = this.props.date;
-		console.log(date);
 		return (
 			<div className="row">
 				{this.state.headerStatus == "mood" ? (
@@ -114,7 +122,7 @@ var ChatHeader = React.createClass({
 							</Link>
 						</div>
 						<div className="logo-d col-xs-8">
-							<p>{date}</p>
+							<p>{this.props.month} {this.props.date}</p>
 						</div>
 						<div className="right col-xs-2">
 							<a href="/logout" onClick={this.logout}><img src="/static/img/logout.svg" width="10"/></a>					

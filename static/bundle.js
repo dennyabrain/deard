@@ -231,20 +231,31 @@
 		},
 		changeHeader: function () {
 			if (this.state.headerStatus == "chat") this.setState({ headerStatus: "mood" });else if (this.state.headerStatus == "mood") this.setState({ headerStatus: "chat" });
-			//console.log("HEADER TYPE CHANGED!")
 		},
 		logout: function () {
 			this.context.setUserKey(null);
 		},
 		render: function () {
-			React.createElement("header", null);
-			var header;
+			var month = new Array();
+			month[0] = "Jan";month[1] = "Feb";
+			month[2] = "Mar";month[3] = "Apr";
+			month[4] = "May";month[5] = "Jun";
+			month[6] = "Jul";month[7] = "Aug";
+			month[8] = "Sep";month[9] = "Oct";
+			month[10] = "Nov";month[11] = "Dec";
+			//var m = month[this.props.date.getMonth()];
+			//var d = this.props.date.getDate();
+			console.log("THIS PROPS DATE OBJECT");
+			console.log(this.props.date);
+			var header, m, d;
 			switch (this.props.headerType) {
 				case "static":
 					header = React.createElement(StaticHeader, null);
 					break;
 				case "chat":
-					header = React.createElement(ChatHeader, { headerType: this.state.headerStatus, date: this.props.date, changeHeader: this.changeHeader });
+					m = month[this.props.date.getMonth()];
+					d = this.props.date.getDate();
+					header = React.createElement(ChatHeader, { headerType: this.state.headerStatus, month: m, date: d, changeHeader: this.changeHeader });
 					break;
 				case "mood":
 					header = React.createElement(ChatHeader, { headerType: this.props.headerType, changeHeader: this.changeHeader });
@@ -313,9 +324,6 @@
 			console.log(this.state.headerStatus);
 		},
 		render: function () {
-			//console.log("header status: "+this.props.headerStatus);
-			var date = this.props.date;
-			console.log(date);
 			return React.createElement(
 				"div",
 				{ className: "row" },
@@ -359,7 +367,9 @@
 						React.createElement(
 							"p",
 							null,
-							date
+							this.props.month,
+							" ",
+							this.props.date
 						)
 					),
 					React.createElement(
@@ -406,7 +416,7 @@
 						//var revComments = (data.comments).reverse();
 						var revComments = data.comments;
 
-						this.setState({ date: revComments[0].created_at });
+						//this.setState({ date:revComments[0].created_at });
 
 						for (var c in revComments) {
 							console.log(revComments[c].commentFormType);
@@ -441,15 +451,6 @@
 			var newComments = comments.concat([comment]);
 
 			this.setState({ data: newComments, loadingResponse: true });
-			//this.disablePolling();
-
-			// this.socket.emit('event', comment, function(d) {
-			// 	console.log('emit retdata')
-			// 	this.insert();
-			// });
-
-			//return
-			// ignore below
 
 			$.ajax({
 				url: this.props.url,
@@ -459,14 +460,6 @@
 				success: (function (data) {
 					console.log("success POST");
 					console.log(data);
-					// In order to "fake" the loading, disable comment polling until we're done
-					// Wait 3 seconds, and then get new comments from server and re-enable polling.
-					// setTimeout(function() {
-					// 	this.setState({loadingResponse: false}, function() {
-					// 		this.getCommentsFromServer();
-					// 		//this.enablePolling();
-					// 	});
-					// }.bind(this), 3000);
 				}).bind(this),
 				error: (function (ehx, status, err) {
 					console.log(this.props.url, status, err.toString());
@@ -475,7 +468,7 @@
 		},
 		getInitialState: function () {
 			return { data: [], loaded: false, commentFormType: "nothing",
-				status: 'disconnected', date: null };
+				status: 'disconnected', date: new Date() };
 		},
 		getDefaultProps: function () {
 			return { url: "/comments" };
@@ -486,9 +479,6 @@
 			this.socket.on('connect', this.connect);
 			this.socket.on('disconnect', this.disconnect);
 			this.socket.on('insert', this.insert);
-			// this.socket.on('insert',function(text){
-			//     console.log('Got Event')
-			// })
 		},
 		connect: function () {
 			this.setState({ status: 'connected' });
@@ -498,11 +488,6 @@
 			this.setState({ status: 'disconnected' });
 		},
 		insert: function (comment) {
-			// I JUST WROTE IF YOU WERE RECEIVING THE RESULT.
-			// IF YOU ARE TRYING TO SEND THE RESULT, NOT SURE.
-			// IS THAT WHAT YOU ARE TRYING TO DO?
-
-			// I also need to render comment if I submit
 			console.log(comment);
 			var data = this.state.data;
 			data.push(comment);
@@ -510,29 +495,15 @@
 				loadingResponse: false,
 				loaded: true,
 				commentFormType: comment.commentFormType });
-			// NEED TO RENDER TEXT
 		},
 		componentDidMount: function () {
 			setTimeout((function () {
 				this.getCommentsFromServer();
-				//.enablePolling();
 			}).bind(this), 1000);
-
-			// this.socket.on('comments',function(text){
-			//     console.log('getCommentsFromServer')
-			//     this.getCommentsFromServer();
-			// })
 		},
-		// componentWillUnmount: function() {
-		// 	this.disablePolling();
-		// },
-		// enablePolling: function() {
-		// 	this.checkInterval = setInterval(this.getCommentsFromServer, this.props.pollInterval);
-		// },
-		// disablePolling: function() {
-		// 	clearInterval(this.checkInterval);
-		// },
 		render: function () {
+			// console.log("THIS STATE DATE GETMONTH");
+			// console.log(this.state.date.getMonth());
 			return React.createElement(
 				'span',
 				null,
