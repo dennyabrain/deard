@@ -2,12 +2,19 @@ var Header = require('./header')
 
 module.exports = React.createClass({
 	displayName: 'DiaryLayout',
-	colors : {
+	BGColors : {
 		'great': '#f9c4c0',
 		'good': '#fcd6d0',
 		'ok': '#ead7ca',
 		'bad': '#d7dbcc',
 		'worst': '#c3d8d1'
+	},
+	colors : {
+		'great': '#fc5959',
+		'good': '#ff9085',
+		'ok': '#e5a89a',
+		'bad': '#b8bfa1',
+		'worst': '#acc1b9'
 	},
 	childContextTypes : {
 		mood : React.PropTypes.any,
@@ -33,10 +40,11 @@ module.exports = React.createClass({
 		return { mood: "good"}
 	},
 	render: function() {
-		var bgColor = this.colors[this.state.mood],
-		bgStyle = { backgroundColor : bgColor };
+		var bgColor = this.BGColors[this.state.mood];
+		var ftColor = this.colors[this.state.mood];
+		diaryStyle = { backgroundColor : bgColor, color: ftColor };
 		return(
-			<div className="container layout-diary" style={bgStyle}>					
+			<div className="container layout-diary" style={diaryStyle}>					
 				{this.props.children}
 			</div>
 		)

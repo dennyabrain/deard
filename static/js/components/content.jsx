@@ -121,7 +121,7 @@ module.exports = React.createClass({
 			<div className="content main">
 				{ this.state.loaded ? 
 					(
-						<CommentList data={this.state.data} loading={this.state.loadingResponse}/>
+						<CommentList data={this.state.data} loading={this.state.loadingResponse} mood={this.context.mood}/>
 					) :
 					(<Loader />)
 				}

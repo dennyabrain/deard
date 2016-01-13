@@ -197,12 +197,19 @@
 
 	module.exports = React.createClass({
 		displayName: 'DiaryLayout',
-		colors: {
+		BGColors: {
 			'great': '#f9c4c0',
 			'good': '#fcd6d0',
 			'ok': '#ead7ca',
 			'bad': '#d7dbcc',
 			'worst': '#c3d8d1'
+		},
+		colors: {
+			'great': '#fc5959',
+			'good': '#ff9085',
+			'ok': '#e5a89a',
+			'bad': '#b8bfa1',
+			'worst': '#acc1b9'
 		},
 		childContextTypes: {
 			mood: React.PropTypes.any,
@@ -228,11 +235,12 @@
 			return { mood: "good" };
 		},
 		render: function () {
-			var bgColor = this.colors[this.state.mood],
-			    bgStyle = { backgroundColor: bgColor };
+			var bgColor = this.BGColors[this.state.mood];
+			var ftColor = this.colors[this.state.mood];
+			diaryStyle = { backgroundColor: bgColor, color: ftColor };
 			return React.createElement(
 				'div',
-				{ className: 'container layout-diary', style: bgStyle },
+				{ className: 'container layout-diary', style: diaryStyle },
 				this.props.children
 			);
 		}
@@ -383,7 +391,7 @@
 						React.createElement(
 							Link,
 							{ to: "/comments/data" },
-							React.createElement("img", { src: "/static/img/data-icon.svg", width: "25",
+							React.createElement("img", { src: "/static/img/data-icon2.svg", width: "25",
 								onClick: this.changeHeader })
 						)
 					),
@@ -539,7 +547,7 @@
 				React.createElement(
 					'div',
 					{ className: 'content main' },
-					this.state.loaded ? React.createElement(CommentList, { data: this.state.data, loading: this.state.loadingResponse }) : React.createElement(Loader, null),
+					this.state.loaded ? React.createElement(CommentList, { data: this.state.data, loading: this.state.loadingResponse, mood: this.context.mood }) : React.createElement(Loader, null),
 					React.createElement(
 						'div',
 						{ className: 'commentFormArea' },
@@ -876,18 +884,16 @@
 		displayName: 'Comment',
 
 		colors: {
-			'-3': '#90EBE1',
-			'-2': '#90EBE1',
-			'-1': '#90EBE1',
-			'0': '#F87C69',
-			'1': '#D31D5C',
-			'2': '#D31D5C',
-			'3': '#D31D5C'
+			'great': '#fc5959',
+			'good': '#ff9085',
+			'ok': '#e5a89a',
+			'bad': '#b8bfa1',
+			'worst': '#acc1b9'
 		},
 
 		render: function () {
 			if (this.props.commentType == "bot") {
-				var scoreBgColor = this.colors[parseInt(this.props.commentAfinnScore || 0)],
+				var scoreBgColor = this.colors[this.props.mood],
 				    commentStyle = { color: scoreBgColor };
 			}
 
@@ -949,6 +955,7 @@
 				success: (function (data) {
 					//var c = $.extend(true, {},data);
 					//this.context.setUserKey(data.userKey)
+					console.log(data);
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments });
 				}).bind(this),
 				error: (function (ehx, status, err) {
@@ -962,7 +969,8 @@
 			return { data: [], loaded: false, todayDate: new Date() };
 		},
 		getDefaultProps: function () {
-			return { url: "/userstats", pollInterval: 3000 };
+			return { url: "/userstats?range=7" };
+			///userstats?range=7
 		},
 		componentDidMount: function () {
 			setTimeout((function () {
@@ -987,15 +995,7 @@
 					this.state.loaded ? React.createElement(
 						'div',
 						null,
-						React.createElement(
-							'div',
-							{ className: 'userData-week' },
-							React.createElement(
-								'h2',
-								null,
-								' This week '
-							)
-						),
+						React.createElement('div', { className: 'userData-week' }),
 						React.createElement(MoodGraph, { data: this.state.data, today: this.state.todayDate }),
 						React.createElement(WordCount, { data: this.state.data, today: this.state.todayDate }),
 						React.createElement(DaysList, { data: this.state.data, today: this.state.todayDate })

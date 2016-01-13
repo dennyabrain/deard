@@ -2,18 +2,16 @@ module.exports = React.createClass({
 	displayName: 'Comment',
 	
 	colors : {
-		'-3': '#90EBE1',
-		'-2': '#90EBE1',
-		'-1': '#90EBE1',
-		'0': '#F87C69',
-		'1': '#D31D5C',
-		'2': '#D31D5C',
-		'3': '#D31D5C'
+		'great': '#fc5959',
+		'good': '#ff9085',
+		'ok': '#e5a89a',
+		'bad': '#b8bfa1',
+		'worst': '#acc1b9'
 	},
 	
 	render: function() {
 		if (this.props.commentType == "bot") {
-			var scoreBgColor = this.colors[ parseInt(this.props.commentAfinnScore || 0) ],
+			var scoreBgColor = this.colors[this.props.mood],
 					commentStyle = { color : scoreBgColor };
 		}
 

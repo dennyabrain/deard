@@ -117,7 +117,7 @@ var ChatHeader = React.createClass({
 					<span>
 						<div className="title-data col-xs-2">
 							<Link to="/comments/data">
-								<img src="/static/img/data-icon.svg" width="25" 
+								<img src="/static/img/data-icon2.svg" width="25" 
 									onClick={this.changeHeader} />
 							</Link>
 						</div>

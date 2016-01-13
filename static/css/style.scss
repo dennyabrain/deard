@@ -1,6 +1,7 @@
 $dd-black: #2f302c;
 $header-height: 60px;
 $chat-background-color: #e8dada;
+$card-border-radius: 10px;
 
 @mixin header-elements {
     height: $header-height;
@@ -462,6 +463,7 @@ textarea {
   background-color: #fff;
   height: 300px;
   padding-top: 25px;
+  border-radius: $card-border-radius;
 }
 
 .moodgraph-key {
@@ -540,6 +542,7 @@ textarea {
   margin-top: 25px;
   margin-bottom: 10px;
   padding-bottom: 20px;
+  border-radius: $card-border-radius;
 }
 
 .myWordChart-noWords p {

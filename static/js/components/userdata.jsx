@@ -20,6 +20,7 @@ module.exports = React.createClass({
 			success: function(data){
 				//var c = $.extend(true, {},data);
 				//this.context.setUserKey(data.userKey)
+				console.log(data.comments);
 				this.setState({loadingResponse: false, loaded: true, data: data.comments});
 
 			}.bind(this),
@@ -34,7 +35,8 @@ module.exports = React.createClass({
 		return {data:[], loaded: false, todayDate: new Date()};
 	}, 
 	getDefaultProps : function() { 
-		return {url:"/userstats", pollInterval: 3000}; 
+		return {url:"/userstats?range=7"}; 
+		///userstats?range=7
 	},
 	componentDidMount: function() {
 		setTimeout(function() {
@@ -56,7 +58,7 @@ module.exports = React.createClass({
 				{ this.state.loaded ? 
 					(
 						<div>
-							<div className="userData-week"><h2> This week </h2></div>
+							<div className="userData-week"></div>
 							<MoodGraph data={this.state.data} today={this.state.todayDate}/>
 							<WordCount data={this.state.data} today={this.state.todayDate}/>
 							<DaysList data={this.state.data} today={this.state.todayDate}/>
