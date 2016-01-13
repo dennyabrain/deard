@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT hello:app
+web: waitress-serve --port=$PORT eventlet hello:app
