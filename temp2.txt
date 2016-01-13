@@ -1,0 +1,1465 @@
+commit c9c3b65a65378b0db22cd4dc278bb0dafebeda9f
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 17:09:41 2016 -0500
+
+    session is a variable in database now
+
+commit ae574a44a8e185b1d6d85d50be4f8ad15bafdd37
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 14:09:21 2016 -0500
+
+    one session works in its entirety
+
+commit 7d1f2911630240e0b62e34a680a311bd68871bbe
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 13:16:31 2016 -0500
+
+    fixed logger in both files
+
+commit aefdadec00a07e51dec84729271fd92556964e17
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 13:15:40 2016 -0500
+
+    this code should run on heroku
+
+commit 03620535688e0b6986940f361bef2e9a9c3568e7
+Merge: a9e9602 bfaede1
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 13:05:08 2016 -0500
+
+    Merge branch 'master' of https://github.com/dennyabrain/deard
+
+commit bfaede1c897f34ef585be5bf647b99e738235718
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Jan 12 13:04:38 2016 -0500
+
+    update chat UI
+
+commit a9e96021a3cdc6f2c52e53ced028b0dc39f878de
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 12:53:58 2016 -0500
+
+    minimal hello.py
+
+commit 8209aedbb48c9a94a7502f22bb49b7fe37e30afd
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 12:49:19 2016 -0500
+
+    trying to minimize hello.py
+
+commit 83da5c23e3dd44a0db3c2d541c8ddc4372db53b6
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 12:26:15 2016 -0500
+
+    added logger to socketio
+
+commit c8ee88d0247f95446329bc690a545e6981fd2b9e
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 01:59:51 2016 -0500
+
+    reverted to normal bundle.js
+
+commit 59afc53bfab2e56ac382da8197e3c5fa59e98ca1
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 01:55:42 2016 -0500
+
+    port 8000 in bundlejs
+
+commit e351b0fa75b4677d9882ff0e5625b81e0663e8a1
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 01:45:15 2016 -0500
+
+    old code
+
+commit b4ed28f8c889398401b8afd96c1bc1b22693c08b
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 01:20:34 2016 -0500
+
+    back to basics
+
+commit 9a53165047baf727e1ed6949402e2a581d9aa645
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 01:05:48 2016 -0500
+
+    reverted code. packages installed again. port number hardcoded in bundle.js to 80
+
+commit 9b67060eaba56e2b851426bd832f73f7de4b3633
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 01:01:32 2016 -0500
+
+    hardcoding the port number in bundle.js and reverting hello.py to old code
+
+commit 71bb69edcdd922c14e216f9164c71db406107e11
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:59:02 2016 -0500
+
+    hardcoding port number as 80
+
+commit 47c0e3144f9964f6a89b5a75ef59c7c1e9c8e4d8
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:56:59 2016 -0500
+
+    ensuring what the port is printed as on heroku
+
+commit a94e118df663ab865a9ff9da69b0a1930d0cc5f0
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:54:54 2016 -0500
+
+    still fiddling with port numbers. right now letting default to 5000
+
+commit b4cb0adde312d3847b623c58b3b2aa2d5a2b0d67
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:42:49 2016 -0500
+
+    changing port number to 5000 in socketio client side
+
+commit 46cc824f4c921c046f332777016492bdcafea6b9
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:37:11 2016 -0500
+
+    printing domain and port
+
+commit 4008b5dabae35d2811cf10fecb5b8080d274c9ea
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:34:43 2016 -0500
+
+    socketio client added
+
+commit a3f796c026348487237177c9d1ab8b5ff03bd94f
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:24:04 2016 -0500
+
+    removed -no-sendfile
+
+commit 175528f5c94478c8bea3aa8dcb4a63d3c4683a3e
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:22:40 2016 -0500
+
+    installed gunicorn 18.0
+
+commit 55735b2ce798c92b1c6f30b9197c450eeff28692
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:20:31 2016 -0500
+
+    barebone socketio server
+
+commit 3f58ec4ffcb91c8567ac3a1f1cea8affe652b270
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:07:54 2016 -0500
+
+    deleted hello.py and uninstalled all packages
+
+commit b14026942494adaff70688d114f3084f229c164b
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Jan 12 00:07:28 2016 -0500
+
+    update UI
+
+commit 896de125ab69002ad8113708396cf02ab514bdd6
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Jan 12 00:04:29 2016 -0500
+
+    changed hello.py
+
+commit 907cbb17d3fdb75a1e325c948728271f798b232e
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Mon Jan 11 22:33:15 2016 -0500
+
+    Revert "Working State"
+    
+    This reverts commit 0d3c636c051ad511e7275c369a3636589815387e.
+
+commit 103bc479516b3147f4d97b4e37f97a9393206ffd
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Mon Jan 11 22:02:36 2016 -0500
+
+    added no-sendfile to Procfile
+
+commit 43dadba21e394eaaa87f32cb3027db632c22d01f
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Mon Jan 11 21:57:48 2016 -0500
+
+    added debbuger to flasksocketio and also put main function in hello
+
+commit d9595b6ec6d7316565da0cb961d598305b0c8fd9
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Mon Jan 11 20:32:15 2016 -0500
+
+    removed no-sendfile from Procfile
+
+commit 60e9473942edad17ec0723d8f9dc26ae6d5a7213
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Mon Jan 11 16:18:00 2016 -0500
+
+    UI updates
+
+commit 807a69add1eb46ed37854f77faa2d024be9c7509
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Mon Jan 11 12:24:38 2016 -0500
+
+    reinstalled flask-socketio
+
+commit 48d10be95ff405447ad115bf9cadc29892cd4fcd
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Mon Jan 11 12:12:40 2016 -0500
+
+    reverted back to gunicorn 18.0
+
+commit 5065665d821db16fd5e82f6a11088311c549d73d
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Mon Jan 11 12:07:32 2016 -0500
+
+    gunicorn19.0
+
+commit 59a54b11dce9dd2b3a93b0f8e210426178ec32dc
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Mon Jan 11 11:43:44 2016 -0500
+
+    redo stuff
+
+commit 349a1820ca0d339201240d6fe855405a387e9614
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Mon Jan 11 09:54:59 2016 -0500
+
+    merge in master
+
+commit fcd67987b57e2730cc173df29c960d0a935f3257
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Jan 10 21:42:41 2016 -0500
+
+    copied code to hello.py
+
+commit 0d3c636c051ad511e7275c369a3636589815387e
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Jan 10 21:32:45 2016 -0500
+
+    Working State
+
+commit c1cbf688f4394477720f0c4b7e7c3a89b69e0f1f
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Jan 10 20:52:36 2016 -0500
+
+    reverted to an old version of gunicorn
+
+commit 9016aead4abdb6449ff5ebd908e4b6e5eed3e55f
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Jan 10 20:19:03 2016 -0500
+
+    Procfile change
+
+commit c229ffc994b763011e991ee91327198c2ca7172d
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Jan 10 18:25:19 2016 -0500
+
+    listening to alex's suggestion
+
+commit 2e41f7256bf4f87a904cf9bdd948620477216ad1
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Jan 10 18:08:14 2016 -0500
+
+    new requirements.txt
+
+commit 3ff5092b797b560077be0cbf05ceb6404a84357e
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Jan 10 17:49:54 2016 -0500
+
+    changed the way I was importing flask-socketio
+
+commit 1af105ec646acba2b077b6ec47de8b2622618ca3
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Jan 10 17:38:42 2016 -0500
+
+    fix temp
+
+commit 2de5e8799af2122b3b67a09ebbffb67093540988
+Merge: 4083b2a b7d94f4
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Jan 10 17:31:51 2016 -0500
+
+    merge fix
+
+commit 4083b2a3d4f6a179d66a1a14f7ad3137eb003916
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Jan 10 17:30:17 2016 -0500
+
+    fixed Procfile
+
+commit b7d94f47c3981d0fbb7f66b0b3c49d208b230481
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Jan 10 13:44:00 2016 -0500
+
+    try with --no-sendfile
+
+commit 6eadbb1e152c9f8f46ced389ddbae4b008462001
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Jan 10 13:42:00 2016 -0500
+
+    upgrade gunicorn, try sendfile=no
+
+commit 2bbb5737bfbf4d23f5172811f344445437abe489
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 20:19:06 2016 -0500
+
+    procfile
+
+commit 1a862dddb22869d4b27fcbf793ba28a6ad417706
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 20:15:32 2016 -0500
+
+    Procfile
+
+commit a231c9b3846236290d72c943a6ac78646e421854
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 20:13:11 2016 -0500
+
+    temp fix
+
+commit d21f0983e8df77335991dea89b7da3af5d713ad3
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 20:02:36 2016 -0500
+
+    temp
+
+commit 9fc8a82bfb01c5004ce7703feaf1e60c85ab73d9
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 20:00:05 2016 -0500
+
+    fix
+
+commit 289ee573b61225c2d992f09704839f8c6315718f
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 19:57:30 2016 -0500
+
+    testing
+
+commit d7e3cb633063299c9cd7d6de2d83e19682949e44
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 19:47:10 2016 -0500
+
+    procfile change
+
+commit 7cb25e1d76cd80c119d76ad2c1e688bb87f6b5d4
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 19:40:49 2016 -0500
+
+    procfile change
+
+commit 55d2d292149e13ea9f653183d279ca4f946ee9c3
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 19:38:57 2016 -0500
+
+    procfile change
+
+commit 24fad676be338d5361d1225405efeb30443dc81b
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 19:31:10 2016 -0500
+
+    procfile change
+
+commit 3fe90fc1a1dbe2acd52c0c33c675d0b00782c35e
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 18:47:10 2016 -0500
+
+    made correction to hello.py
+
+commit 2a4a3c4668f6d2d899e9b49638deadd71b5c5520
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 18:45:13 2016 -0500
+
+    change to Procfile
+
+commit 8ce80b96602f2a82d6fe0b8c6238911a28c3d9e1
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 18:40:49 2016 -0500
+
+    corrected redundant endpoint
+
+commit 75df8df2ea3d2f647db4b2a4467ee342b65ccc8e
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 18:26:14 2016 -0500
+
+    procfile change
+
+commit 49f4a1a53ac57de62d32586a97c4bfc39c61ce8b
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 18:24:41 2016 -0500
+
+    changes to Procfile
+
+commit 9ec0bda9f995d0f412035f8f34f1f1d7996ed1ce
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 18:16:20 2016 -0500
+
+    copied code to hello and modified Procfile to support websockets
+
+commit 95995bf7d489b75ffa64b8aafbb90fcf22033b79
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 18:09:16 2016 -0500
+
+    edited Procfile to make sockets work on heroku
+
+commit 85e24af248c0594034304b046e5567e2c4ddaab0
+Merge: 27feb95 28612dc
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 17:58:16 2016 -0500
+
+    merged with Jia's work
+
+commit 27feb9522c2a6f2caac6e6f10b75579bb8241af0
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 17:56:50 2016 -0500
+
+    mTurk Integration done. now will test on heroku
+
+commit 16dc093cbc42c08fd24e3777983d50e090ee47a0
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 17:16:18 2016 -0500
+
+    dont know
+
+commit 28612dc1bc526cddb37bb43d7db7b9931ebf399a
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sat Jan 9 15:54:39 2016 -0500
+
+    update front-end socket
+
+commit 5f0f8546d8b71e202a87fc4f783f7e91491a6f1b
+Merge: 0326957 8ed58bf
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sat Jan 9 15:04:44 2016 -0500
+
+    fix merge confix
+
+commit 03269578352630f10e345532283085d238363fce
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sat Jan 9 15:03:22 2016 -0500
+
+    jia testing app.py
+
+commit 8ed58bf50feac0dcb670669ef10d4d6db6930496
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 13:39:13 2016 -0500
+
+    corrected JSON object problem in the emit function
+
+commit b3adee5fbcb65ae0a35d64fcdb36bae6425b1189
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 9 13:18:13 2016 -0500
+
+    changes to emit
+
+commit 75f10bbe68f2ff9e747ee405f6a047633135b865
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sat Jan 9 12:29:15 2016 -0500
+
+    content
+
+commit d6bf9621d4f4306320c915b5b1b1538ba012271a
+Merge: 43430dd 5dd5549
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Jan 8 21:19:14 2016 -0500
+
+    Merge branch 'master' into jia
+
+commit 43430ddd866ba0916611446773f7ee2a957e7852
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Jan 8 21:19:00 2016 -0500
+
+    socket update
+
+commit 5dd55496ce22e15d43272758e42f5bbcfb0baa88
+Merge: e116e01 2af4d34
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 8 21:17:56 2016 -0500
+
+    fixed conflict
+
+commit 2af4d34ca0b15dea4b4577c6a700b1aa1662b95d
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 8 21:16:23 2016 -0500
+
+    sending json via sockets
+
+commit 51355b6c14940dd67f923cae7253c8a586da3bb5
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 8 21:10:29 2016 -0500
+
+    made changes so socket sends a json object
+
+commit e116e01ed65f4ad1ed401b5db025b4e9ab717ec0
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 8 21:07:02 2016 -0500
+
+    send json object to react
+
+commit 8345ed15751209c859035e2801b481a46db9435c
+Merge: ea9d590 88db5c8
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Jan 8 20:45:24 2016 -0500
+
+    Merge branch 'master' into jia
+
+commit ea9d5905f15334cbfea1a9cd7645537ecf52c260
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Jan 8 20:45:00 2016 -0500
+
+    change name of insert var
+
+commit 54f9394dcc3cb306f10f63ac388e82e19b47d71b
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Jan 8 16:11:47 2016 -0500
+
+    front-end socket
+
+commit 88db5c874c195a57371bef4ef1c29eec002e701e
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 8 14:05:47 2016 -0500
+
+    emits event on all insertReply calls
+
+commit a1aaa9a003b3aa5f870795073f3b87f023a162fc
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 8 13:48:48 2016 -0500
+
+    made changes to event name
+
+commit 24aa2ed1ea034c11540cfda2632821bf82bb3852
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 8 13:48:11 2016 -0500
+
+    emiting socket events now. gotta test on front end
+
+commit 0f9b4e0bf83d8d210871712fff289dceb454a025
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Jan 7 16:39:12 2016 -0500
+
+    updated requirements.txt
+
+commit 42608aff33845bf5eaadf5d0fa8b025b5bd1096f
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Jan 7 16:36:41 2016 -0500
+
+    copied app to hello.py
+
+commit 5692e4e109f6547c92ce57e82737469320f180fb
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Wed Jan 6 21:44:02 2016 -0500
+
+    got Response Fetching working
+
+commit 69a2abbae009a8394c38d3813bcc2fd97afc7eb2
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Jan 6 19:22:15 2016 -0500
+
+    fixed commentFormType update
+
+commit 20db16af937580ef0d2efcbd7a958ad17c447a2e
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Jan 6 19:03:51 2016 -0500
+
+    fixed commentFormType frontend
+
+commit 1e2d84b051de17a3fcfe0757cf51753cb9608ed0
+Merge: e347686 941da7e
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Wed Jan 6 18:12:25 2016 -0500
+
+    Merge branch 'feature/newWorkflow2'
+
+commit 941da7ee6adf166fa2080ab16070e0c72f3119df
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Wed Jan 6 18:11:38 2016 -0500
+
+    ugly code for new workflow
+
+commit e347686e714eb5f450c350d8b14487f5aa5c6133
+Merge: b680fbd 41255f0
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Mon Jan 4 23:44:42 2016 -0500
+
+    Merge branch 'master' into jia
+
+commit b680fbddff6c79c8a54934f924e53585adbd3e2c
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Mon Jan 4 23:44:23 2016 -0500
+
+    update formType
+
+commit 41255f0deac3d9221cb341bf49ad89735414a55f
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Mon Jan 4 22:49:20 2016 -0500
+
+    begun integrating the new workflow with commentFormType
+
+commit 905b0471393d74348941a474634da1e0d54b6660
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Mon Jan 4 22:48:42 2016 -0500
+
+    update frontend
+
+commit 5e5285a261dbe818e5928616fabb205516b93bb7
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 2 17:39:13 2016 -0500
+
+    cant register same username twice no more :D
+
+commit 4dad92bb7ffc755747d3b41c26a04807d8d46d9e
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 2 16:59:11 2016 -0500
+
+    hashing done
+
+commit e66e437853f0de88f7faf53dd6311b2444b42f7b
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Jan 2 16:33:11 2016 -0500
+
+    new database structure
+
+commit 02eb48e85bd068d2cf45f7f1d833e937568cf253
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sat Jan 2 14:53:13 2016 -0500
+
+    update GET userstats with date range
+
+commit 0367227e016c7a9f4f61a11f90bda993176d2876
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sat Jan 2 13:55:52 2016 -0500
+
+    style changes to graphs
+
+commit 8d7fe4f54c06460c5b7cd8663397d78ecfc8fbd7
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sat Jan 2 03:18:02 2016 -0500
+
+    user data page
+
+commit 1d3c8a951cca59b9f11806504be46d44ecdb3292
+Merge: 05e5352 25043ee
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Jan 1 20:02:35 2016 -0500
+
+    Merge branch 'master' into jia
+
+commit 25043ee5261f55404acd546e5d7d52400a1b6cd9
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 1 20:02:10 2016 -0500
+
+    deleted the stray analysis parameter
+
+commit 05e5352f8d060c9b27bbff9ddec0f9f55fb24489
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Jan 1 19:59:49 2016 -0500
+
+    update dates in userData
+
+commit 67f45055f42ababd2b4c43f985baa5cbfb988713
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 1 19:30:39 2016 -0500
+
+    commented the line greg put in login2
+
+commit c8b71a34f9d7d671abaaadc5cc9d71dc516051e0
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 1 19:18:43 2016 -0500
+
+    made changes to db.py to move default parameter to the end
+
+commit 458a91c782a84f2b9ec213f3f07ae95af65f584d
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Jan 1 14:05:08 2016 -0500
+
+    post social data presentation
+
+commit f8d22f1c93dfabb5c7b261e18a2b3d1d87c508af
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Dec 18 08:18:52 2015 -0500
+
+    add space between paragraphs
+
+commit ef499da74f66e9a4ebb4f5c78c16f6aa2b4c5e69
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Dec 18 07:41:45 2015 -0500
+
+    dashboard style and wordcount
+
+commit 8ab7a34993a56e14190fc7078039caba68f6a3d8
+Merge: 65ce317 0564915
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Dec 18 06:17:27 2015 -0500
+
+    Merge branch 'master' into jia
+
+commit 65ce31779746a639aca702777cfffd0104957e81
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Fri Dec 18 06:16:59 2015 -0500
+
+    update dashboard
+
+commit 05649153e12c2879bc6060ba3ffc46cc661e9f4d
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Dec 18 06:00:00 2015 -0500
+
+    uncommented gedNoun
+
+commit 5dfe6eee9cce5c4c1e52aa60ca5e595666c8a8ad
+Merge: 68043a0 0f7e3c2
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 23:12:23 2015 -0500
+
+    Merge branch 'master' into jia
+
+commit 68043a0a2b951b6e579cc12fb1445050851e69b0
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 23:11:22 2015 -0500
+
+    dashboard design
+
+commit 0f7e3c23a95a786c9319172e4e4a3f4f95d332e9
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 22:44:39 2015 -0500
+
+    added averaged perceptron tagger
+
+commit 53ae61ca329aa437240272ed48729b14a349f4f3
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 22:41:30 2015 -0500
+
+    added logger
+
+commit 2e1dbff70eb892080e95fb14288f7113bdce0ecf
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 22:37:05 2015 -0500
+
+    added debugger to heroku
+
+commit 726e0d484eeaa8183584a14bbc68c15bcef2c883
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 22:32:44 2015 -0500
+
+    made changes to path
+
+commit caf8d95c15ade9106869821d4702e8039983a143
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 22:19:00 2015 -0500
+
+    commented nouns
+
+commit 07ddcf064462bb33e7192467d178cd5e60ed2eb3
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 22:15:44 2015 -0500
+
+    deleted duplicate nltk_data
+
+commit e720fab4b6ff468fa9f954bcb0ee34fb35925c03
+Merge: dc436bb cd5e595
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 22:10:44 2015 -0500
+
+    Merge branch 'master' into jia
+
+commit dc436bbf518f27ab9f9b946ff3d7245fbe0c0d05
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 22:09:44 2015 -0500
+
+    dashboard style
+
+commit cd5e5958e5f199c2a88357044995cd5576a190d4
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 22:05:24 2015 -0500
+
+    downloaded nltk corpus
+
+commit edc2f9c6e739affeed0ad351ee8111ed96a57eab
+Merge: 336d393 419842b
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 21:48:19 2015 -0500
+
+    Merge branch 'master' into jia
+
+commit 4be0171408e531ef0aa9be8081c26b3d31ef9205
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 21:41:06 2015 -0500
+
+    sdaf
+
+commit 336d3934d62a51448df71a7b0172459b6419e575
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 21:40:45 2015 -0500
+
+    dashboard dates
+
+commit 419842b175a7c6d6f7de7c1282bc2870ea1233fc
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 21:36:15 2015 -0500
+
+    making sure
+
+commit ebad601152a0d92da87df1590383e1ca827f4a86
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 21:11:13 2015 -0500
+
+    asdf
+
+commit 190ff6cfad24cbea18f6075469c9d0041a24f1f5
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 21:09:19 2015 -0500
+
+    temp change to comment out nltk stuff
+
+commit 2cdcaaa572bfc41fab2f62e40c377ff7231ac1fb
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 21:05:28 2015 -0500
+
+    change to data's path
+
+commit a4cff3de13a63deaf72383dd2d5151495c1fcb28
+Merge: e5b2f26 dd1df87
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 21:00:37 2015 -0500
+
+    Merge branch 'master' of https://github.com/dennyabrain/deard
+
+commit e5b2f26157c6439ebe6d3c3ec550468427ae8f7c
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 21:00:12 2015 -0500
+
+    added nltk_Data/english.pickle
+
+commit 4d2bebc0071c6b973adeceb4596f0c3bf897fc77
+Merge: a11ac54 dd1df87
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 20:42:47 2015 -0500
+
+    Merge branch 'master' into jia
+
+commit dd1df8749940fbdb0316e850dc10b624d47f5c63
+Merge: 3064ef1 8d974e7
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 20:42:12 2015 -0500
+
+    Merge branch 'master' of https://github.com/dennyabrain/deard
+
+commit a11ac5477536f92b4fd71f0229b6f4ac09f03f2d
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 20:41:41 2015 -0500
+
+    dashboard parse data based on key
+
+commit 8d974e7cf375ecf6864444bc6d58a49617201939
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 20:40:03 2015 -0500
+
+    nltk.download file punkt
+
+commit 3064ef1a5f3dbf4692de2083dd961001be769782
+Merge: 9e0b733 94e25c9
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 20:15:30 2015 -0500
+
+    Merge branch 'master' of https://github.com/dennyabrain/deard
+
+commit 9e0b733cc66b12e230b9f8c0697926cd343b013c
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 20:14:48 2015 -0500
+
+    fixing stuff
+
+commit 94e25c95617bc57ed03c2de95d9f73b1e35217d1
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 20:13:29 2015 -0500
+
+    fixed the negative index on timedelta
+
+commit 615756e3b97970ded73135e366f3de2d4f064c6a
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 19:56:40 2015 -0500
+
+    getNouns function added to helper.py. Now nouns are inserted into database
+
+commit b9ee78c6efddb9791c88a657487b5aeb2edc9614
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 17:22:27 2015 -0500
+
+    imported datetime
+
+commit 05b8fb41ff5e2f5c8a0aacfa09e77d7afca0eb4c
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 17:21:20 2015 -0500
+
+    made correction to requirements.txt
+
+commit 5de4780500e49ea16cdf386f8b44f94255208c68
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 17:16:47 2015 -0500
+
+    updated requirements.txt with datetime
+
+commit 482474996d87311f0f6d1db92c19fda425c93518
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 17:15:10 2015 -0500
+
+    not returning userid anymore on /userstats
+
+commit bccda3d5e9b704108913635c6a76bd33b3598f51
+Merge: 21f336f c144bae
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 17:10:32 2015 -0500
+
+    Merge branch 'master' of https://github.com/dennyabrain/deard
+
+commit 21f336f50196fc58f92754a6f57595d4b8714978
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 17:08:50 2015 -0500
+
+    update style
+
+commit c144bae3f0edfefbf10e6241c6e089685a9a0edb
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 17:08:17 2015 -0500
+
+    copied to  hello.py
+
+commit f19e15f6e52e435eb36d9ed69c718dff0c605527
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 17:03:01 2015 -0500
+
+    changed the userstat filter to include all texts
+
+commit f1039f1e0187dd6ec8cec95843d32ad8f4300066
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Dec 17 17:00:08 2015 -0500
+
+    changed userstats to send list of last 7 days comments
+
+commit 699ebebbf1bbbcf19a8968b683658033eeccecb4
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Thu Dec 17 16:51:45 2015 -0500
+
+    dashboard style change
+
+commit b22cb878cb67672acbb86bb8438ae72cf1b54106
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 15 13:03:32 2015 -0500
+
+    update hello.py
+
+commit d70416915ebd7d0b3de882af6d634059502bf829
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 15 11:34:37 2015 -0500
+
+    data dashboard
+
+commit f0978c086120092f246d0411a14eba5723086d80
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Mon Dec 14 12:06:56 2015 -0500
+
+    update userData
+
+commit 42980836011aaaa90ed8d0c8e42d35c07af2f695
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Mon Dec 14 11:59:47 2015 -0500
+
+    add components
+
+commit dbea1d3802fbc6dd9cdc3a5ced62bff4ecaed815
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Dec 13 15:27:56 2015 -0500
+
+    add data dashboard
+
+commit a07aa6b429e736eff7161d454239a2279e152523
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Dec 13 04:14:02 2015 -0500
+
+    bundle React componentw with webpack
+
+commit aa0471421273c60eef9f83e30c4bdd28cfbd6219
+Merge: 1916c44 db20b45
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 12:30:03 2015 -0500
+
+    Merge branch 'jia'
+
+commit db20b45a818077825bd0f3816eff1aa4510db67a
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 12:29:35 2015 -0500
+
+    update colors
+
+commit 1916c449e27dc21b7790c37e1829e1ef55dc3856
+Merge: f6f26a0 142b829
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 11:06:38 2015 -0500
+
+    Merge branch 'jia'
+
+commit 142b8297b4758d74b8886f6ac5475dbd5707ce93
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 11:06:26 2015 -0500
+
+    update colors
+
+commit f6f26a0f63231722bbdf49b2f706bbd480f9e0b5
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 09:45:55 2015 -0500
+
+    move app.py to hello.py
+
+commit 09720eb06e16059a8c31c426f4c9b2270a58f0e0
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 09:45:07 2015 -0500
+
+    pass score to db func.
+
+commit e948352e95d7e932311af06e703d5abb883a014a
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 09:39:30 2015 -0500
+
+    add score for 0, move to hello.py
+
+commit 93f49f53d4d1dc2f7308ffa13155614b2010585a
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 09:36:31 2015 -0500
+
+    store afinn score. add nice loading effects and stuff.
+
+commit 2ce7ce774ccbe04bbcf0c3d85fbce7d65589755e
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 09:32:58 2015 -0500
+
+    update time code
+
+commit 8c60ca198432ca38eb6445807814c08c37605019
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 05:08:37 2015 -0500
+
+    update style add time to db
+
+commit b06045f0a00131c7a5968f3b6384b5d506ece628
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 04:37:02 2015 -0500
+
+    update style
+
+commit 1d88dbebabcd7bf3b7e42386bb146952656d94ab
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 04:22:22 2015 -0500
+
+    update style
+
+commit 42e85d35f15ca913ca86438c70bf9452d148c0d5
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Wed Dec 9 03:16:00 2015 -0500
+
+    style changes
+
+commit fa2fd6579d8f5ddf43f9a7416e9db14058a60fbb
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 8 03:48:58 2015 -0500
+
+    update hello.py
+
+commit f78de80ca3104757dd0f3ce73f03114a4d0caaf0
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 8 03:44:08 2015 -0500
+
+    fix response
+
+commit b85491fb80c45f1bc608ff5e49a43a84b7028101
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 8 03:36:54 2015 -0500
+
+    add score to bot response for testing
+
+commit 6825474a495c1bc54f197eaeead1d0d98fd4460b
+Merge: 4f5ca29 1b96a00
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 8 03:30:04 2015 -0500
+
+    Merge branch 'jia'
+
+commit 1b96a00615b07c0f99ef1af7fa5e663bc073287b
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 8 03:29:46 2015 -0500
+
+    update changes for heroku
+
+commit 4f5ca290367d13137cae6c70afd6ac7c8dffa288
+Merge: 4ad92ce bb5b2a9
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 8 03:27:20 2015 -0500
+
+    Merge branch 'jia'
+
+commit bb5b2a97153f23e4ac1a4f1aa2a6ed1678c83742
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 8 03:26:48 2015 -0500
+
+    try afinn sentiment analysis
+
+commit 4ad92ce0017f8fab07914f0c76c376b048efbd79
+Merge: 17b1771 3b7fb10
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 8 02:23:40 2015 -0500
+
+    Merge branch 'master' of https://git.heroku.com/deard
+
+commit 17b17714783106076172d4e44928fb93bdf4e538
+Merge: 8e50dee 8670197
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 8 02:10:28 2015 -0500
+
+    Merge branch 'jia'
+
+commit 86701978794eca221dee373e64dc1393d3c18577
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 8 02:09:58 2015 -0500
+
+    add default message after register or login
+
+commit 3b7fb105fca366d6a57d111d8cb74184706e6d11
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Tue Dec 1 14:13:21 2015 -0500
+
+    corrected the site title
+
+commit 8e50dee967823db648b890ba731f32ad3aacd678
+Merge: def9981 df4c0df
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 1 13:20:48 2015 -0500
+
+    Merge branch 'jia'
+
+commit df4c0df11664d34871b7243c3541e42a27f5ee4c
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 1 13:20:22 2015 -0500
+
+    update logo
+
+commit def99812c3f60ce64e389e784835e38d9062b88f
+Merge: fac6ddf fa4f3f7
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 1 12:55:09 2015 -0500
+
+    Merge branch 'master' of https://github.com/dennyabrain/deard
+
+commit fac6ddf66d79d6c794138afe0791937ffac74b27
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Tue Dec 1 12:51:53 2015 -0500
+
+    update style
+
+commit fa4f3f7dfce2657b90eee4f4763c2c492d8f993a
+Merge: 22db02d b488596
+Author: Jiashan Wu <jiajia0919@gmail.com>
+Date:   Sun Nov 29 17:15:12 2015 -0500
+
+    Merge pull request #1 from dennyabrain/jia
+    
+    Jia
+
+commit b488596341ada829e676f7b79d86626ad15eb7bd
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Nov 29 17:12:03 2015 -0500
+
+    update React routes
+
+commit 8a9c59a124710e999a11793e5b65367f7f78f13a
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Nov 29 15:46:24 2015 -0500
+
+    update slack stuff
+
+commit bd00c529a7cdce4f84d9524178e960983c61c0e2
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Nov 29 15:37:47 2015 -0500
+
+    post to slack
+
+commit d4c45fc1f92a21850d2f3a8f89c90f2e01af5b43
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Nov 29 15:21:22 2015 -0500
+
+    update hello.py
+
+commit b682ae86d615f0eb0e8f09ccc2581f9f8de926c1
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Nov 29 15:16:48 2015 -0500
+
+    update register function
+
+commit 538a0b29752ecab150d341e57452a26a23243ceb
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Nov 29 15:00:07 2015 -0500
+
+    update response param to text
+
+commit 0b00e0f6c709abaf0e33eee256b7108b86c5fd41
+Author: OhJia <jiajia0919@gmail.com>
+Date:   Sun Nov 29 14:13:12 2015 -0500
+
+    jsonify /comments data
+
+commit 22db02dc3a3d01ba7b439e6b211bef765384d915
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Nov 29 12:00:05 2015 -0500
+
+    for gret
+
+commit b7618df348a3bbe29aea519de3b6b3f2c780e069
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Nov 29 10:25:25 2015 -0500
+
+    minor correction in return of /reply
+
+commit 158dc15ddae300e655860210c981c6239f734642
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sun Nov 29 10:22:46 2015 -0500
+
+    copied corrections to hello.py
+
+commit b61f4fbc5531755ab259a08e55d8f05f4ccf3142
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Nov 28 19:21:29 2015 -0500
+
+    post Greg Corrections
+
+commit 94e6e97662ad2b44654c3a2fbeda2afb68f8f944
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Nov 28 18:56:48 2015 -0500
+
+    weird state
+
+commit fffc9dc5b0a5d0247d029f3ad1d001e2093c6100
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Nov 28 18:11:05 2015 -0500
+
+    pulled changes from jia's exercise.js
+
+commit 30cad068f6757b86ff159ba8021ccb58f88de0d3
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Nov 28 18:05:45 2015 -0500
+
+    copied to hello.py
+
+commit 2d95274c3ea32d71c540bec8e2ba272709cef5be
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Nov 28 18:04:53 2015 -0500
+
+    React integration with new database update call
+
+commit 0456dac8e6a411fd7c1ea84c7e576a6a7f9c7f08
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Nov 28 16:18:51 2015 -0500
+
+    intermediate stage with react
+
+commit 733d3ee7ceb63005da99c652bb24803768c4af7b
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Nov 28 08:19:29 2015 -0500
+
+    copied changes to hello.py
+
+commit 3648d242acc12eee498b913e8277934ed14b4f62
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Sat Nov 28 08:16:23 2015 -0500
+
+    dynamic loading of replies and responses done
+
+commit b249db101498b83518f0e83f5a628deaf676a703
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 23:37:01 2015 -0500
+
+    corrected silly mistake3
+
+commit 22821d29cf12120e86fd91c427b40d45de70e0ff
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 23:34:49 2015 -0500
+
+    corrected silly mistake3
+
+commit 0236b5693269240bde001174b5d8c1d85439f86b
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 23:32:20 2015 -0500
+
+    corrected silly mistake3
+
+commit fafd78388ef42b5b52b59182a3d67a0eb1b21260
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 23:26:04 2015 -0500
+
+    corrected silly mistake2
+
+commit 60aae209cb15e3e8a27c27ccfb9c385974bc5482
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 23:22:29 2015 -0500
+
+    corrected silly mistake
+
+commit 3ebf5d5d64593ed3e39cd8d772d88c54d2d909a7
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 23:20:04 2015 -0500
+
+    updated hello.py
+
+commit 7be9042f85bd8261b140885f3e0b97062383bfc3
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 23:19:21 2015 -0500
+
+    database integrations with dynamic user input and reply slash commands implemented
+
+commit 3c3d3e573b8550178c425059aa56744b342eece8
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 21:53:29 2015 -0500
+
+    registration adds user to database
+
+commit e49ea9075940516ee5c3a5b524d86fe464b344bf
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 21:35:07 2015 -0500
+
+    Flask-login added. Working perfectly, i think
+
+commit 48b87161446d94789d55c1aed0621a12c64ef013
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 13:56:18 2015 -0500
+
+    changed back to hello.py :/ added to database9
+
+commit fe4afa51824a52d31816ddbd67a9947401428469
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 13:55:14 2015 -0500
+
+    changed back to hello.py :/ added to database9
+
+commit 0d2531b97aab67b9ce73452ada1dc790ca5c5395
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 13:50:59 2015 -0500
+
+    changed back to hello.py :/ added to database9
+
+commit 8313f801c55b3dc5ff15e096ccbcf2a6b7cb6200
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 13:48:07 2015 -0500
+
+    changed back to hello.py :/ added to database8
+
+commit 1370f4579a4f335bd8370a6b636b95394da18210
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 13:41:39 2015 -0500
+
+    changed back to hello.py :/ added to database7
+
+commit c72e1d55b7cf4c539324616dfc98f7145ed6f55c
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 13:40:42 2015 -0500
+
+    changed back to hello.py :/ added to database6
+
+commit c94805eefd8cb48b33563701dac885b69eaca7da
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 13:39:21 2015 -0500
+
+    changed back to hello.py :/ added to database5
+
+commit 7753d38349398194bcd335d36cbc611acf94d225
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 13:34:00 2015 -0500
+
+    changed back to hello.py :/ added to database4
+
+commit 71687823b3f836ddfc57c12b7d8e0704c6260a10
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 13:28:12 2015 -0500
+
+    changed back to hello.py :/ added to database3
+
+commit c520d3cdbdab67182562e924c3a482d1296ded27
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 12:51:06 2015 -0500
+
+    changed back to hello.py :/ added to database2
+
+commit 4e32ccbf8614cac6171ebc5ac73cffabfebef9b0
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 12:40:53 2015 -0500
+
+    changed back to hello.py :/ added to database
+
+commit b974b20e04a98aa26474c9eed466b95cf2af45e0
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Fri Nov 27 12:39:22 2015 -0500
+
+    changed back to hello.py :/
+
+commit bdd2dbdc23aadd3163ac819e3eae6b432033b9cd
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Nov 26 21:01:06 2015 -0500
+
+    changed3
+
+commit e13e8300b4579ae9b1059baab98e272885e84dae
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Nov 26 20:59:46 2015 -0500
+
+    changed2
+
+commit b0e6ce47325fb04dd25aa2d0c270d9e172532fbc
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Nov 26 20:58:01 2015 -0500
+
+    changed
+
+commit cb707785d3cb0bad66a781bf8f98ef91e7eca843
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Nov 26 20:55:25 2015 -0500
+
+    added stdout
+
+commit cb7b9340ccccdddb3f686575772d1d42c60ee928
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Nov 26 19:42:32 2015 -0500
+
+    test
+
+commit 0c488d75a9af6ce50675296bf61ff712d76ea95b
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Nov 26 19:23:48 2015 -0500
+
+    small correction to database name
+
+commit bafce1100c60af1803cf36c207f040247e65d904
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Thu Nov 26 19:21:34 2015 -0500
+
+    tested with local mongodb and corrected mistake
+
+commit e5ec0e117fec43c80826327c6a505f51136a2cc0
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Wed Nov 25 22:13:59 2015 -0500
+
+    made database related changes
+
+commit 803f4af91e5b50f1c94ffc6606169ca65c3bf6b0
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Wed Nov 25 21:37:55 2015 -0500
+
+    flask app with front end set up
+
+commit 90acaf761175ca00405231d22ab3ae3e472985ad
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Wed Nov 25 20:25:22 2015 -0500
+
+    slack code added for testing
+
+commit 7368600e745393f8206016caf7036bf73d3e1469
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Wed Nov 25 20:20:03 2015 -0500
+
+    second edit
+
+commit bc1c4ed6e9f3d79b75d3f7437190ce46587b8258
+Author: dennyabrain <denny.george90@gmail.com>
+Date:   Wed Nov 25 20:12:25 2015 -0500
+
+    init
