@@ -11,7 +11,7 @@ from ml import ml
 from uuid import uuid4
 from flask.ext.bcrypt import Bcrypt
 from helper import incrementCFT
-from responseHelper import Response
+from responseHelper import BotResponse
 from flask.ext.socketio import SocketIO, emit
 from mTurk import mTurk
 
@@ -36,7 +36,7 @@ socket = SocketIO(app,logger=True, engineio_logger=True)
 
 mturk = mTurk()
 
-response=Response()
+response=BotResponse()
 
 commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
 

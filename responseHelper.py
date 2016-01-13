@@ -3,7 +3,7 @@ from pprint import pprint
 from datetime import datetime
 from random import randrange
 
-class Response:
+class BotResponse:
 	def __init__(self):
 		self.data={}
 
