@@ -1,1 +1,1 @@
-web: gunicorn --worker-class eventlet -no-sendfile hello:app
+web: waitress-serve --port=$PORT hello:app
