@@ -14,7 +14,7 @@ from helper import incrementCFT
 from responseHelper import BotResponse
 from flask.ext.socketio import SocketIO, emit
 from mTurk import mTurk
-from whitenoise import WhiteNoise
+#from whitenoise import WhiteNoise
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -33,7 +33,7 @@ loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
 
-whiteNoiseApp = WhiteNoise(app,root='static')
+#whiteNoiseApp = WhiteNoise(app,root='static')
 
 socket = SocketIO(app,logger=True, engineio_logger=True)
 
