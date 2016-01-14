@@ -313,7 +313,7 @@ def login2():
 		return '{"status":"fail"}'
 
 @app.route('/approve', methods=['POST'])
-def reply():
+def approve():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		print(text[0])
@@ -321,7 +321,7 @@ def reply():
 		return '{"status":"Approve"}'
 
 @app.route('/reject', methods=['POST'])
-def reply():
+def reject():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		print(text[0])
