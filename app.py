@@ -312,3 +312,21 @@ def login2():
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
 
+app.route('/approve', methods=['POST'])
+def reply():
+	if request.method=='POST':
+		text = request.form['text'].split(' ',1)
+		print(text[0])
+		print(text[1])
+		return '{"status":"Approve"}'
+
+app.route('/reject', methods=['POST'])
+def reply():
+	if request.method=='POST':
+		text = request.form['text'].split(' ',1)
+		print(text[0])
+		print(text[1])
+		return '{"status":"Reject"}'
+
+
+

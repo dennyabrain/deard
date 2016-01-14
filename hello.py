@@ -14,7 +14,7 @@ from helper import incrementCFT
 from responseHelper import BotResponse
 from flask.ext.socketio import SocketIO, emit
 from mTurk import mTurk
-#from whitenoise import WhiteNoise
+from whitenoise import WhiteNoise
 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -33,7 +33,7 @@ loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
 
-#whiteNoiseApp = WhiteNoise(app,root='static')
+whiteNoiseApp = WhiteNoise(app,root='static')
 
 socket = SocketIO(app,logger=True, engineio_logger=True)
 
@@ -311,4 +311,22 @@ def login2():
 					
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
+
+app.route('/approve', methods=['POST'])
+def reply():
+	if request.method=='POST':
+		text = request.form['text'].split(' ',1)
+		print(text[0])
+		print(text[1])
+		return '{"status":"Approve"}'
+
+app.route('/reject', methods=['POST'])
+def reply():
+	if request.method=='POST':
+		text = request.form['text'].split(' ',1)
+		print(text[0])
+		print(text[1])
+		return '{"status":"Reject"}'
+
+
 
