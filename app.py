@@ -317,7 +317,6 @@ def approve():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		print(text[0])
-		print(text[1])
 		return '{"status":"Approve"}'
 
 @app.route('/reject', methods=['POST'])
@@ -325,7 +324,6 @@ def reject():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		print(text[0])
-		print(text[1])
 		return '{"status":"Reject"}'
 
 
