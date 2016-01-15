@@ -317,6 +317,13 @@ def approve():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		print(text[0])
+		for post in databaseUser.findMany({}):
+			if text[0] in post:
+				#fetch Response from dbase and insert in text
+				response = post['lastHit']['response']
+				databaseUser.insertReply(text[0],response, 12345678910,"review",0)
+				#approve and pay worker
+
 		return '{"status":"Approve"}'
 
 @app.route('/reject', methods=['POST'])
