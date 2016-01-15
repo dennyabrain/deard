@@ -323,6 +323,9 @@ def approve():
 				response = post['lastHit']['response']
 				databaseUser.insertReply(text[0],response, 12345678910,"review",0)
 				#approve and pay worker
+				mturk.approve_assignment(post['lastHit']['assignmentID'])
+				mturk.disable_hit(post['lastHit']['hitID'])
+				#resetLastHit
 
 		return '{"status":"Approve"}'
 
