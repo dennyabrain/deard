@@ -326,5 +326,6 @@ def reject():
 		print(text[0])
 		return '{"status":"Reject"}'
 
-
+if __name__=="__main__":
+	socket.run(app)
 
