@@ -100,6 +100,7 @@ def register():
 	session['id']=uuid4()
 	session['index']=1
 	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your mood today?" % request.form['username'],session['id'],"mood",0.0)
+	databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})	
 	return '{"status":"success"}'
 
 # Get from 30 day range:   /userstats?range=30
@@ -149,22 +150,25 @@ def comment():
 		if session['index']==1: #MOOD
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			#HACKY MOOD MAPPING
+			# Calling mood score affinn score for now
+			affinMap = {':D':2,':)':1,':/':0,':(':-1,'(':-2}
 			if request.form['text']==':D' or request.form['text']==':)':
 				mood="happy"
 			elif request.form['text']==':/':
 				mood="ok"
 			else:
 				mood="bad"
+			affinScore = affinMap[request.form['text']]
 
 			session['mood']=mood
 			session['index']=incrementCFT(session['index'])
 			text = response.getSituation(session['mood'])
-			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
+			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],affinScore)
 
 			#Converting datetime.now and uuid to str because they are not JSON serializable. Also I know they aren't being used in the front end.
 			socket.emit('insert',{
 								'text':text,
-								'affin_score':0,
+								'mood_score':affinScore,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -177,7 +181,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':text,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -191,7 +195,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':text,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -206,7 +210,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':text,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -222,7 +226,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':botResponse,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -240,14 +244,14 @@ def comment():
 			
 			socket.emit('insert',{
 								'text':botResponse,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
 								'commentFormType':commentFormType[session['index']]})
 			socket.emit('insert',{
 								'text':botResponse2,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -260,7 +264,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':botResponse,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -328,6 +332,4 @@ def reject():
 
 if __name__=="__main__":
 	socket.run(app)
-
-
 
