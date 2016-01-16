@@ -181,7 +181,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':text,
-								'mood_score':0,
+								'mood_score':-99,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -195,7 +195,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':text,
-								'mood_score':0,
+								'mood_score':-99,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -210,7 +210,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':text,
-								'mood_score':0,
+								'mood_score':-99,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -226,7 +226,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':botResponse,
-								'mood_score':0,
+								'mood_score':-99,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -244,14 +244,14 @@ def comment():
 			
 			socket.emit('insert',{
 								'text':botResponse,
-								'mood_score':0,
+								'mood_score':-99,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
 								'commentFormType':commentFormType[session['index']]})
 			socket.emit('insert',{
 								'text':botResponse2,
-								'mood_score':0,
+								'mood_score':-99,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -264,7 +264,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':botResponse,
-								'mood_score':0,
+								'mood_score':-99,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
