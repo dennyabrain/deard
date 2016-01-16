@@ -150,22 +150,25 @@ def comment():
 		if session['index']==1: #MOOD
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			#HACKY MOOD MAPPING
+			# Calling mood score affinn score for now
+			affinMap = {':D':4,':)':3,':/':2,':(':1,'(':0}
 			if request.form['text']==':D' or request.form['text']==':)':
 				mood="happy"
 			elif request.form['text']==':/':
 				mood="ok"
 			else:
 				mood="bad"
+			affinScore = affinMap[request.form['text']]
 
 			session['mood']=mood
 			session['index']=incrementCFT(session['index'])
 			text = response.getSituation(session['mood'])
-			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
+			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],affinScore)
 
 			#Converting datetime.now and uuid to str because they are not JSON serializable. Also I know they aren't being used in the front end.
 			socket.emit('insert',{
 								'text':text,
-								'affin_score':0,
+								'affin_score':affinScore,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
