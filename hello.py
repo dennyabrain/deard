@@ -327,13 +327,19 @@ def approve():
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
 				#resetLastHit
 
+
 		return '{"status":"Approve"}'
 
 @app.route('/reject', methods=['POST'])
 def reject():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
-		print(text[0])
+		print(text[0],text[1])
+		for post in databaseUser.findMany({}):
+			if text[0] in post:
+				#reject the assignment and give feedback
+				mturk.mtc.reject_assignment(post['lastHit']['assignmentID'],text[1])
+				#resetLastHit
 		return '{"status":"Reject"}'
 
 
