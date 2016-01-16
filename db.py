@@ -38,7 +38,7 @@ class db:
 		for post in self.findMany({}):
 			if userId in post:
 				temp =userId+'.text'
-				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text, "afinn_score": score, "created_at": datetime.now(), "post_id":postId,"commentFormType":commentFormType}}})
+				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"bot","text":text, "mood_score": score, "created_at": datetime.now(), "post_id":postId,"commentFormType":commentFormType}}})
 
 	def updateCFT(self,userId,cft):
 		for post in self.findMany({}):
