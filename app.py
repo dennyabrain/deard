@@ -151,7 +151,7 @@ def comment():
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			#HACKY MOOD MAPPING
 			# Calling mood score affinn score for now
-			affinMap = {':D':4,':)':3,':/':2,':(':1,'(':0}
+			affinMap = {':D':2,':)':1,':/':0,':(':-1,'(':-2}
 			if request.form['text']==':D' or request.form['text']==':)':
 				mood="happy"
 			elif request.form['text']==':/':
@@ -168,7 +168,7 @@ def comment():
 			#Converting datetime.now and uuid to str because they are not JSON serializable. Also I know they aren't being used in the front end.
 			socket.emit('insert',{
 								'text':text,
-								'affin_score':affinScore,
+								'mood_score':affinScore,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -181,7 +181,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':text,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -195,7 +195,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':text,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -210,7 +210,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':text,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -226,7 +226,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':botResponse,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -244,14 +244,14 @@ def comment():
 			
 			socket.emit('insert',{
 								'text':botResponse,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
 								'commentFormType':commentFormType[session['index']]})
 			socket.emit('insert',{
 								'text':botResponse2,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
@@ -264,7 +264,7 @@ def comment():
 			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
 								'text':botResponse,
-								'affin_score':0,
+								'mood_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
