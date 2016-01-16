@@ -6,13 +6,13 @@ module.exports = React.createClass({
 
 	componentDidMount : function() {
 		console.log(this.props.data);
-		var allData = this.props.data;
+		var allData = this.props.data; //{0:[], 1:[], 2:[]...}
 		//var unixTimeKeys = []; // keys
-		var afinnCount = 0;
-		var afinnSum = 0;
-		var afinnAverage = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
+		var moodCountPerDay = 0;
+		var moodSumPerDay = 0;
+		var moodAvgPerDay = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
 		var days = []; //[2, 3, 4, 5, 6, 0]
-		var todayDay = this.props.today.getDay();
+		var startDay = this.props.today.getDay();
 		//var arrayCount = 0;
 		for (var k in allData) {
 			if (allData.hasOwnProperty(k)) {
@@ -20,7 +20,7 @@ module.exports = React.createClass({
          		//unixTimeKeys.push(k);
          		//var date = new Date(k*1000);
          		//console.log(k);
-				switch(todayDay) {
+				switch(startDay) {
 		 			case 0:
 		 				days.unshift("SUN");
 		 				break;
@@ -44,23 +44,25 @@ module.exports = React.createClass({
 		 				break;
 		 			default: break;
 		 		}
-		 		if (todayDay>0) todayDay--;
-		 		else todayDay = 6;
+		 		if (startDay>0) startDay--;
+		 		else startDay = 6;
 
          		// for each array element, calculate afinn average
+         		// -2, -1, 1, 2, 3
          		for (var i = 0; i < allData[k].length; i++) {
-         			if (allData[k][i].afinn_score) {
-         				afinnCount++;
-         				afinnSum += allData[k][i].afinn_score;
+         			if (allData[k][i].mood_score) {
+         				moodCountPerDay++;
+         				moodSumPerDay += allData[k][i].mood_score;
          			}
          		}
-         		if (afinnCount > 0) afinnAverage.unshift(Math.round((afinnSum/afinnCount) * 100));
-         		else afinnAverage.unshift(null);
-         		afinnCount = 0;
-         		afinnSum = 0;
+         		if (moodCountPerDay > 0) moodAvgPerDay.unshift(Math.round((moodSumPerDay/moodCountPerDay) * 100));
+         		else moodAvgPerDay.unshift(null);
+         		moodCountPerDay = 0;
+         		moodSumPerDay = 0;
     		}
 		} // end of for loop
-		console.log(afinnAverage);
+		console.log("MOOD AVERAGE")
+		console.log(moodAvgPerDay);
 		var ctx = document.getElementById("myChart").getContext("2d");
 		var gradient = ctx.createLinearGradient(0, 0, 0, 200);
 		// gradient.addColorStop(0, 'rgba(137,239,229,1)');   
@@ -83,7 +85,7 @@ module.exports = React.createClass({
 		            pointStrokeColor: "#fff",
 		            pointHighlightFill: "#fff",
 		            pointHighlightStroke: "rgba(220,220,220,1)",
-		            data: afinnAverage
+		            data: moodAvgPerDay
 		        }
 		    ]
 		};

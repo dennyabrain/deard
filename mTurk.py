@@ -5,8 +5,10 @@ import os
 
 class mTurk:
 	def __init__(self):
-		self.ACCESS_ID=os.environ['ACCESS_KEY_ID']
-		self.SECRET_KEY=os.environ['SECRET_ACCESS_KEY']			
+		# self.ACCESS_ID=os.environ['ACCESS_KEY_ID']
+		# self.SECRET_KEY=os.environ['SECRET_ACCESS_KEY']
+		self.ACCESS_ID="AKIAJYSEZLGIJO2EJQRA"
+		self.SECRET_KEY="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"			
 		self.HOST='mechanicalturk.sandbox.amazonaws.com'
 		self.title='Please respond as a therapist to this question'
 		self.description=('Read this diary entry and give a thoughtful advice to this person')

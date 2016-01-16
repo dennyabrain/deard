@@ -511,8 +511,7 @@
 		},
 		// SOCKET STUFF
 		componentWillMount: function () {
-			this.url = 'http://' + document.domain + ":" + location.port
-			this.socket = io.connect(this.url);
+			this.socket = io.connect('http://' + document.domain + ':' + location.port);
 			this.socket.on('connect', this.connect);
 			this.socket.on('disconnect', this.disconnect);
 			this.socket.on('insert', this.insert);
@@ -732,33 +731,33 @@
 			return React.createElement(
 				"div",
 				{ className: "row" },
-				React.createElement("div", { className: "col-md-1" }),
+				React.createElement("div", { className: "col-xs-1" }),
 				React.createElement(
 					"div",
-					{ className: "col-md-2" },
+					{ className: "col-xs-2" },
 					React.createElement("input", { type: "submit", value: "wtf", onClick: this.handleInput })
 				),
 				React.createElement(
 					"div",
-					{ className: "col-md-2" },
+					{ className: "col-xs-2" },
 					React.createElement("input", { type: "submit", value: "bad", onClick: this.handleInput })
 				),
 				React.createElement(
 					"div",
-					{ className: "col-md-2" },
+					{ className: "col-xs-2" },
 					React.createElement("input", { type: "submit", value: "meh", onClick: this.handleInput })
 				),
 				React.createElement(
 					"div",
-					{ className: "col-md-2" },
+					{ className: "col-xs-2" },
 					React.createElement("input", { type: "submit", value: "good", onClick: this.handleInput })
 				),
 				React.createElement(
 					"div",
-					{ className: "col-md-2" },
+					{ className: "col-xs-2" },
 					React.createElement("input", { type: "submit", value: "great", onClick: this.handleInput })
 				),
-				React.createElement("div", { className: "col-md-1" })
+				React.createElement("div", { className: "col-xs-1" })
 			);
 		}
 	});
@@ -957,7 +956,7 @@
 					//var c = $.extend(true, {},data);
 					//this.context.setUserKey(data.userKey)
 					console.log("DATA COMMENTS IN MOOD");
-					console.log(data.comments);
+					console.log(data.comments); // {0:[], 1:[], 2:[]}
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments });
 				}).bind(this),
 				error: (function (ehx, status, err) {
@@ -1071,6 +1070,7 @@
 					afinnSum = 0;
 				}
 			} // end of for loop
+			console.log("AFINN AVERAGE");
 			console.log(afinnAverage);
 			var ctx = document.getElementById("myChart").getContext("2d");
 			var gradient = ctx.createLinearGradient(0, 0, 0, 200);

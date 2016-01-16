@@ -160,13 +160,13 @@ var RatingSelectionInput = React.createClass({
 	render: function() {
 		return (
 			<div className="row">
-				<div className="col-md-1" />
-				<div className="col-md-2"><input type="submit" value="wtf" onClick={this.handleInput} /></div>
-				<div className="col-md-2"><input type="submit" value="bad" onClick={this.handleInput} /></div>
-				<div className="col-md-2"><input type="submit" value="meh" onClick={this.handleInput} /></div>
-				<div className="col-md-2"><input type="submit" value="good" onClick={this.handleInput} /></div>
-				<div className="col-md-2"><input type="submit" value="great" onClick={this.handleInput} /></div>
-				<div className="col-md-1" />
+				<div className="col-xs-1" />
+				<div className="col-xs-2"><input type="submit" value="wtf" onClick={this.handleInput} /></div>
+				<div className="col-xs-2"><input type="submit" value="bad" onClick={this.handleInput} /></div>
+				<div className="col-xs-2"><input type="submit" value="meh" onClick={this.handleInput} /></div>
+				<div className="col-xs-2"><input type="submit" value="good" onClick={this.handleInput} /></div>
+				<div className="col-xs-2"><input type="submit" value="great" onClick={this.handleInput} /></div>
+				<div className="col-xs-1" />
 			</div>
 		)
 	}
