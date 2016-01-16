@@ -339,6 +339,9 @@ def reject():
 			if text[0] in post:
 				#reject the assignment and give feedback
 				mturk.mtc.reject_assignment(post['lastHit']['assignmentID'],text[1])
+				#disable last hit and create new hit
+				mturk.mtc.disable_hit(post['lastHit']['hitID'])
+				mturk.createHit(post['lastHit']['text'])
 				#resetLastHit
 		return '{"status":"Reject"}'
 
