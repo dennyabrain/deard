@@ -587,7 +587,7 @@
 			if (!this.state.text) {
 				return;
 			}
-			this.props.onCommentSubmit({ text: this.state.text });
+			this.props.onCommentSubmit({ text: this.state.text, commentFormType: this.props.commentFormType });
 			this.setState({ text: "" });
 
 			var elem = document.getElementById('commentList');
@@ -955,7 +955,8 @@
 				success: (function (data) {
 					//var c = $.extend(true, {},data);
 					//this.context.setUserKey(data.userKey)
-					console.log(data);
+					console.log("DATA COMMENTS IN MOOD");
+					console.log(data.comments);
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments });
 				}).bind(this),
 				error: (function (ehx, status, err) {

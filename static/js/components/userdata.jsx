@@ -20,6 +20,7 @@ module.exports = React.createClass({
 			success: function(data){
 				//var c = $.extend(true, {},data);
 				//this.context.setUserKey(data.userKey)
+				console.log("DATA COMMENTS IN MOOD")
 				console.log(data.comments);
 				this.setState({loadingResponse: false, loaded: true, data: data.comments});
 

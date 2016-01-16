@@ -143,7 +143,7 @@ def comment():
 	if request.method=='POST':
 		postId=session['id']
 		if session['index']==1: #MOOD
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			#HACKY MOOD MAPPING
 			if request.form['text']==':D' or request.form['text']==':)':
 				mood="happy"
@@ -167,7 +167,7 @@ def comment():
 								'commentFormType':commentFormType[session['index']]})
 
 		elif session['index']==2: #SITUATION
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			session['index']=incrementCFT(session['index'])
 			text = response.getFeeling(session['mood'])
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
@@ -180,7 +180,7 @@ def comment():
 								'commentFormType':commentFormType[session['index']]})
 			session['text']=request.form['text']
 		elif session['index']==3: #FEELING
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			session['index']=incrementCFT(session['index'])
 			text = response.getThought(session['mood'])
 			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
@@ -193,7 +193,7 @@ def comment():
 								'commentFormType':commentFormType[session['index']]})
 			session['text']+='\n Feelings :'+request.form['text']
 		elif session['index']==4: #THOUGHT
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			session['index']=incrementCFT(session['index'])
 			#session['thought']=request.form['text']
 			text = response.getPreMechTurk(session['mood'])
@@ -207,7 +207,7 @@ def comment():
 								'commentFormType':commentFormType[session['index']]})
 			session['text']+='\n Thoughts : '+request.form['text']+'\n'
 		elif session['index']==5: #PREMECHTURK
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			#session['index']=incrementCFT(session['index'])
 			id=mturk.createHit(session['text'])
 			databaseUser.insertLastHit(flaskLogin.current_user.id,session['text'],id)
@@ -223,7 +223,7 @@ def comment():
 			#					'type':'bot', 
 			#					'commentFormType':commentFormType[session['index']]})
 		elif session['index']==3: #FEELING
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			session['index']=incrementCFT(session['index'])
 			botResponse = response.getThought(session['mood'])
 			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
@@ -235,7 +235,7 @@ def comment():
 								'type':'bot', 
 								'commentFormType':commentFormType[session['index']]})
 		elif session['index']==4: #THOUGHT
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			session['index']=incrementCFT(session['index'])
 			botResponse = response.getPreMechTurk(session['mood'])
 			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
@@ -247,13 +247,13 @@ def comment():
 								'type':'bot', 
 								'commentFormType':commentFormType[session['index']]})
 		elif session['index']==5: #PREMECHTURK
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			#session['index']=incrementCFT(session['index'])
 			#botResponse = response.getPreMechTurk(session['mood'])
 			#databaseUser.insertReply(flaskLogin.current_user.id,"insert mechanicalTurkReponse here", session['id'], commentFormType[session['index']],0)
 			
 		elif session['index']==6: #REVIEW
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			session['index']=incrementCFT(session['index'])
 			session['review']=request.form['text']
 			botResponse = response.getRethinking(session['mood'])
@@ -268,7 +268,7 @@ def comment():
 								'type':'bot', 
 								'commentFormType':commentFormType[session['index']]})
 		elif session['index']==7: #RETHINKING
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
+			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			session['index']=incrementCFT(session['index'])
 			botResponse = response.getBye(session['mood'])
 			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)

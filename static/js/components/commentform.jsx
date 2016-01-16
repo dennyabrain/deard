@@ -19,7 +19,7 @@ module.exports = React.createClass({
 		if (!this.state.text) {
 			return;
 		}
-		this.props.onCommentSubmit({text: this.state.text});
+		this.props.onCommentSubmit({text: this.state.text, commentFormType: this.props.commentFormType});
 		this.setState({text: ""});
 
 		var elem = document.getElementById('commentList');

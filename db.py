@@ -26,12 +26,15 @@ class db:
 	def listAll(self):
 		return self.collection.find()
 
-	def insertInput(self,userId,text,postId):
+	def insertInput(self,userId,text,postId,commentFormType=None):
 		for post in self.findMany({}):
 			if userId in post:
 				temp =userId+'.text'
 				nouns = getNouns(text)
-				self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now(),"nouns":nouns, "post_id":postId}}})
+				info = {"type":"user","text":text, "created_at": datetime.now(),"nouns":nouns, "post_id":postId}
+				if commentFormType:
+					info["commentFormType"] = commentFormType
+				self.collection.update_one({'name': userId}, {'$push': {temp: info}})
 				#self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now()}}})
 
 	def insertReply(self,userId,text,postId,commentFormType,score=0):
@@ -50,7 +53,7 @@ class db:
 		for post in self.findMany({}):
 			if userId in post:
 			#	if 'text' in post:
-				print(post)
+				# print(post)
 				return post[userId]['text']
 			#	else:
 			#		return []
