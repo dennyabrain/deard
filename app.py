@@ -151,7 +151,7 @@ def comment():
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
 			#HACKY MOOD MAPPING
 			# Calling mood score affinn score for now
-			affinMap = {':D':2,':)':1,':/':0,':(':-1,'(':-2}
+			affinMap = {':D':2,':)':1,':/':0,':(':-1,":'(":-2}
 			if request.form['text']==':D' or request.form['text']==':)':
 				mood="happy"
 			elif request.form['text']==':/':
