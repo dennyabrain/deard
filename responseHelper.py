@@ -3,7 +3,7 @@ from pprint import pprint
 from datetime import datetime
 from random import randrange
 
-class Response:
+class BotResponse:
 	def __init__(self):
 		self.data={}
 
@@ -58,4 +58,4 @@ class Response:
 
 	def getBye(self,mood):
 		index=randrange(0,len(self.data['preMechTurk'][mood]))
-		return self.data['preMechTurk'][mood][index]
+		return self.data['bye'][mood][index]
