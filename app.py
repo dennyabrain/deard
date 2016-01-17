@@ -259,7 +259,8 @@ def comment():
 			databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
 		elif session['index']==7: #RETHINKING
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
-			session['index']=incrementCFT(session['index'])
+			#session['index']=incrementCFT(session['index'])
+			session['index']=8
 			botResponse = response.getBye(session['mood'])
 			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
 			socket.emit('insert',{
@@ -269,6 +270,7 @@ def comment():
 								'post_id':str(session['id']),
 								'type':'bot', 
 								'commentFormType':commentFormType[session['index']]})
+			session['index']=incrementCFT(session['index'])
 
 		"""
 		Post Question on mTurk

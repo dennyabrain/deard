@@ -389,7 +389,7 @@
 			if (this.state.weekDate) {
 				var firstDay = new Date();
 				firstDay.setDate(this.state.weekDate.getDate() - 7);
-				var headerDate = firstDay.getMonth() + 1 + "/" + firstDay.getDate() + "-" + (this.state.weekDate.getMonth() + 1) + "/" + this.state.weekDate.getDate();
+				var headerDate = firstDay.getMonth() + 1 + "/" + firstDay.getDate() + " - " + (this.state.weekDate.getMonth() + 1) + "/" + this.state.weekDate.getDate();
 				console.log("HEADER DATE: " + this.state.weekDate);
 			}
 
@@ -402,7 +402,7 @@
 					React.createElement("div", { className: "logo-d col-xs-2" }),
 					React.createElement(
 						"div",
-						{ className: "logo-d col-xs-8" },
+						{ className: "mood-title logo-d col-xs-8" },
 						this.state.weekNum == 0 ? React.createElement(
 							"div",
 							{ className: "row" },
@@ -834,13 +834,13 @@
 				"buttonText == \"Log new\" ? (",
 				React.createElement(
 					"button",
-					{ type: "submit", value: buttonText, onClick: this.handleInput },
+					{ type: "submit", value: "Log new", onClick: this.handleInput },
 					buttonText
 				),
 				") :(",
 				React.createElement(
 					"button",
-					{ type: "submit", value: buttonText, onClick: this.handleInput },
+					{ type: "submit", value: "OK", onClick: this.handleInput },
 					buttonText
 				),
 				")"

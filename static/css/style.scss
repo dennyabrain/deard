@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "HKGrotesque";
+  src: url('../fonts/HKGrotesk-Bold.otf') format('openType');
+}
+ 
 $dd-black: #2f302c;
 $header-height: 60px;
 $chat-background-color: #e8dada;
@@ -49,6 +54,8 @@ a {
 }
 
 p {
+  /*font-family:"Cutive Mono", serif;*/
+  font: 20px "HKGrotesque", sans-serif;
   font-size: 20px;
 }
 

@@ -135,7 +135,7 @@ var ChatHeader = React.createClass({
 		if (this.state.weekDate) {
 			var firstDay = new Date();
 			firstDay.setDate(this.state.weekDate.getDate() - 7);
-			var headerDate = (firstDay.getMonth()+1) +"/"+ firstDay.getDate() +"-"+ 
+			var headerDate = (firstDay.getMonth()+1) +"/"+ firstDay.getDate() +" - "+ 
 							(this.state.weekDate.getMonth()+1) +"/"+ this.state.weekDate.getDate();
 			console.log("HEADER DATE: "+this.state.weekDate);
 		}		
@@ -147,7 +147,7 @@ var ChatHeader = React.createClass({
 				{this.state.headerStatus == "mood" ? (
 					<span>
 						<div className="logo-d col-xs-2"></div>
-						<div className="logo-d col-xs-8">	
+						<div className="mood-title logo-d col-xs-8">	
 							{ 
 								this.state.weekNum == 0 ? (
 									<div className="row">
