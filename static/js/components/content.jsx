@@ -59,6 +59,8 @@ module.exports = React.createClass({
 		// not use Date.now() for this and would have a more robust system in place.
 
 		// comments.type, comments.text 
+		console.log("HANDLING COMMENT SUBMIT IN CONTENT")
+		console.log(comment)
 
 		comment.id = Date.now();
 		// comment.author = this.context.userKey;

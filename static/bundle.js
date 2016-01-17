@@ -569,6 +569,8 @@
 			// not use Date.now() for this and would have a more robust system in place.
 
 			// comments.type, comments.text
+			console.log("HANDLING COMMENT SUBMIT IN CONTENT");
+			console.log(comment);
 
 			comment.id = Date.now();
 			// comment.author = this.context.userKey;
@@ -689,7 +691,14 @@
 			if (!this.state.text) {
 				return;
 			}
-			this.props.onCommentSubmit({ text: this.state.text, commentFormType: this.props.commentFormType });
+
+			var comment = { text: this.state.text, commentFormType: this.props.commentFormType };
+
+			if (this.props.commentFormType == "bye") {
+				comment.newSession = true;
+			}
+
+			this.props.onCommentSubmit(comment);
 			this.setState({ text: "" });
 
 			var elem = document.getElementById('commentList');
@@ -733,8 +742,11 @@
 						textInput: this.setTextInput });
 					break;
 				case "preMechTurk":
-				case "greeting":
 				case "bye":
+					formContent = React.createElement(ButtonInput, { commentFormType: this.props.commentFormType,
+						textInput: this.setTextInput });
+					break;
+				case "greeting":
 					formContent = React.createElement(ButtonInput, { commentFormType: this.props.commentFormType,
 						textInput: this.setTextInput });
 					break;
@@ -812,14 +824,26 @@
 			this.props.textInput({ text: e.target.value });
 		},
 		render: function () {
+			var buttonText = "OK";
+			if (this.props.commentFormType == "greeting") {
+				buttonText = "**Log new**";
+			}
 			return React.createElement(
 				"span",
 				null,
+				"buttonText == \"Log new\" ? (",
 				React.createElement(
 					"button",
-					{ type: "submit", value: "Ok", onClick: this.handleInput },
-					"OK"
-				)
+					{ type: "submit", value: buttonText, onClick: this.handleInput },
+					buttonText
+				),
+				") :(",
+				React.createElement(
+					"button",
+					{ type: "submit", value: buttonText, onClick: this.handleInput },
+					buttonText
+				),
+				")"
 			);
 		}
 	});

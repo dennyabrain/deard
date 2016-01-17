@@ -19,7 +19,14 @@ module.exports = React.createClass({
 		if (!this.state.text) {
 			return;
 		}
-		this.props.onCommentSubmit({text: this.state.text, commentFormType: this.props.commentFormType});
+
+		var comment = {text: this.state.text, commentFormType: this.props.commentFormType}
+		
+		if (this.props.commentFormType == "bye") {
+			comment.newSession = true;
+		}
+
+		this.props.onCommentSubmit(comment);
 		this.setState({text: ""});
 
 		var elem = document.getElementById('commentList');
@@ -149,15 +156,15 @@ var ButtonInput = React.createClass({
 	render: function() {
 		var buttonText = "OK";
 		if (this.props.commentFormType == "greeting") {
-			buttonText = "Log new"
+			buttonText = "**Log new**";
 		}
 		return (
 			<span>
 				buttonText == "Log new" ? (
-					<button type="submit" value="Ok" onClick={this.handleInput} >{buttonText}</button>
+					<button type="submit" value="Log new" onClick={this.handleInput} >{buttonText}</button>
 				)
 				:(
-					<button type="submit" value="Ok" onClick={this.handleInput} >{buttonText}</button>
+					<button type="submit" value="OK" onClick={this.handleInput} >{buttonText}</button>
 				)
 			</span>
 		)
