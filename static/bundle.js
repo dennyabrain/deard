@@ -258,7 +258,9 @@
 		contextTypes: {
 			showDate: React.PropTypes.any,
 			userKey: React.PropTypes.any,
-			setUserKey: React.PropTypes.func
+			setUserKey: React.PropTypes.func,
+			week: React.PropTypes.any,
+			setWeek: React.PropTypes.func
 		},
 		getInitialState: function () {
 			return { headerStatus: "chat" };
@@ -292,7 +294,8 @@
 					header = React.createElement(ChatHeader, { headerType: this.state.headerStatus, month: m, date: d, changeHeader: this.changeHeader });
 					break;
 				case "mood":
-					header = React.createElement(ChatHeader, { headerType: this.props.headerType, changeHeader: this.changeHeader });
+					header = React.createElement(ChatHeader, { headerType: this.props.headerType, changeHeader: this.changeHeader,
+						weekNum: this.props.showWeekNum, today: this.props.today });
 					break;
 				default:
 					header = "";
@@ -349,28 +352,109 @@
 	var ChatHeader = React.createClass({
 		displayName: 'ChatHeader',
 
+		contextTypes: {
+			week: React.PropTypes.any,
+			setWeek: React.PropTypes.func
+		},
 		getInitialState: function () {
-			return { headerStatus: this.props.headerType };
+			return { headerStatus: this.props.headerType,
+				weekNum: this.props.weekNum,
+				weekDate: this.props.today };
 		},
 		changeHeader: function () {
-			if (this.state.headerStatus == "chat") this.setState({ headerStatus: "mood" });else if (this.state.headerStatus == "mood") this.setState({ headerStatus: "chat" });
-			//console.log("HEADER TYPE CHANGED!")
-			//console.log(this.state.headerStatus);
+			if (this.state.headerStatus == "chat") {
+				this.setState({ headerStatus: "mood" });
+			} else if (this.state.headerStatus == "mood") this.setState({ headerStatus: "chat" });
+		},
+		backWeek: function () {
+			//   /userstats?range=7&startdate=2015-12-01
+			var oneWeekAgo = new Date();
+			oneWeekAgo.setDate(this.state.weekDate.getDate() - 7);
+			this.setState({ weekDate: oneWeekAgo,
+				weekNum: this.state.weekNum - 1 });
+			var range = "?range=7&startdate=" + oneWeekAgo.getFullYear() + "-" + (oneWeekAgo.getMonth() + 1) + "-" + oneWeekAgo.getDate();
+			this.context.setWeek(range, oneWeekAgo);
+		},
+		nextWeek: function () {
+			var oneWeekLater = new Date();
+			this.props.weekNum++;
+			oneWeekLater.setDate(this.state.weekDate.getDate() + 7);
+			this.setState({ weekDate: oneWeekLater,
+				weekNum: this.state.weekNum + 1 });
+			var range = "?range=7&startdate=" + oneWeekLater.getFullYear() + "-" + (oneWeekLater.getMonth() + 1) + "-" + oneWeekLater.getDate();
+			this.context.setWeek(range, oneWeekLater);
 		},
 		render: function () {
+
+			if (this.state.weekDate) {
+				var firstDay = new Date();
+				firstDay.setDate(this.state.weekDate.getDate() - 7);
+				var headerDate = firstDay.getMonth() + 1 + "/" + firstDay.getDate() + "-" + (this.state.weekDate.getMonth() + 1) + "/" + this.state.weekDate.getDate();
+				console.log("HEADER DATE: " + this.state.weekDate);
+			}
+
 			return React.createElement(
 				"div",
 				{ className: "row" },
 				this.state.headerStatus == "mood" ? React.createElement(
 					"span",
 					null,
+					React.createElement("div", { className: "logo-d col-xs-2" }),
 					React.createElement(
 						"div",
-						{ className: "logo-d col-xs-10" },
-						React.createElement(
-							"p",
-							null,
-							"This week"
+						{ className: "logo-d col-xs-8" },
+						this.state.weekNum == 0 ? React.createElement(
+							"div",
+							{ className: "row" },
+							React.createElement(
+								"div",
+								{ className: "mood-back col-xs-2" },
+								React.createElement(
+									"button",
+									{ onClick: this.backWeek },
+									"back"
+								)
+							),
+							React.createElement(
+								"div",
+								{ className: "center col-xs-8" },
+								React.createElement(
+									"p",
+									null,
+									"This week"
+								)
+							),
+							React.createElement("div", { className: "right col-xs-2", style: { backgroundColor: "transparent" } })
+						) : React.createElement(
+							"div",
+							{ className: "row" },
+							React.createElement(
+								"div",
+								{ className: "mood-back col-xs-2" },
+								React.createElement(
+									"button",
+									{ onClick: this.backWeek },
+									"back"
+								)
+							),
+							React.createElement(
+								"div",
+								{ className: "center col-xs-8" },
+								React.createElement(
+									"p",
+									null,
+									headerDate
+								)
+							),
+							React.createElement(
+								"div",
+								{ className: "mood-next col-xs-2" },
+								React.createElement(
+									"button",
+									{ onClick: this.nextWeek },
+									"next"
+								)
+							)
 						)
 					),
 					React.createElement(
@@ -450,21 +534,26 @@
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments }, function () {
 						// Update the commentFormType on latest bot response.
 						//var revComments = (data.comments).reverse();
+						console.log("NEW COMMENT FORM TYPE");
+						console.log(data.commentFormType);
 						var revComments = data.comments;
 
 						//this.setState({ date:revComments[0].created_at });
-
-						for (var c in revComments) {
-							console.log(revComments[c].commentFormType);
-							if (revComments[c].type == "bot") {
-								if (this.state.commentFormType != revComments[c].commentFormType) {
-									this.setState({ commentFormType: revComments[c].commentFormType });
-									console.log("COMMENT FORMT TYPE FROM SERVER");
-									console.log(revComments[c].commentFormType);
-								}
-								break;
-							}
-						}
+						// if (!this.state.returnSession) {
+						// 	for (var c in revComments) {
+						// 		console.log(revComments[c].commentFormType);
+						// 		if (revComments[c].type == "bot") {						
+						// 			if (this.state.commentFormType != revComments[c].commentFormType) {
+						// 				this.setState({commentFormType : revComments[c].commentFormType});
+						// 				console.log("COMMENT FORMT TYPE FROM SERVER")
+						// 				console.log(revComments[c].commentFormType)
+						// 			}
+						// 			break;
+						// 		}
+						// 	}
+						// } else {
+						this.setState({ commentFormType: data.commentFormType, returnSession: false });
+						//}
 					});
 				}).bind(this),
 				error: (function (ehx, status, err) {
@@ -504,7 +593,8 @@
 		},
 		getInitialState: function () {
 			return { data: [], loaded: false, commentFormType: "nothing",
-				status: 'disconnected', date: new Date(), mood: "good" };
+				status: 'disconnected', date: new Date(), mood: "good",
+				returnSession: false };
 		},
 		getDefaultProps: function () {
 			return { url: "/comments" };
@@ -515,16 +605,21 @@
 			this.socket.on('connect', this.connect);
 			this.socket.on('disconnect', this.disconnect);
 			this.socket.on('insert', this.insert);
+			//this.socket.on('returnSessionLogin',this.login);
 		},
 		connect: function () {
+			console.log("SOCKET CONNECT");
 			this.setState({ status: 'connected' });
 			console.log("connected: " + this.socket.id);
 		},
 		disconnect: function () {
+			console.log("SOCKET DISCONNECT");
 			this.setState({ status: 'disconnected' });
 		},
 		insert: function (comment) {
 			//console.log(comment);
+			console.log("SCKET INSERT");
+			console.log(comment.commentFormType);
 			var data = this.state.data;
 			data.push(comment);
 			this.setState({ data: data,
@@ -532,8 +627,15 @@
 				loaded: true,
 				commentFormType: comment.commentFormType });
 		},
+		login: function (comment) {
+			console.log("LOGIN COMMENT FORM TYPE");
+			console.log(comment.commentFormType);
+			this.setState({ returnSession: true,
+				commentFormType: comment.commentFormType });
+		},
 		componentDidMount: function () {
 			setTimeout((function () {
+				//this.socket.on('login',this.login);
 				this.getCommentsFromServer();
 			}).bind(this), 1000);
 		},
@@ -631,6 +733,7 @@
 						textInput: this.setTextInput });
 					break;
 				case "preMechTurk":
+				case "greeting":
 				case "bye":
 					formContent = React.createElement(ButtonInput, { commentFormType: this.props.commentFormType,
 						textInput: this.setTextInput });
@@ -947,16 +1050,32 @@
 			setUserKey: React.PropTypes.func,
 			history: React.PropTypes.object
 		},
-		getCommentsFromServer: function () {
+		childContextTypes: {
+			week: React.PropTypes.any,
+			setWeek: React.PropTypes.func
+		},
+		getChildContext: function () {
+			return {
+				week: this.state.weekNum,
+				setWeek: this.setWeek
+			};
+		},
+		setWeek: function (range, newDate) {
+			console.log("SET WEEK!");
+			console.log(range);
+			this.setState({ loaded: false, date: newDate });
+			this.getCommentsFromServer(range);
+		},
+		getCommentsFromServer: function (range) {
 			$.ajax({
-				url: this.props.url,
+				url: this.props.url + range,
 				dataType: 'json',
 				cache: false,
 				success: (function (data) {
 					//var c = $.extend(true, {},data);
 					//this.context.setUserKey(data.userKey)
-					console.log("DATA COMMENTS IN MOOD");
-					console.log(data.comments); // {0:[], 1:[], 2:[]}
+					//console.log("DATA COMMENTS IN MOOD")
+					//console.log(data.comments); // {0:[], 1:[], 2:[]}
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments });
 				}).bind(this),
 				error: (function (ehx, status, err) {
@@ -967,15 +1086,17 @@
 			//console.log(this.state.data);
 		},
 		getInitialState: function () {
-			return { data: [], loaded: false, todayDate: new Date() };
+			return { data: [], loaded: false, date: new Date(), weekNum: 0 };
 		},
 		getDefaultProps: function () {
-			return { url: "/userstats?range=7" };
+			return { url: "/userstats" };
 			///userstats?range=7
 		},
 		componentDidMount: function () {
+			var date = this.state.date;
 			setTimeout((function () {
-				this.getCommentsFromServer();
+				var range = "?range=7&startdate=" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(); //  /userstats?range=30&startdate=2015-12-01
+				this.getCommentsFromServer(range);
 				//this.enablePolling();
 			}).bind(this), 2000);
 		},
@@ -989,7 +1110,8 @@
 			return React.createElement(
 				'span',
 				null,
-				React.createElement(Header, { headerType: 'mood', logoIcon: true, showDate: true }),
+				React.createElement(Header, { headerType: 'mood', logoIcon: true, showDate: true,
+					showWeekNum: this.state.weekNum, today: this.state.date }),
 				React.createElement(
 					'div',
 					{ className: 'userData' },
@@ -997,9 +1119,9 @@
 						'div',
 						null,
 						React.createElement('div', { className: 'userData-week' }),
-						React.createElement(MoodGraph, { data: this.state.data, today: this.state.todayDate }),
-						React.createElement(WordCount, { data: this.state.data, today: this.state.todayDate }),
-						React.createElement(DaysList, { data: this.state.data, today: this.state.todayDate })
+						React.createElement(MoodGraph, { data: this.state.data, today: this.state.date }),
+						React.createElement(WordCount, { data: this.state.data, today: this.state.date }),
+						React.createElement(DaysList, { data: this.state.data, today: this.state.date })
 					) : React.createElement(Loader, null)
 				)
 			);
@@ -1016,14 +1138,16 @@
 		displayName: 'MoodGraph',
 
 		componentDidMount: function () {
-			console.log(this.props.data);
-			var allData = this.props.data; //{0:[], 1:[], 2:[]...}
+			//console.log(this.props.data);
+			var allData = this.props.data; //{0:[0:{}, 1:{}], 1:[], 2:[]...}
 			//var unixTimeKeys = []; // keys
 			var moodCountPerDay = 0;
 			var moodSumPerDay = 0;
 			var moodAvgPerDay = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
 			var days = []; //[2, 3, 4, 5, 6, 0]
 			var startDay = this.props.today.getDay();
+			//console.log("ALL DATA IN MOOD GRAPH")
+			//console.log(allData);
 			//var arrayCount = 0;
 			for (var k in allData) {
 				if (allData.hasOwnProperty(k)) {
@@ -1061,7 +1185,7 @@
 					// for each array element, calculate afinn average
 					// -2, -1, 1, 2, 3
 					for (var i = 0; i < allData[k].length; i++) {
-						if (allData[k][i].mood_score) {
+						if (allData[k][i].mood_score && allData[k][i].mood_score != -999) {
 							moodCountPerDay++;
 							moodSumPerDay += allData[k][i].mood_score;
 						}
@@ -1071,8 +1195,8 @@
 					moodSumPerDay = 0;
 				}
 			} // end of for loop
-			console.log("MOOD AVERAGE");
-			console.log(moodAvgPerDay);
+			//console.log("MOOD AVERAGE")
+			//console.log(moodAvgPerDay);
 			var ctx = document.getElementById("myChart").getContext("2d");
 			var gradient = ctx.createLinearGradient(0, 0, 0, 200);
 			// gradient.addColorStop(0, 'rgba(137,239,229,1)');  
@@ -1150,12 +1274,12 @@
 		componentDidMount: function () {
 			// console.log(this.props.data);
 			var allData = this.props.data;
+			// console.log("ALL DATA IN WORD COUNT")
+			// console.log(allData)
 			//var unixTimeKeys = []; // keys
-			var afinnCount = 0;
-			var afinnSum = 0;
 			var wordCounts = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
 			var words = []; //[2, 3, 4, 5, 6, 0]
-			var todayDay = this.props.today.getDay();
+			//var todayDay = this.props.today.getDay();
 
 			var dict = {};
 			var keys = [];
@@ -1165,14 +1289,17 @@
 				// for each array element, calculate afinn average
 				for (var i = 0; i < allData[k].length; i++) {
 					if (allData[k][i].nouns) {
-						var nouns = allData[k][i].nouns;
-						for (var w = 0; w < nouns.length; w++) {
-							var word = nouns[w];
-							if (!dict.hasOwnProperty(word)) {
-								dict[word] = 1;
-								keys.push(word);
-							} else {
-								dict[word]++;
+						if (allData[k][i].commentFormType == "situation" || allData[k][i].commentFormType == "rethinking" || allData[k][i].commentFormType == "feeling" || allData[k][i].commentFormType == "thought") {
+							var nouns = allData[k][i].nouns;
+							if (nouns.length < 0) break;
+							for (var w = 0; w < nouns.length; w++) {
+								var word = nouns[w];
+								if (!dict.hasOwnProperty(word)) {
+									dict[word] = 1;
+									keys.push(word);
+								} else {
+									dict[word]++;
+								}
 							}
 						}
 					}
@@ -1313,6 +1440,7 @@
 			var todayDay = this.props.today.getDay();
 			// var todayDate = this.props.today.getDate();
 			var todayDate = this.props.today;
+			var dayListCount = 0;
 			//console.log(this.props.data);
 			for (var d in this.props.data) {
 				var comment = this.props.data[d];
@@ -1346,10 +1474,13 @@
 					if (todayDay > 0) todayDay--;else todayDay = 6;
 				} // end of if statement
 				//console.log(comment);
-				days.push(React.createElement(Day, { key: 'comment-' + day, day: day, date: todayDate.getDate(), data: this.props.data[d] }));
+				//console.log("dayListCount: " + dayListCount)
+				days.push(React.createElement(Day, { key: 'comment-' + dayListCount, keyNum: 'comment-' + dayListCount, day: day,
+					date: todayDate.getDate(), data: this.props.data[d] }));
 
 				todayDate -= 1000 * 60 * 60 * 24;
 				todayDate = new Date(todayDate);
+				dayListCount++;
 			} // end of going through object
 
 			//console.log(days);
@@ -1383,21 +1514,75 @@
 		},
 
 		render: function () {
-			if (this.props.commentType == "bot") {
-				var scoreBgColor = this.colors[parseInt(this.props.commentAfinnScore || 0)],
-				    commentStyle = { backgroundColor: scoreBgColor };
-			}
-			var days = [];
-			for (var i = 0; i < this.props.data.length; i++) {
-				if (this.props.data[i].type == "user") {
-					days.push(React.createElement('div', { className: 'day-dots' }));
-					console.log(this.props.data[i]);
+			// if (this.props.commentType == "bot") {
+			// 	var scoreBgColor = this.colors[ parseInt(this.props.commentAfinnScore || 0) ],
+			// 			commentStyle = { backgroundColor : scoreBgColor };
+			// }
+			// var days = [];
+			// for (var i = 0; i<this.props.data.length; i++) {
+			// 	if (this.props.data[i].type == "user") {
+			// 		days.push((
+			// 			<div className="day-dots">
+			// 			</div>
+			// 		));
+			// 		console.log(this.props.data[i]);
+			// 	}
+			// }
+
+			var dayLogText = "";
+			var charCount = 0;
+			var maxChars = 65;
+			// console.log("DATA IN DAY");
+			// console.log(this.props.data);
+			var moodCount = 0;
+			var moodSum = 0;
+			var moodAvg = null;
+			var allData = this.props.data;
+			for (var i = 0; i < allData.length; i++) {
+				if (allData[i].mood_score && allData[i].mood_score != -999) {
+					moodCount++;
+					moodSum += allData[i].mood_score;
+				}
+
+				if (this.props.data[i].type == "user" && this.props.data[i].commentFormType == "situation") {
+					console.log("this.props.data[i].text.length: " + this.props.data[i].text.length);
+					for (var n = 0; n < this.props.data[i].text.length; n++) {
+						if (charCount < maxChars) {
+							charCount++;
+							dayLogText += this.props.data[i].text[n];
+						} else {
+							if (charCount < this.props.data[i].text.length) {
+								dayLogText += "...";
+								break;
+							}
+						}
+					}
+					//console.log("charCount: "+ charCount);
+					//console.log("dayLogText: "+dayLogText);
+					charCount = 0;
+					break;
 				}
 			}
 
+			if (moodCount > 0) moodAvg = moodSum / moodCount;
+			moodCount = 0;
+			moodSum = 0;
+
+			var borderStyle = {};
+
+			if (this.props.keyNum == "comment-0") {
+				borderStyle = { borderRadius: "10px 10px 0 0" };
+			} else if (this.props.keyNum == "comment-6") {
+				borderStyle = { borderRadius: "0 0 10px 10px", marginBottom: "5px" };
+			}
+
+			// console.log("this.props.key: "+this.props.keyNum)
+			// console.log("borderStyle: ")
+			// console.log(borderStyle )
+
 			return React.createElement(
 				'div',
-				{ className: 'day container-fluid' },
+				{ className: 'day container-fluid', style: borderStyle },
 				React.createElement(
 					'div',
 					{ className: 'row' },
@@ -1417,8 +1602,13 @@
 					),
 					React.createElement(
 						'div',
-						{ className: 'day-comments col-md-10 col-xs-10' },
-						days
+						{ className: 'day-comments col-md-8 col-xs-8' },
+						dayLogText
+					),
+					React.createElement(
+						'div',
+						{ className: 'day-mood col-md-2 col-xs-2' },
+						moodAvg
 					)
 				)
 			);

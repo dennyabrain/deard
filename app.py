@@ -151,7 +151,7 @@ def comment():
 			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
 			#HACKY MOOD MAPPING
 			# Calling mood score affinn score for now
-			affinMap = {':D':2,':)':1,':/':0,':(':-1,'(':-2}
+			affinMap = {':D':2,':)':1,':/':0,':(':-1,":'(":-2}
 			if request.form['text']==':D' or request.form['text']==':)':
 				mood="happy"
 			elif request.form['text']==':/':
@@ -282,7 +282,9 @@ def comment():
 		if request_wants_json():
 			if flaskLogin.current_user and flaskLogin.current_user.id:
 				comments = databaseUser.listAllText(flaskLogin.current_user.id)
-				return jsonify(userKey=flaskLogin.current_user.id, comments=comments)
+				sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
+				session['index']=sessionDB['sessionIndex']
+				return jsonify(userKey=flaskLogin.current_user.id, comments=comments,commentFormType=commentFormType[session['index']])
 			else:
 				return jsonify(error='true')
 		else:
@@ -300,19 +302,21 @@ def login2():
 					# CREATE A NEW SESSION ID ASSOCIATED WITH THIS USER
 					
 					sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
+					print ("SESSION INDEX: %s" % sessionDB['sessionIndex'])
 					if sessionDB['sessionIndex'] != 7:
 						session['id']=sessionDB['sessionId']
 						session['index']=sessionDB['sessionIndex']
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-						socket.emit('login',{
-								'commentFormType':commentFormType[session['index']]})
+						# socket.emit('returnSessionLogin',{
+						# 		'commentFormType':commentFormType[session['index']]})
+						# print ("COMMENT FORM TYPE: %s" % commentFormType[session['index']])
+
 					else:
 						session['id']=uuid4()
 						session['index']=1
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
 						databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'], session['id'],"greeting",0)
 						databaseUser.insertReply(request.form['userKey'],"Good morning. How is your mood today?", session['id'],"mood",0)
-					
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
 

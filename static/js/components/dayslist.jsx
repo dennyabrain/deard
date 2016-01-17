@@ -23,6 +23,7 @@ module.exports = React.createClass({
 		var todayDay = this.props.today.getDay();
 		// var todayDate = this.props.today.getDate();
 		var todayDate = this.props.today;
+		var dayListCount = 0;
 		//console.log(this.props.data);
 		for(var d in this.props.data) {
 			var comment = this.props.data[d];
@@ -56,13 +57,15 @@ module.exports = React.createClass({
 		 		else todayDay = 6;
 		 	} // end of if statement
 		 	//console.log(comment);
+		 	//console.log("dayListCount: " + dayListCount)
 			days.push((
-				<Day key={'comment-' + day} day={day} date={todayDate.getDate()} data={this.props.data[d]}>
-				</Day>
+				<Day key={'comment-' + dayListCount} keyNum={'comment-' + dayListCount} day={day} 
+					date={todayDate.getDate()} data={this.props.data[d]} />
 			));
 
 			todayDate -= (1000 * 60 * 60 * 24); 
 			todayDate = new Date(todayDate);
+			dayListCount++;
 		} // end of going through object
 
 		//console.log(days);

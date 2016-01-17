@@ -6,7 +6,9 @@ module.exports = React.createClass({
 	contextTypes: {
 		showDate : React.PropTypes.any,
 		userKey: React.PropTypes.any,
-		setUserKey: React.PropTypes.func
+		setUserKey: React.PropTypes.func,
+		week : React.PropTypes.any,
+		setWeek : React.PropTypes.func
 	},
 	getInitialState: function() {
 		return {headerStatus: "chat"};
@@ -43,7 +45,8 @@ module.exports = React.createClass({
 		        header = <ChatHeader headerType={this.state.headerStatus} month={m} date={d} changeHeader={this.changeHeader} />;
 		        break;
 	        case "mood":
-	        	header = <ChatHeader headerType={this.props.headerType} changeHeader={this.changeHeader} />;
+	        	header = <ChatHeader headerType={this.props.headerType} changeHeader={this.changeHeader} 
+	        				weekNum={this.props.showWeekNum} today={this.props.today} />;
 	        break;
 		    default:
 		    	header = "";
@@ -61,7 +64,7 @@ module.exports = React.createClass({
 
 var StaticHeader = React.createClass({
 	displayName: 'StaticHeader',
-
+	
 	render: function() {
 		return (
 			<div className="row">
@@ -87,24 +90,90 @@ var StaticHeader = React.createClass({
 var ChatHeader = React.createClass({
 	displayName: 'ChatHeader',
 
+	contextTypes: {
+		week : React.PropTypes.any,
+		setWeek : React.PropTypes.func
+	},
 	getInitialState: function() {
-		return {headerStatus: this.props.headerType};
+		return {headerStatus: this.props.headerType, 
+				weekNum: this.props.weekNum,
+				weekDate: this.props.today};
 	},
 	changeHeader: function() {
-		if (this.state.headerStatus == "chat")
+		if (this.state.headerStatus == "chat") {
 			this.setState({headerStatus: "mood"});
+		}
 		else if (this.state.headerStatus == "mood")
 			this.setState({headerStatus: "chat"});
-		//console.log("HEADER TYPE CHANGED!")
-		//console.log(this.state.headerStatus);
+	},
+	backWeek: function() {
+		//   /userstats?range=7&startdate=2015-12-01
+		var oneWeekAgo = new Date();
+		oneWeekAgo.setDate(this.state.weekDate.getDate() - 7);
+		this.setState({weekDate: oneWeekAgo,
+						weekNum: this.state.weekNum-1});
+		var range = "?range=7&startdate=" +
+						oneWeekAgo.getFullYear() + "-" +
+						(oneWeekAgo.getMonth() + 1) + "-" +
+						oneWeekAgo.getDate(); 
+		this.context.setWeek(range, oneWeekAgo);
+	},
+	nextWeek: function() {
+		var oneWeekLater = new Date();
+		this.props.weekNum++;
+		oneWeekLater.setDate(this.state.weekDate.getDate() + 7);
+		this.setState({weekDate: oneWeekLater,
+						weekNum: this.state.weekNum+1});
+		var range = "?range=7&startdate=" +
+						oneWeekLater.getFullYear() + "-" +
+						(oneWeekLater.getMonth() + 1) + "-" +
+						oneWeekLater.getDate(); 
+		this.context.setWeek(range, oneWeekLater);
 	},
 	render: function() {
+		
+		if (this.state.weekDate) {
+			var firstDay = new Date();
+			firstDay.setDate(this.state.weekDate.getDate() - 7);
+			var headerDate = (firstDay.getMonth()+1) +"/"+ firstDay.getDate() +"-"+ 
+							(this.state.weekDate.getMonth()+1) +"/"+ this.state.weekDate.getDate();
+			console.log("HEADER DATE: "+this.state.weekDate);
+		}		
+		
+
+
 		return (
 			<div className="row">
 				{this.state.headerStatus == "mood" ? (
 					<span>
-						<div className="logo-d col-xs-10">
-							<p>This week</p>					
+						<div className="logo-d col-xs-2"></div>
+						<div className="logo-d col-xs-8">	
+							{ 
+								this.state.weekNum == 0 ? (
+									<div className="row">
+										<div className="mood-back col-xs-2">
+											<button onClick={this.backWeek}>back</button> 
+										</div>
+										<div className="center col-xs-8">
+											<p>This week</p> 
+										</div>					
+										<div className="right col-xs-2" style={{backgroundColor: "transparent"}}></div>
+									</div>
+								)
+								:
+								(	<div className="row">
+										<div className="mood-back col-xs-2">
+											<button onClick={this.backWeek}>back</button> 
+										</div>
+										<div className="center col-xs-8">
+											<p>{headerDate}</p>
+										</div>
+										<div className="mood-next col-xs-2">
+											<button onClick={this.nextWeek}>next</button> 
+										</div>
+									</div>
+								) 
+							}				
 						</div>
 						<div className="right logo-d col-xs-2">
 							<Link to="/comments">

@@ -8,12 +8,12 @@ module.exports = React.createClass({
 	componentDidMount : function() {
 		// console.log(this.props.data);
 		var allData = this.props.data;
+		// console.log("ALL DATA IN WORD COUNT")
+		// console.log(allData)
 		//var unixTimeKeys = []; // keys
-		var afinnCount = 0;
-		var afinnSum = 0;
 		var wordCounts = []; //[0.2, 1.5, 0.6, -5, 1.5, 0.6, -5]
 		var words = []; //[2, 3, 4, 5, 6, 0]
-		var todayDay = this.props.today.getDay();
+		//var todayDay = this.props.today.getDay();
 		
 		var dict = {};
 		var keys = [];
@@ -23,16 +23,22 @@ module.exports = React.createClass({
     		// for each array element, calculate afinn average
      		for (var i = 0; i < allData[k].length; i++) {
      			if (allData[k][i].nouns) {
-     				var nouns = allData[k][i].nouns;
-     				for (var w = 0; w < nouns.length; w++){
-					    var word = nouns[w];
-					    if (!dict.hasOwnProperty(word)){
-					      dict[word] = 1
-					      keys.push(word);
-					    } else {
-					      dict[word]++
-					    }    
-					}
+     				if (allData[k][i].commentFormType == "situation" ||
+     					allData[k][i].commentFormType == "rethinking" ||
+     					allData[k][i].commentFormType == "feeling" ||
+     					allData[k][i].commentFormType == "thought") {
+     					var nouns = allData[k][i].nouns;
+	     				if (nouns.length < 0) break; 
+	     				for (var w = 0; w < nouns.length; w++){
+						    var word = nouns[w];
+						    if (!dict.hasOwnProperty(word)){
+						      dict[word] = 1
+						      keys.push(word);
+						    } else {
+						      dict[word]++
+						    }    
+						}
+     				}
      			}
      		}     		
 			//console.log(dict);

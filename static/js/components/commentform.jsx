@@ -67,6 +67,10 @@ module.exports = React.createClass({
 		        formContent = <ButtonInput commentFormType={this.props.commentFormType} 
 		        			textInput={this.setTextInput} />;
 		        break;
+		    case "greeting":
+		    	formContent = <ButtonInput commentFormType={this.props.commentFormType} 
+		        			textInput={this.setTextInput} />;
+		        break;
 		    case "review":
 		        formContent = <RatingSelectionInput 
 		        			textInput={this.setTextInput} />;
@@ -143,9 +147,18 @@ var ButtonInput = React.createClass({
 		this.props.textInput({text: e.target.value});
 	},
 	render: function() {
+		var buttonText = "OK";
+		if (this.props.commentFormType == "greeting") {
+			buttonText = "Log new"
+		}
 		return (
 			<span>
-				<button type="submit" value="Ok" onClick={this.handleInput} >OK</button>
+				buttonText == "Log new" ? (
+					<button type="submit" value="Ok" onClick={this.handleInput} >{buttonText}</button>
+				)
+				:(
+					<button type="submit" value="Ok" onClick={this.handleInput} >{buttonText}</button>
+				)
 			</span>
 		)
 	}

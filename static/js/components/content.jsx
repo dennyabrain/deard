@@ -24,21 +24,26 @@ module.exports = React.createClass({
 				this.setState({loadingResponse: false, loaded: true, data:data.comments}, function() {
         				// Update the commentFormType on latest bot response.
 					//var revComments = (data.comments).reverse();
+					console.log("NEW COMMENT FORM TYPE")
+					console.log(data.commentFormType)
 					var revComments = (data.comments);
 
 					//this.setState({ date:revComments[0].created_at });
-					
-					for (var c in revComments) {
-						console.log(revComments[c].commentFormType);
-						if (revComments[c].type == "bot") {						
-							if (this.state.commentFormType != revComments[c].commentFormType) {
-								this.setState({commentFormType : revComments[c].commentFormType});
-								console.log("COMMENT FORMT TYPE FROM SERVER")
-								console.log(revComments[c].commentFormType)
-							}
-							break;
-						}
-					}
+					// if (!this.state.returnSession) {
+					// 	for (var c in revComments) {
+					// 		console.log(revComments[c].commentFormType);
+					// 		if (revComments[c].type == "bot") {						
+					// 			if (this.state.commentFormType != revComments[c].commentFormType) {
+					// 				this.setState({commentFormType : revComments[c].commentFormType});
+					// 				console.log("COMMENT FORMT TYPE FROM SERVER")
+					// 				console.log(revComments[c].commentFormType)
+					// 			}
+					// 			break;
+					// 		}
+					// 	}
+					// } else {
+						this.setState({commentFormType: data.commentFormType, returnSession: false});
+					//}
 				});
 			}.bind(this),
 			error: function(ehx, status, err) {
@@ -78,7 +83,8 @@ module.exports = React.createClass({
 	},
 	getInitialState: function() {
 		return {data:[], loaded: false, commentFormType: "nothing", 
-			status: 'disconnected', date: new Date(), mood: "good"}
+			status: 'disconnected', date: new Date(), mood: "good",
+			returnSession: false}
 	}, 
 	getDefaultProps : function() { 
 		return {url:"/comments"}; 
@@ -89,17 +95,22 @@ module.exports = React.createClass({
         this.socket.on('connect', this.connect);
         this.socket.on('disconnect', this.disconnect);
         this.socket.on('insert',this.insert);
+        //this.socket.on('returnSessionLogin',this.login);
 
     },
     connect: function() {
+    	console.log("SOCKET CONNECT");
     	this.setState({ status: 'connected' });
     	console.log("connected: "+ this.socket.id);
     },
     disconnect: function() {
+    	console.log("SOCKET DISCONNECT");
     	this.setState({ status: 'disconnected' });
     },
     insert: function(comment) {
     	//console.log(comment);
+    	console.log("SCKET INSERT");
+    	console.log(comment.commentFormType);
     	var data = this.state.data;
     	data.push(comment);
     	this.setState({data: data, 
@@ -107,8 +118,15 @@ module.exports = React.createClass({
     		loaded: true,
     		commentFormType: comment.commentFormType});
     },
+    login: function(comment) {
+    	console.log("LOGIN COMMENT FORM TYPE");
+    	console.log(comment.commentFormType);
+    	this.setState({returnSession: true, 
+    					commentFormType: comment.commentFormType});
+    },
 	componentDidMount: function() {
 		setTimeout(function() {
+			//this.socket.on('login',this.login);
 			this.getCommentsFromServer();
 		}.bind(this), 1000);
 	},

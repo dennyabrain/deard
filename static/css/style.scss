@@ -2,6 +2,7 @@ $dd-black: #2f302c;
 $header-height: 60px;
 $chat-background-color: #e8dada;
 $card-border-radius: 10px;
+$dashboard-margin-bottom: 10px;
 
 @mixin header-elements {
     height: $header-height;
@@ -66,6 +67,10 @@ input {
   margin-bottom: 5px;
   background-color: none;
   outline: none;
+}
+
+.center {
+  @include center-element;
 }
 
 .right {
@@ -151,6 +156,14 @@ header {
     p {
       padding-top: 5px;
     }
+
+    .mood-back {
+      padding-top: 8px;
+    }
+
+    .mood-next {
+      padding-top: 8px;
+    }
   }
 
   /*.content-container {
@@ -198,6 +211,8 @@ header {
       color: $dd-black;
     }
   }
+
+
 }
 
 /*
@@ -463,6 +478,7 @@ textarea {
   background-color: #fff;
   height: 300px;
   padding-top: 25px;
+  margin-bottom: $dashboard-margin-bottom;
   border-radius: $card-border-radius;
 }
 
@@ -486,13 +502,14 @@ textarea {
 
 
 .daysList {
-  margin-top: 25px;
+  /*margin-top: 25px;*/
+  margin-bottom: $dashboard-margin-bottom;
 }
 
 .day {
   width: 100%;
   min-height: 100px;
-  margin-bottom: 5px;
+  margin-bottom: 1px;
   background-color: #fff;
 
   h1 {
@@ -501,46 +518,44 @@ textarea {
     margin-top: 0px;
     margin-bottom: 0px;
   }
+
+  .day-time {
+    padding: 10px;
+    padding-left: 25px;
+    padding-top: 20px;
+  }
+
+  .day-date {
+    display: block;
+    font-size: 28px;
+  }
+
+  .day-day {
+    display: block;
+    font-size: 18px;
+  }
+
+  .day-comments {
+    margin-top:30px;
+    margin-bottom: 20px;
+  }
+
+  .day-mood {
+    padding: 10px;
+    padding-right: 25px;
+    padding-top: 20px;
+    /*width: 20px;
+    height: 20px;*/
+  }
 }
 
-
-.day-time {
-  padding: 10px;
-  padding-left: 25px;
-  padding-top: 20px;
-}
-
-.day-date {
-  display: block;
-  font-size: 28px;
-}
-
-.day-day {
-  display: block;
-  font-size: 18px;
-}
-
-.day-comments {
-  margin-top:30px;
-  margin-bottom: 20px;
-}
-
-.day-dots {
-  display: inline-block;
-  margin-right: 8px;
-  background-color: #fff;
-  border: 3px solid #000;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-}
 
 .wordcount {
   background-color: #fff;
   max-height: 300px;
   /*padding-top: 25px;*/
-  margin-top: 25px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: $dashboard-margin-bottom;
   padding-bottom: 20px;
   border-radius: $card-border-radius;
 }
