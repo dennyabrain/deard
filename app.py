@@ -99,7 +99,7 @@ def register():
 
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
 
-	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':pw_hash,'text':[]}})
+	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':pw_hash,'text':[],'phonenumber':request.form['phone']}})
 	user = User()
 	user.id=request.form['username']
 	flaskLogin.login_user(user)
