@@ -223,8 +223,8 @@ def approve():
 			if text[0] in post:
 				print ("in post for user %s" % text[0])
 				#fetch Response from dbase and insert in text
-				response = post['lastHit']['response']
-				print "response is %s" % str(response)
+				textResponse = post['lastHit']['response']
+				print "response is %s" % str(textResponse)
 				databaseUser.insertReply(text[0],response, 12345678910,"review",-99)
 				#approve and pay worker
 				print "after db.insertReply"
@@ -248,7 +248,8 @@ def approve():
 				print("after init user")
 				diary.machine.set_state('preMechTurk')
 				print diary.state
-				diary.run(response)
+				print "text response here is %s " %textResponse
+				diary.run(textResponse)
 				print("after diary run")
 				return '{"status":"Approved. User inserted into database and slack."}'
 		
