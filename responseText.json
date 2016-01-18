@@ -6,7 +6,11 @@
 		"evening": ["Good evening.", "well this day is over.", "now might be a good time to reflect upon the day", "you are just in time before my bed time ;)", "ok, lets talk about the day.", "nothing like a refreshing chat with me before we end the day :P", "well, well, well... look who's here", "just finished giving you a standing ovation for getting through this day."]
 	},
 
-	"mood": ["How are you?", "How's it going?", "What's your mood like now?", "How do you feel?", "How would you describe your state of mind?", "try to put your mood into one of these categories", "lets try to label your current emotion", "what describes you more accurately right now?"],
+	"mood": {
+		"happy":["How are you?", "How's it going?", "What's your mood like now?", "How do you feel?", "How would you describe your state of mind?", "try to put your mood into one of these categories", "lets try to label your current emotion", "what describes you more accurately right now?"],
+		"ok":["How are you?", "How's it going?", "What's your mood like now?", "How do you feel?", "How would you describe your state of mind?", "try to put your mood into one of these categories", "lets try to label your current emotion", "what describes you more accurately right now?"],
+		"bad":["How are you?", "How's it going?", "What's your mood like now?", "How do you feel?", "How would you describe your state of mind?", "try to put your mood into one of these categories", "lets try to label your current emotion", "what describes you more accurately right now?"]
+	},
 
 	"situation": {
 		"happy": ["Yay! What's up?", "oh tell me more.", "sounds great!", "that sounds awesome!", "That's good to know.", "Lovely.,well then you don't really need me today. jk ;)", "Cool!"],
@@ -27,8 +31,8 @@
 	},
 
 	"preMechTurk": {
-		"happy": ["I have noted everything you said. Let me get back to you in a while"],
-		"ok": ["ok i will be right back with something helpful to say :)"],
+		"happy": ["That's lovely."],
+		"ok": ["oh cool. sounds good"],
 		"bad": ["It’s tough to be positive when things are not going well. Let me think about this, and give you some advice.", "I get why you would think like that. Let me get back to you with an alternate way to look at this."]
 	},
 

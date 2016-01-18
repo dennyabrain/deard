@@ -57,5 +57,12 @@ class BotResponse:
 		return self.data['rethinking'][review][index]
 
 	def getBye(self,mood):
-		index=randrange(0,len(self.data['preMechTurk'][mood]))
+		index=randrange(0,len(self.data['bye'][mood]))
 		return self.data['bye'][mood][index]
+
+	def getText(self,state,mode):
+		print ("state is %s"%state)
+		
+		print ("mode is %s"%mode)
+		i=randrange(0,len(self.data[state][mode]))
+		return self.data[state][mode][i]
