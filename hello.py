@@ -246,6 +246,7 @@ def approve():
 				print("after sessionDB")
 				diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
 				print("after init user")
+				diary.set_state('preMechTurk')
 				print diary.state
 				diary.run("placeHolder String")
 				print("after diary run")
