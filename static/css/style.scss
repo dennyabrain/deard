@@ -12,8 +12,10 @@ $dd-black: #2f302c;
 $dd-gray: rgba(47,48,44,0.7);
 $dd-blue: #baddd3;
 $dd-red: #fc5959;
+$dd-peach: #fcd6d0;
 $header-height: 60px;
 $chat-background-color: #e8dada;
+$dd-bg-gradient: linear-gradient(80deg, $dd-peach, $dd-blue);
 $card-border-radius: 10px;
 $dashboard-margin-bottom: 10px;
 $box-dropshadow: 0px 1px 1px rgba(47, 48, 44, 0.2);
@@ -49,9 +51,13 @@ $box-dropshadow: 0px 1px 1px rgba(47, 48, 44, 0.2);
   box-shadow: 0px 1px 1px rgba(47, 48, 44, 0.2);
 }*/
 
-body, html, #app, .layout-static {
+body, html, #app{
   height:100%;
+  /*background-color: $dd-peach;*/
+  background: $dd-bg-gradient;
 }
+
+
 
 /*.container {
   max-width: 750px;
@@ -88,7 +94,12 @@ button {
   }
 }
 
+/*#app {
+  background-color: $dd-peach;
+}*/
+
 .app-loading {
+  /*background-color: $dd-peach;*/
   .loader {
     margin-top: 200px;
   }
@@ -96,7 +107,7 @@ button {
 
 
 input {
-  color: #fff;
+  /*color: #fff;*/
   border: none;
   padding: 8px;
   font-size: 18px;
@@ -134,10 +145,18 @@ input {
 
 .main {
   margin-top: 30px;
+  /*.loader {
+    margin-top: 200px;
+  }*/
 }
 
 .home {
   color: #fff;
+  margin-top: 200px;
+
+  h2 {
+    font-size: 30px;
+  }
   button {
     padding: 10px 30px;
     border: none;
@@ -173,13 +192,26 @@ header {
 }
 
 .layout-static {
-  background-color: $dd-blue;
-  /*background: linear-gradient(60deg, #fc5959, #e5a89a 50%, #89EFE5);*/
+  &.page- {
+     background: linear-gradient(60deg, #fc5959, #e5a89a 60%, #89EFE5);
+     height: 100%;
+  }
+  &.page-login {
+     background-color: $dd-peach;
+     height: 100%;
+  }
+  &.page-register {
+    background-color: $dd-blue;
+    height: 100%;
+  }
+
 }
 
 .static-logo-key {
   img {
     @include center-element;
+    margin-bottom: 25px;
+    margin-top: 25px;
   }
 }
 
@@ -188,7 +220,7 @@ header {
   login/register
 **********************************/
 .login {
-  margin-top: 40%;
+  margin-top: 160px;
 }
 
 .login-user-area {
@@ -210,6 +242,7 @@ header {
   width: 80%;
   margin: 0 auto;
   color: $dd-black;
+  margin-bottom: 50px;
   input {
     margin-bottom: 0px;
     border: none;
@@ -225,6 +258,10 @@ header {
     font-size: 16px;
     color: $dd-red;
   }
+}
+
+.home-logo {
+  margin-top: 100px;
 }
 
 
@@ -322,6 +359,7 @@ header {
 .commentList {
   margin-bottom: 200px;
   margin-top: 80px;
+  transition: opacity .1s ease-out; opacity: 1;
   /*background-color: #fff;*/
 }
 
@@ -525,10 +563,12 @@ textarea {
 
 .userData {
   margin-top: 80px;
+  height: 100%;
 }
 
 .userData-mounted {
-  background-color: $chat-background-color;
+  /*background-color: $chat-background-color;*/
+  height: 100%;
 }
 
 .userData-week {

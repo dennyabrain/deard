@@ -36,24 +36,6 @@ module.exports = React.createClass({
 			userKey: key
 		});
 	},
-
-	// SOCKET STUFF
-	componentWillMount: function() {
-        // this.socket = io.connect('http://' + document.domain + ':' + location.port);
-        // this.socket.on('connect', this.connect);
-        // this.socket.on('disconnect', this.disconnect);
-        // this.socket.on('insert',function(text){
-        //     console.log('Got Event')
-        // })
-        //this.socket.on('welcome', this.welcome);
-    },
-    // connect: function() {
-    // 	this.setState({ loaded: true, status: 'connected' });
-    // 	console.log("connected: "+ this.socket.id);
-    // },
-    // disconnect: function() {
-    // 	this.setState({ loaded: false, status: 'disconnected' });
-    // },
 	componentDidMount: function() {
 		setTimeout(function() {
 			this.setState({ loaded: true });
