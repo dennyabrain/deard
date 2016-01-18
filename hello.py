@@ -232,9 +232,13 @@ def approve():
 				#resetLastHit
 
 				diary=Diary(socket,databaseUser,mturk)
+				print("after diary init")
 				sessionDB = databaseUser.getSession(text[0])
+				print("after sessionDB")
 				diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
+				print("after init user")
 				diary.run()
+				print("after diary run")
 				return '{"status":"Approved. User inserted into database and slack."}'
 			else:
 				return '{"status":"User Not Found"}'
