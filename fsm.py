@@ -148,6 +148,7 @@ class Diary:
 			#Go back to state greeting
 			text1="I'm glad this is helpful and you feel like talking more."
 			text2="How do you feel right now?"
+			#TODO start a new session
 			self.db.insertReply(self.username,text1,self.sessionId,"greeting",0.0)
 			self.db.insertReply(self.username,text2,self.sessionId,"mood",0.0)
 			self.next()

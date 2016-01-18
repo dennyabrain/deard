@@ -16,7 +16,13 @@ from flask.ext.socketio import SocketIO, emit
 from mTurk import mTurk
 from whitenoise import WhiteNoise
 from fsm import Diary
-
+from twilio.rest import TwilioRestClient
+ 
+# Your Account Sid and Auth Token from twilio.com/user/account
+#account_sid = os.environ['TW_ACCOUNT_SID']
+#auth_token  = os.environ['TW_AUTH_TOKEN']
+#twilioClient = TwilioRestClient(account_sid, auth_token)
+ 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
 
@@ -96,7 +102,7 @@ def register():
 
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
 
-	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':pw_hash,'text':[]}})
+	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':pw_hash,'text':[],'phone':request.form['phone']}})
 	user = User()
 	user.id=request.form['username']
 	flaskLogin.login_user(user)
@@ -211,14 +217,38 @@ def approve():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		print(text[0])
+		for post in databaseUser.findMany({}):
+			if text[0] in post:
+				#fetch Response from dbase and insert in text
+				response = post['lastHit']['response']
+				databaseUser.insertReply(text[0],response, 12345678910,"review",0)
+				#approve and pay worker
+				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
+				mturk.mtc.disable_hit(post['lastHit']['hitID'])
+				#message = client.messages.create(body="Jenny please?! I love you <3",
+				#							to="+19175748108",    # Replace with your phone number
+				#						    from_="+16467830371") # Replace with your Twilio number
+				#print message.sid
+				#resetLastHit
+
+
 		return '{"status":"Approve"}'
 
 @app.route('/reject', methods=['POST'])
 def reject():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
-		print(text[0])
+		print(text[0],text[1])
+		for post in databaseUser.findMany({}):
+			if text[0] in post:
+				#reject the assignment and give feedback
+				mturk.mtc.reject_assignment(post['lastHit']['assignmentID'],text[1])
+				#disable last hit and create new hit
+				mturk.mtc.disable_hit(post['lastHit']['hitID'])
+				mturk.createHit(post['lastHit']['text'])
+				#resetLastHit
 		return '{"status":"Reject"}'
+
 
 if __name__=="__main__":
 	socket.run(app)
