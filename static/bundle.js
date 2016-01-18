@@ -352,11 +352,17 @@
 				React.createElement(
 					"div",
 					{ className: "static-logo-key col-md-8 col-xs-12" },
-					React.createElement("img", { src: "/static/img/key.svg", width: "55" })
+					React.createElement(
+						Link,
+						{ to: "/" },
+						React.createElement("img", { src: "/static/img/key-black.svg", width: "55" })
+					)
 				)
 			);
 		}
 	});
+
+	// <a href="/"><img src="/static/img/key.svg" width="55"/></a>
 
 	var ChatHeader = React.createClass({
 		displayName: 'ChatHeader',
@@ -1726,7 +1732,7 @@
 				"div",
 				{ className: "home main" },
 				React.createElement(
-					"h1",
+					"h2",
 					{ className: "tk-anonymous-pro" },
 					"Hey there! Thanks for testing this out. dear d. is a smart diary that responds to you. Get started by creating a new account."
 				),

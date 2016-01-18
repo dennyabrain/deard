@@ -80,12 +80,14 @@ var StaticHeader = React.createClass({
 					</div>	
 				</div>
 				<div className="static-logo-key col-md-8 col-xs-12">
-					<img src="/static/img/key.svg" width="55"/>
+					<Link to="/"><img src="/static/img/key-black.svg" width="55"/></Link>
 				</div>
 			</div>
 		)
 	}
 });
+
+// <a href="/"><img src="/static/img/key.svg" width="55"/></a>
 
 var ChatHeader = React.createClass({
 	displayName: 'ChatHeader',
