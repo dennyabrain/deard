@@ -72,7 +72,9 @@ module.exports = React.createClass({
 		if (this.props.keyNum == "comment-0") {
 			borderStyle = {borderRadius: "10px 10px 0 0"};
 		} else if (this.props.keyNum == "comment-6") {
-			borderStyle = {borderRadius: "0 0 10px 10px", marginBottom: "5px"};
+			borderStyle = {borderRadius: "0 0 10px 10px", 
+							marginBottom: "5px",
+							boxShadow: "0px 1px 1px rgba(47, 48, 44, 0.2)"};
 		}
 
 		// console.log("this.props.key: "+this.props.keyNum)
@@ -84,10 +86,10 @@ module.exports = React.createClass({
 				<div className="row">
 					<div className="day-time col-md-2 col-xs-2">
 						<h1 className="day-date">{this.props.date}</h1>
-						<h1 className="day-day">{this.props.day}</h1>
+						<h2 className="day-day">{this.props.day}</h2>
 					</div>
 					<div className="day-comments col-md-8 col-xs-8">
-						{dayLogText}
+						<p>{dayLogText}</p>
 					</div>
 					<div className="day-mood col-md-2 col-xs-2">
 						{moodAvg}

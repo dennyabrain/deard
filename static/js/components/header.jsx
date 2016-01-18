@@ -155,7 +155,7 @@ var ChatHeader = React.createClass({
 											<button onClick={this.backWeek}>back</button> 
 										</div>
 										<div className="center col-xs-8">
-											<p>This week</p> 
+											<h2>This week</h2> 
 										</div>					
 										<div className="right col-xs-2" style={{backgroundColor: "transparent"}}></div>
 									</div>
@@ -166,7 +166,7 @@ var ChatHeader = React.createClass({
 											<button onClick={this.backWeek}>back</button> 
 										</div>
 										<div className="center col-xs-8">
-											<p>{headerDate}</p>
+											<h2>{headerDate}</h2>
 										</div>
 										<div className="mood-next col-xs-2">
 											<button onClick={this.nextWeek}>next</button> 
@@ -191,7 +191,7 @@ var ChatHeader = React.createClass({
 							</Link>
 						</div>
 						<div className="logo-d col-xs-8">
-							<p>{this.props.month} {this.props.date}</p>
+							<h2>{this.props.month} {this.props.date}</h2>
 						</div>
 						<div className="right col-xs-2">
 							<a href="/logout" onClick={this.logout}><img src="/static/img/logout.svg" width="10"/></a>					

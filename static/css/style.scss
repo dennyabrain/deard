@@ -1,6 +1,11 @@
 @font-face {
-  font-family: "HKGrotesque";
+  font-family: "HKGrotesque-bold";
   src: url('../fonts/HKGrotesk-Bold.otf') format('openType');
+}
+
+@font-face {
+  font-family: "HKGrotesque-regular";
+  src: url('../fonts/HKGrotesk-Regular.otf') format('openType');
 }
  
 $dd-black: #2f302c;
@@ -8,6 +13,8 @@ $header-height: 60px;
 $chat-background-color: #e8dada;
 $card-border-radius: 10px;
 $dashboard-margin-bottom: 10px;
+$box-dropshadow: 0px 1px 1px rgba(47, 48, 44, 0.2);
+
 
 @mixin header-elements {
     height: $header-height;
@@ -35,6 +42,10 @@ $dashboard-margin-bottom: 10px;
   top: 8px;
 }
 
+/*@mixion box-dropshadow {
+  box-shadow: 0px 1px 1px rgba(47, 48, 44, 0.2);
+}*/
+
 body, html, #app, .layout-static {
   height:100%;
 }
@@ -55,8 +66,28 @@ a {
 
 p {
   /*font-family:"Cutive Mono", serif;*/
-  font: 20px "HKGrotesque", sans-serif;
+  font: 20px "HKGrotesque-regular", sans-serif;
   font-size: 20px;
+}
+
+h1, h2 {
+  /*font-family:"Cutive Mono", serif;*/
+  font: 20px "HKGrotesque-bold", sans-serif;
+}
+
+h2 {
+  margin-top: 8px;
+}
+
+/*h1 {
+  font-size: 30px;
+}*/
+
+button {
+  h2 {
+    margin-bottom: 3px;
+    margin-top: 3px;
+  }
 }
 
 .app-loading {
@@ -482,6 +513,7 @@ textarea {
 }
 
 .moodgraph {
+  box-shadow: 0px 1px 1px rgba(47, 48, 44, 0.2);
   background-color: #fff;
   height: 300px;
   padding-top: 25px;
@@ -509,7 +541,10 @@ textarea {
 
 
 .daysList {
+  /*@include box-dropshadow;*/
+  /*box-shadow: $box-dropshadow;*/
   /*margin-top: 25px;*/
+  /*border-radius: $card-border-radius;*/
   margin-bottom: $dashboard-margin-bottom;
 }
 
@@ -534,17 +569,22 @@ textarea {
 
   .day-date {
     display: block;
-    font-size: 28px;
+    font-size: 30px;
+    padding-bottom: 0px;
   }
 
   .day-day {
     display: block;
-    font-size: 18px;
+    font-size: 14px;
+    margin-top: 0px;
   }
 
   .day-comments {
     margin-top:30px;
     margin-bottom: 20px;
+    p {
+      font-size: 16px;
+    }
   }
 
   .day-mood {
@@ -558,6 +598,8 @@ textarea {
 
 
 .wordcount {
+  /*@include box-dropshadow;*/
+  box-shadow: $box-dropshadow;
   background-color: #fff;
   max-height: 300px;
   /*padding-top: 25px;*/
@@ -568,7 +610,7 @@ textarea {
 }
 
 .myWordChart-noWords p {
-  color: #000;
+  color: $dd-black;
   text-align: center;
   padding-top: 80px;
   padding-bottom: 80px;

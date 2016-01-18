@@ -125,8 +125,8 @@ var TextFieldInput = React.createClass({
 					placeholder="Say something... "  
 					value={this.state.text} 
 					onChange={this.handleTextChange} />
-				<input id="input-post" type="submit" value="Post" 
-					onClick={this.handleInput} />
+				<p><input id="input-post" type="submit" value="Post" 
+					onClick={this.handleInput} /></p>
 			</span>
 		)
 	}
@@ -155,17 +155,19 @@ var ButtonInput = React.createClass({
 	},
 	render: function() {
 		var buttonText = "OK";
-		if (this.props.commentFormType == "greeting") {
-			buttonText = "**Log new**";
+		if (this.props.commentFormType == "bye") {
+			buttonText = "Log new";
 		}
 		return (
 			<span>
-				buttonText == "Log new" ? (
-					<button type="submit" value="Log new" onClick={this.handleInput} >{buttonText}</button>
-				)
-				:(
-					<button type="submit" value="OK" onClick={this.handleInput} >{buttonText}</button>
-				)
+				{
+					buttonText == "Log new" ? (
+						<h2><button type="submit" value="Log new" onClick={this.handleInput} >{buttonText}</button></h2>
+					)
+					:(
+						<h2><button type="submit" value="OK" onClick={this.handleInput} >{buttonText}</button></h2>
+					)
+				}
 			</span>
 		)
 	}

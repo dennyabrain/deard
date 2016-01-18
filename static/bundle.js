@@ -419,7 +419,7 @@
 								"div",
 								{ className: "center col-xs-8" },
 								React.createElement(
-									"p",
+									"h2",
 									null,
 									"This week"
 								)
@@ -441,7 +441,7 @@
 								"div",
 								{ className: "center col-xs-8" },
 								React.createElement(
-									"p",
+									"h2",
 									null,
 									headerDate
 								)
@@ -483,7 +483,7 @@
 						"div",
 						{ className: "logo-d col-xs-8" },
 						React.createElement(
-							"p",
+							"h2",
 							null,
 							this.props.month,
 							" ",
@@ -796,8 +796,12 @@
 					placeholder: "Say something... ",
 					value: this.state.text,
 					onChange: this.handleTextChange }),
-				React.createElement("input", { id: "input-post", type: "submit", value: "Post",
-					onClick: this.handleInput })
+				React.createElement(
+					"p",
+					null,
+					React.createElement("input", { id: "input-post", type: "submit", value: "Post",
+						onClick: this.handleInput })
+				)
 			);
 		}
 	});
@@ -825,25 +829,29 @@
 		},
 		render: function () {
 			var buttonText = "OK";
-			if (this.props.commentFormType == "greeting") {
-				buttonText = "**Log new**";
+			if (this.props.commentFormType == "bye") {
+				buttonText = "Log new";
 			}
 			return React.createElement(
 				"span",
 				null,
-				"buttonText == \"Log new\" ? (",
-				React.createElement(
-					"button",
-					{ type: "submit", value: "Log new", onClick: this.handleInput },
-					buttonText
-				),
-				") :(",
-				React.createElement(
-					"button",
-					{ type: "submit", value: "OK", onClick: this.handleInput },
-					buttonText
-				),
-				")"
+				buttonText == "Log new" ? React.createElement(
+					"h2",
+					null,
+					React.createElement(
+						"button",
+						{ type: "submit", value: "Log new", onClick: this.handleInput },
+						buttonText
+					)
+				) : React.createElement(
+					"h2",
+					null,
+					React.createElement(
+						"button",
+						{ type: "submit", value: "OK", onClick: this.handleInput },
+						buttonText
+					)
+				)
 			);
 		}
 	});
@@ -1597,7 +1605,9 @@
 			if (this.props.keyNum == "comment-0") {
 				borderStyle = { borderRadius: "10px 10px 0 0" };
 			} else if (this.props.keyNum == "comment-6") {
-				borderStyle = { borderRadius: "0 0 10px 10px", marginBottom: "5px" };
+				borderStyle = { borderRadius: "0 0 10px 10px",
+					marginBottom: "5px",
+					boxShadow: "0px 1px 1px rgba(47, 48, 44, 0.2)" };
 			}
 
 			// console.log("this.props.key: "+this.props.keyNum)
@@ -1619,7 +1629,7 @@
 							this.props.date
 						),
 						React.createElement(
-							'h1',
+							'h2',
 							{ className: 'day-day' },
 							this.props.day
 						)
@@ -1627,7 +1637,11 @@
 					React.createElement(
 						'div',
 						{ className: 'day-comments col-md-8 col-xs-8' },
-						dayLogText
+						React.createElement(
+							'p',
+							null,
+							dayLogText
+						)
 					),
 					React.createElement(
 						'div',
