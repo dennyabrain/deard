@@ -232,7 +232,7 @@ def approve():
 				#resetLastHit
 
 				diary=Diary(socket,databaseUser,mturk)
-				sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
+				sessionDB = databaseUser.getSession(text[0])
 				diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
 				diary.run()
 				return '{"status":"Approved. User inserted into database and slack."}'
