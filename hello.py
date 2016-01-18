@@ -228,6 +228,8 @@ def approve():
 				databaseUser.insertReply(text[0],response, 12345678910,"review",0)
 				#approve and pay worker
 				print "after db.insertReply"
+				print "assignmentId : %s" % post['lastHit']['assignmentID']
+				print "hitID : %s " % post['lastHit']['hitID']
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
 				print "after mturk approve assignment"
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
