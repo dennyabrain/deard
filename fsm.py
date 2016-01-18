@@ -87,7 +87,7 @@ class Diary:
 			self.emitInsertEvent(text,affinScore,str(datetime.now()))
 			self.updateSessionData()
 			
-		elif self.state=='situation' or self.state=='feeling' or self.state=='thought':
+		elif self.state=='situation' or self.state=='feeling':
 			self.insertInputToDbase(requestForm['text'])
 			#text=self.fetchResponseFromJSON(self.mood)
 			if self.state=='situation':
@@ -96,16 +96,25 @@ class Diary:
 			elif self.state=='feeling':
 				text=self.response.getThought(self.mood)
 				print ("in if condition of feeling")
-			elif self.state=='thought':
-				text=self.response.getPreMechTurk(self.mood)
-				print ("in if condition of thought")
+			self.updateMessage(self.state+" : "+str(requestForm['text'])+'\n')
 			self.next()
 			print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			self.insertReplyIntoDatabase(text)
 			self.emitInsertEvent(text,-99,str(datetime.now()))
-			self.updateMessage(self.state+" : "+str(requestForm['text'])+'\n')
 			self.updateSessionData()
+
+		elif self.state=='thought':
+			self.insertInputToDbase(requestForm['text'])
+			text=self.response.getPreMechTurk(self.mood)
+			self.updateMessage(self.state+" : "+str(requestForm['text'])+'\n')
+			self.next()
+			print("deard is currently in %s state" % self.state)
+			self.incrementSessionIndex()
+			self.insertReplyIntoDatabase(text)
+			self.emitInsertEvent(text,-99,str(datetime.now()))
+			id=self.mturk.createHit(self.message)
+			self.db.insertLastHit(self.username,self.message,id)
 			
 			
 		elif self.state=='preMechTurk':
@@ -113,9 +122,9 @@ class Diary:
 			self.next()
 			print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
-			id=self.mturk.createHit(self.message)
-			self.db.insertLastHit(self.username,self.message,id)
-			self.emitInsertEvent("mTurk",-99,str(datetime.now()))
+			#id=self.mturk.createHit(self.message)
+			#self.db.insertLastHit(self.username,self.message,id)
+			#self.emitInsertEvent("mTurk",-99,str(datetime.now()))
 			self.updateSessionData()
 			
 
