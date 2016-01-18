@@ -247,10 +247,9 @@ def approve():
 				diary.run()
 				print("after diary run")
 				return '{"status":"Approved. User inserted into database and slack."}'
-			else:
-				return '{"status":"User Not Found"}'
+		
+		return '{"status":"User Not Found"}'
 
-		return '{"status":"Approve"}'
 
 @app.route('/reject', methods=['POST'])
 def reject():
