@@ -73,7 +73,7 @@ module.exports = React.createClass({
 						date.getDate(); //  /userstats?range=30&startdate=2015-12-01
 			this.getCommentsFromServer(range);
 			//this.enablePolling();
-		}.bind(this), 2000);
+		}.bind(this), 100);
 	},
 	componentWillMount : function() {
 	   $('body').addClass('userData-mounted');
