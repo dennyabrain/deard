@@ -225,7 +225,7 @@ def approve():
 				#fetch Response from dbase and insert in text
 				textResponse = post['lastHit']['response']
 				print "response is %s" % str(textResponse)
-				databaseUser.insertReply(text[0],response, 12345678910,"review",-99)
+				databaseUser.insertReply(text[0],textResponse, 12345678910,"review",-99)
 				#approve and pay worker
 				print "after db.insertReply"
 				print "assignmentId : %s" % post['lastHit']['assignmentID']
