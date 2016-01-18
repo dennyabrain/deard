@@ -67,7 +67,9 @@ module.exports = React.createClass({
 
 var StaticHeader = React.createClass({
 	displayName: 'StaticHeader',
-	
+	contextTypes : {
+		location : React.PropTypes.object
+	},
 	render: function() {
 		return (
 			<div className="row">
@@ -80,13 +82,26 @@ var StaticHeader = React.createClass({
 					</div>	
 				</div>
 				<div className="static-logo-key col-md-8 col-xs-12">
-					<Link to="/"><img src="/static/img/key-black.svg" width="55"/></Link>
+					{ this.context.location.pathname == "/" ? (
+							<Link to="/">
+								<div className="home-logo">
+									<img src="/static/img/key-black.svg" width="65"/>
+									<img src="/static/img/logo-deard.svg" width="160"/>
+								</div>
+							</Link>
+						)
+						:(
+							<Link to="/">
+								
+							</Link>
+						) 
+					}
 				</div>
 			</div>
 		)
 	}
 });
-
+// <img src="/static/img/key-black.svg" width="55"/>
 // <a href="/"><img src="/static/img/key.svg" width="55"/></a>
 
 var ChatHeader = React.createClass({

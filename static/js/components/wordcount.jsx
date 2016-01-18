@@ -88,7 +88,7 @@ module.exports = React.createClass({
 			scaleShowLabels: false,
 			barShowStroke : false,
 			scaleFontFamily: "'HKGrotesque-regular', 'sans-serif'",
-			scaleFontColor: "#2f302c"
+			scaleFontColor: "#2f302c",
 		}
 
 		//console.log(chartData, options)

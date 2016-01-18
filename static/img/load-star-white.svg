@@ -4,8 +4,17 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="-458 261 42 40" style="enable-background:new -458 261 42 40;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#2F302C;}
+	.st0{fill:#FFFFFF;}
+	.st1{fill:#FC5959;}
+	.st2{fill:#FF9085;}
+	.st3{fill:#BADDD3;}
 </style>
 <polygon class="st0" points="-440.8,277.9 -436.9,270.9 -433.1,277.9 -426.1,281.8 -433.1,285.6 -436.9,292.6 -440.8,285.6 
 	-447.8,281.8 "/>
+<polygon class="st1" points="-462.3,238 -460.5,234.6 -458.6,238 -455.2,239.9 -458.6,241.7 -460.5,245.1 -462.3,241.7 
+	-465.7,239.9 "/>
+<polygon class="st2" points="-440.1,238.6 -438.8,236.3 -437.5,238.6 -435.2,239.9 -437.5,241.1 -438.8,243.4 -440.1,241.1 
+	-442.4,239.9 "/>
+<polygon class="st3" points="-417.3,239 -416.4,237.6 -415.6,239 -414.1,239.9 -415.6,240.7 -416.4,242.2 -417.3,240.7 
+	-418.7,239.9 "/>
 </svg>

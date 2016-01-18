@@ -136,20 +136,6 @@ var TextFieldInput = React.createClass({
 	}
 });
 
-// var TextFieldInput = React.createClass({
-// 	displayName: 'TextFieldInput',
-// 	render: function() {
-// 		return (
-// 			<span>
-// 				<textarea className="form-control"  
-// 					placeholder="Say something... " 
-// 					value={this.state.text}
-// 					onChange={this.handleTextChange} />
-// 				<input id="input-post" type="submit" value="Post" />
-// 			</span>
-// 		)
-// 	}
-// });
 
 var ButtonInput = React.createClass({
 	displayName: 'ButtonInput',

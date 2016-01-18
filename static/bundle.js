@@ -127,24 +127,6 @@
 				userKey: key
 			});
 		},
-
-		// SOCKET STUFF
-		componentWillMount: function () {
-			// this.socket = io.connect('http://' + document.domain + ':' + location.port);
-			// this.socket.on('connect', this.connect);
-			// this.socket.on('disconnect', this.disconnect);
-			// this.socket.on('insert',function(text){
-			//     console.log('Got Event')
-			// })
-			//this.socket.on('welcome', this.welcome);
-		},
-		// connect: function() {
-		// 	this.setState({ loaded: true, status: 'connected' });
-		// 	console.log("connected: "+ this.socket.id);
-		// },
-		// disconnect: function() {
-		// 	this.setState({ loaded: false, status: 'disconnected' });
-		// },
 		componentDidMount: function () {
 			setTimeout((function () {
 				this.setState({ loaded: true });
@@ -173,17 +155,17 @@
 				React.createElement(
 					"span",
 					{ className: "star" },
-					React.createElement("img", { src: "/static/img/load-star-black.svg", width: "18", height: "18" })
+					React.createElement("img", { src: "/static/img/load-star-white.svg", width: "18", height: "18" })
 				),
 				React.createElement(
 					"span",
 					{ className: "star" },
-					React.createElement("img", { src: "/static/img/load-star-black.svg", width: "15", height: "15" })
+					React.createElement("img", { src: "/static/img/load-star-white.svg", width: "15", height: "15" })
 				),
 				React.createElement(
 					"span",
 					{ className: "star" },
-					React.createElement("img", { src: "/static/img/load-star-black.svg", width: "12", height: "12" })
+					React.createElement("img", { src: "/static/img/load-star-white.svg", width: "12", height: "12" })
 				)
 			);
 		}
@@ -314,7 +296,9 @@
 
 	var StaticHeader = React.createClass({
 		displayName: 'StaticHeader',
-
+		contextTypes: {
+			location: React.PropTypes.object
+		},
 		render: function () {
 			return React.createElement(
 				"div",
@@ -352,16 +336,21 @@
 				React.createElement(
 					"div",
 					{ className: "static-logo-key col-md-8 col-xs-12" },
-					React.createElement(
+					this.context.location.pathname == "/" ? React.createElement(
 						Link,
 						{ to: "/" },
-						React.createElement("img", { src: "/static/img/key-black.svg", width: "55" })
-					)
+						React.createElement(
+							"div",
+							{ className: "home-logo" },
+							React.createElement("img", { src: "/static/img/key-black.svg", width: "65" }),
+							React.createElement("img", { src: "/static/img/logo-deard.svg", width: "160" })
+						)
+					) : React.createElement(Link, { to: "/" })
 				)
 			);
 		}
 	});
-
+	// <img src="/static/img/key-black.svg" width="55"/>
 	// <a href="/"><img src="/static/img/key.svg" width="55"/></a>
 
 	var ChatHeader = React.createClass({
@@ -644,17 +633,11 @@
 				loaded: true,
 				commentFormType: comment.commentFormType });
 		},
-		// login: function(comment) {
-		// 	console.log("LOGIN COMMENT FORM TYPE");
-		// 	console.log(comment.commentFormType);
-		// 	this.setState({returnSession: true,
-		// 					commentFormType: comment.commentFormType});
-		// },
 		componentDidMount: function () {
 			setTimeout((function () {
 				//this.socket.on('login',this.login);
 				this.getCommentsFromServer();
-			}).bind(this), 1000);
+			}).bind(this), 100);
 		},
 		render: function () {
 			// console.log("THIS STATE DATE GETMONTH");
@@ -832,21 +815,6 @@
 			);
 		}
 	});
-
-	// var TextFieldInput = React.createClass({
-	// 	displayName: 'TextFieldInput',
-	// 	render: function() {
-	// 		return (
-	// 			<span>
-	// 				<textarea className="form-control" 
-	// 					placeholder="Say something... "
-	// 					value={this.state.text}
-	// 					onChange={this.handleTextChange} />
-	// 				<input id="input-post" type="submit" value="Post" />
-	// 			</span>
-	// 		)
-	// 	}
-	// });
 
 	var ButtonInput = React.createClass({
 		displayName: 'ButtonInput',
@@ -1166,7 +1134,7 @@
 				var range = "?range=7&startdate=" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(); //  /userstats?range=30&startdate=2015-12-01
 				this.getCommentsFromServer(range);
 				//this.enablePolling();
-			}).bind(this), 2000);
+			}).bind(this), 100);
 		},
 		componentWillMount: function () {
 			$('body').addClass('userData-mounted');
@@ -1704,10 +1672,20 @@
 
 	module.exports = React.createClass({
 		displayName: 'StaticLayout',
+
+		contextTypes: {
+			location: React.PropTypes.object
+		},
 		render: function () {
+			var name = this.context.location.pathname;
+
+			var key = name.replace(/^\//, '');
+			//.replace(/\//, '-') || ‘home’
+			console.log("STATIC LAYOUT");
+			console.log("layout-static page-" + key);
 			return React.createElement(
 				'div',
-				{ className: 'layout-static' },
+				{ className: "layout-static page-" + key },
 				React.createElement(
 					'div',
 					{ className: 'container' },
@@ -1731,23 +1709,17 @@
 			return React.createElement(
 				"div",
 				{ className: "home main" },
-				React.createElement(
-					"h2",
-					{ className: "tk-anonymous-pro" },
-					"Hey there! Thanks for testing this out. dear d. is a smart diary that responds to you. Get started by creating a new account."
-				),
-				React.createElement(
-					Link,
-					{ to: "/register" },
-					React.createElement(
-						"button",
-						{ className: "tk-anonymous-pro" },
-						"Create new account"
-					)
-				)
+				React.createElement("h2", { className: "tk-anonymous-pro" })
 			);
 		}
 	});
+
+	// <Link to="/register">
+	// 	<button className="tk-anonymous-pro">Create new account</button>
+	// </Link>
+
+	// Dear friend, dear d. is a smart diary that responds to you and let you track your mood.
+	// Get started by creating a new account.
 
 /***/ },
 /* 16 */
