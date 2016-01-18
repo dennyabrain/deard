@@ -217,6 +217,7 @@ def approve():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		print(text[0])
+		print databseUser
 		for post in databaseUser.findMany({}):
 			print (post)
 			if text[0] in post:
