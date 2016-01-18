@@ -83,7 +83,7 @@ class Diary:
 			affinScore=Diary.affinMap[requestForm['text']]
 			self.incrementSessionIndex()
 			text=self.response.getSituation(self.mood)
-			self.insertReplyIntoDatabase(text)
+			self.insertReplyIntoDatabase(text,affinScore)
 			self.emitInsertEvent(text,affinScore,str(datetime.now()))
 			self.updateSessionData()
 			
@@ -123,7 +123,7 @@ class Diary:
 			self.incrementSessionIndex()
 			#id=self.mturk.createHit(self.message)
 			#self.db.insertLastHit(self.username,self.message,id)
-			self.emitInsertEvent("mTurk",-99,str(datetime.now()))
+			self.emitInsertEvent(requestForm['text'],-99,str(datetime.now()))
 			self.updateSessionData()
 			
 
@@ -185,8 +185,8 @@ class Diary:
 		text = self.response.getText(self.state,mode)
 		return text
 
-	def insertReplyIntoDatabase(self,text):
-		self.db.insertReply(self.username,text,self.sessionId, Diary.commentFormType[self.sessionIndex],0)
+	def insertReplyIntoDatabase(self,text,affinScore=-99):
+		self.db.insertReply(self.username,text,self.sessionId, Diary.commentFormType[self.sessionIndex],affinScore)
 
 	def updateSessionData(self):
 		self.db.insertSetSession(self.username,'sessionData',{"sessionId":self.sessionId,
