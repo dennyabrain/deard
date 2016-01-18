@@ -124,7 +124,9 @@ class Diary:
 			#id=self.mturk.createHit(self.message)
 			#self.db.insertLastHit(self.username,self.message,id)
 			self.emitInsertEvent(requestForm,-99,str(datetime.now()))
+			print "emit insert event in preMechTurk"
 			self.updateSessionData()
+			print "inPreMechTurk after updateSesson"
 			
 
 		elif self.state=='review':
