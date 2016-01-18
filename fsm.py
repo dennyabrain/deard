@@ -118,13 +118,12 @@ class Diary:
 			
 			
 		elif self.state=='preMechTurk':
-			self.insertInputToDbase(requestForm['text'])
 			self.next()
 			print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			#id=self.mturk.createHit(self.message)
 			#self.db.insertLastHit(self.username,self.message,id)
-			#self.emitInsertEvent("mTurk",-99,str(datetime.now()))
+			self.emitInsertEvent("mTurk",-99,str(datetime.now()))
 			self.updateSessionData()
 			
 
