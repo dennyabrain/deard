@@ -238,9 +238,10 @@
 			var bgColor = this.BGColors[this.state.mood];
 			var ftColor = this.colors[this.state.mood];
 			diaryStyle = { backgroundColor: bgColor, color: ftColor };
+			console.log("DIARYLAYOUT FONT COLOR: " + ftColor);
 			return React.createElement(
 				'div',
-				{ className: 'container layout-diary', style: diaryStyle },
+				{ className: 'container layout-diary', fontColor: ftColor, style: diaryStyle },
 				this.props.children
 			);
 		}
@@ -790,17 +791,29 @@
 		},
 		render: function () {
 			return React.createElement(
-				"span",
-				null,
-				React.createElement("textarea", { className: "form-control",
-					placeholder: "Say something... ",
-					value: this.state.text,
-					onChange: this.handleTextChange }),
+				"div",
+				{ className: "row" },
 				React.createElement(
-					"p",
-					null,
-					React.createElement("input", { id: "input-post", type: "submit", value: "Post",
-						onClick: this.handleInput })
+					"div",
+					{ className: "col-xs-10 input-text" },
+					React.createElement(
+						"p",
+						null,
+						React.createElement("textarea", { className: "form-control",
+							placeholder: "Say something... ",
+							value: this.state.text,
+							onChange: this.handleTextChange })
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-2 input-button" },
+					React.createElement(
+						"h2",
+						null,
+						React.createElement("input", { id: "input-post", type: "submit", value: "Post",
+							onClick: this.handleInput })
+					)
 				)
 			);
 		}
@@ -1077,10 +1090,18 @@
 	module.exports = React.createClass({
 		displayName: 'UserData',
 
+		colors: {
+			'great': '#fc5959',
+			'good': '#ff9085',
+			'ok': '#e5a89a',
+			'bad': '#b8bfa1',
+			'worst': '#acc1b9'
+		},
 		contextTypes: {
 			userKey: React.PropTypes.any,
 			setUserKey: React.PropTypes.func,
-			history: React.PropTypes.object
+			history: React.PropTypes.object,
+			mood: React.PropTypes.any
 		},
 		childContextTypes: {
 			week: React.PropTypes.any,
@@ -1118,7 +1139,8 @@
 			//console.log(this.state.data);
 		},
 		getInitialState: function () {
-			return { data: [], loaded: false, date: new Date(), weekNum: 0 };
+			return { data: [], loaded: false, date: new Date(),
+				weekNum: 0 };
 		},
 		getDefaultProps: function () {
 			return { url: "/userstats" };
@@ -1139,6 +1161,8 @@
 			$('body').removeClass('userData-mounted');
 		},
 		render: function () {
+			var ftColor = this.colors[this.context.mood];
+			console.log("USERDATA FONT COLOR: " + ftColor);
 			return React.createElement(
 				'span',
 				null,
@@ -1152,7 +1176,7 @@
 						null,
 						React.createElement('div', { className: 'userData-week' }),
 						React.createElement(MoodGraph, { data: this.state.data, today: this.state.date }),
-						React.createElement(WordCount, { data: this.state.data, today: this.state.date }),
+						React.createElement(WordCount, { fontColor: ftColor, data: this.state.data, today: this.state.date }),
 						React.createElement(DaysList, { data: this.state.data, today: this.state.date })
 					) : React.createElement(Loader, null)
 				)
@@ -1263,7 +1287,9 @@
 				scaleLineColor: 'transparent',
 				scaleShowLabels: false,
 				datasetStrokeWidth: 10,
-				pointDotRadius: 8
+				pointDotRadius: 8,
+				scaleFontFamily: "'HKGrotesque-regular', 'sans-serif'",
+				scaleFontColor: "rgba(47,48,44,0.7)"
 			};
 
 			var myLineChart = new Chart(ctx).Line(chartData, options);
@@ -1286,7 +1312,7 @@
 				React.createElement(
 					'div',
 					{ className: 'col-md-11 col-xs-11' },
-					React.createElement('canvas', { id: 'myChart' })
+					React.createElement('canvas', { id: 'myChart', height: '300' })
 				)
 			);
 		}
@@ -1301,7 +1327,7 @@
 		displayName: 'WordCount',
 
 		getInitialState: function () {
-			return { noWordsText: null };
+			return { noWordsText: null, fontColor: this.props.fontColor };
 		},
 		componentDidMount: function () {
 			// console.log(this.props.data);
@@ -1361,13 +1387,14 @@
 			if (numOfWords == 0) {
 				this.setState({ noWordsText: "There are no words." });
 			}
+			console.log("FONT COLOR: " + this.state.fontColor);
 			var chartData = {
 				labels: words,
 				datasets: [{
 					label: "This week",
-					fillColor: "rgba(248,124,105,0.75)",
+					fillColor: this.state.fontColor,
 					strokeColor: "rgba(220,220,220,1)",
-					highlightFill: "rgba(248,124,105,1)",
+					highlightFill: this.state.fontColor,
 					data: wordCounts
 				}]
 			};
@@ -1380,7 +1407,9 @@
 				// datasetFill : false,
 				scaleLineColor: 'transparent',
 				scaleShowLabels: false,
-				barShowStroke: false
+				barShowStroke: false,
+				scaleFontFamily: "'HKGrotesque-regular', 'sans-serif'",
+				scaleFontColor: "#2f302c"
 			};
 
 			//console.log(chartData, options)

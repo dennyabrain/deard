@@ -7,10 +7,18 @@ var Header = require('./header')
 module.exports = React.createClass({
 	displayName: 'UserData',
 
+	colors : {
+		'great': '#fc5959',
+		'good': '#ff9085',
+		'ok': '#e5a89a',
+		'bad': '#b8bfa1',
+		'worst': '#acc1b9'
+	},
 	contextTypes : {
 		userKey : React.PropTypes.any,
 		setUserKey : React.PropTypes.func,
-		history : React.PropTypes.object	
+		history : React.PropTypes.object,
+		mood: React.PropTypes.any	
 	},
 	childContextTypes : {
 		week : React.PropTypes.any,
@@ -49,7 +57,8 @@ module.exports = React.createClass({
 		//console.log(this.state.data);
 	},
 	getInitialState: function() {
-		return {data:[], loaded: false, date: new Date(), weekNum: 0};
+		return {data:[], loaded: false, date: new Date(), 
+				weekNum: 0};
 	}, 
 	getDefaultProps : function() { 
 		return {url:"/userstats"}; 
@@ -73,6 +82,8 @@ module.exports = React.createClass({
 	   $('body').removeClass('userData-mounted');
 	},
 	render: function() {
+		var ftColor = this.colors[this.context.mood];
+		console.log("USERDATA FONT COLOR: "+ftColor);
 		return (
 			<span>
 			<Header headerType="mood" logoIcon={true} showDate={true} 
@@ -83,7 +94,7 @@ module.exports = React.createClass({
 						<div>
 							<div className="userData-week"></div>
 							<MoodGraph data={this.state.data} today={this.state.date}/>
-							<WordCount data={this.state.data} today={this.state.date}/>
+							<WordCount fontColor={ftColor} data={this.state.data} today={this.state.date}/>
 							<DaysList data={this.state.data} today={this.state.date}/>
 						</div>
 					) :

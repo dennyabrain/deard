@@ -120,14 +120,18 @@ var TextFieldInput = React.createClass({
 	},
 	render: function() {
 		return (
-			<span>
-				<textarea className="form-control"  
-					placeholder="Say something... "  
-					value={this.state.text} 
-					onChange={this.handleTextChange} />
-				<p><input id="input-post" type="submit" value="Post" 
-					onClick={this.handleInput} /></p>
-			</span>
+			<div className="row">
+				<div className="col-xs-10 input-text">
+					<p><textarea className="form-control" 
+						placeholder="Say something... "  
+						value={this.state.text} 
+						onChange={this.handleTextChange} /></p>
+				</div>
+				<div className="col-xs-2 input-button">
+					<h2><input id="input-post" type="submit" value="Post" 
+						onClick={this.handleInput} /></h2>
+				</div>
+			</div>
 		)
 	}
 });
