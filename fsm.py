@@ -123,7 +123,7 @@ class Diary:
 			self.incrementSessionIndex()
 			#id=self.mturk.createHit(self.message)
 			#self.db.insertLastHit(self.username,self.message,id)
-			self.emitInsertEvent(response,-99,str(datetime.now()))
+			self.emitInsertEvent(requestForm,-99,str(datetime.now()))
 			self.updateSessionData()
 			
 
