@@ -3,7 +3,7 @@ module.exports = React.createClass({
 	displayName: 'WordCount',
 
 	getInitialState: function() {
-		return {noWordsText: null};
+		return {noWordsText: null, fontColor: this.props.fontColor};
 	}, 
 	componentDidMount : function() {
 		// console.log(this.props.data);
@@ -64,14 +64,15 @@ module.exports = React.createClass({
 				dict[keys[4]] || 0, dict[keys[5]] || 0, dict[keys[6]] || 0];
 
 		if (numOfWords == 0) { this.setState({noWordsText: "There are no words."}); }
+		console.log("FONT COLOR: "+this.state.fontColor);
 		var chartData = {
 		    labels: words,
 		    datasets: [
 		        {
 		            label: "This week",
-		            fillColor: "rgba(248,124,105,0.75)",
+		            fillColor: this.state.fontColor,
 		            strokeColor: "rgba(220,220,220,1)",
-		            highlightFill: "rgba(248,124,105,1)",
+		            highlightFill: this.state.fontColor,
 		            data: wordCounts
 		        }
 		    ]
@@ -85,7 +86,9 @@ module.exports = React.createClass({
 			// datasetFill : false,
 			scaleLineColor: 'transparent',
 			scaleShowLabels: false,
-			barShowStroke : false
+			barShowStroke : false,
+			scaleFontFamily: "'HKGrotesque-regular', 'sans-serif'",
+			scaleFontColor: "#2f302c"
 		}
 
 		//console.log(chartData, options)

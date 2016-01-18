@@ -102,6 +102,8 @@ module.exports = React.createClass({
 			scaleShowLabels: false,
 			datasetStrokeWidth : 10,
 			pointDotRadius : 8,
+			scaleFontFamily: "'HKGrotesque-regular', 'sans-serif'",
+			scaleFontColor: "rgba(47,48,44,0.7)"
 		}
 
 		var myLineChart = new Chart(ctx).Line(chartData, options);
@@ -119,7 +121,7 @@ module.exports = React.createClass({
 					<img src="/static/img/mood-sad.svg" width="25"/>
 				</div>
 				<div className="col-md-11 col-xs-11">
-					<canvas id="myChart"></canvas>
+					<canvas id="myChart" height="300"></canvas>
 				</div>
 			</div>
 		);

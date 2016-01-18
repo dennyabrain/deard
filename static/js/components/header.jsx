@@ -62,25 +62,25 @@ module.exports = React.createClass({
 	}
 });
 
+// <img src="/static/img/logo-dear.svg" width="100"/>
+// <img src="/static/img/logo-d-w.svg" width="22"/>
+
 var StaticHeader = React.createClass({
 	displayName: 'StaticHeader',
 	
 	render: function() {
 		return (
 			<div className="row">
-				<div className="title col-xs-8">
-					<img src="/static/img/key.svg" width="55"/>
-					<img src="/static/img/logo-dear.svg" width="100"/>
-					<img src="/static/img/logo-d-w.svg" width="22"/>
-				</div>
-
-				<div className="col-xs-4">
+				<div className="col-xs-12 col-md-4">
 					<div className="right header-login">
-						<Link to="/register">new account</Link>
+						<p><Link to="/register">register</Link></p>
 					</div> 
-					<div className="right header-login">					
-						<Link to="/login">login</Link>						
+					<div className="header-login">					
+						<p><Link to="/login">login</Link></p>					
 					</div>	
+				</div>
+				<div className="static-logo-key col-md-8 col-xs-12">
+					<img src="/static/img/key.svg" width="55"/>
 				</div>
 			</div>
 		)
@@ -143,7 +143,7 @@ var ChatHeader = React.createClass({
 
 
 		return (
-			<div className="row">
+			<div className="row header-row">
 				{this.state.headerStatus == "mood" ? (
 					<span>
 						<div className="logo-d col-xs-2"></div>
