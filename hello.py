@@ -218,13 +218,19 @@ def approve():
 		text = request.form['text'].split(' ',1)
 		print(text[0])
 		for post in databaseUser.findMany({}):
+			print (post)
 			if text[0] in post:
+				print ("in post for user %s" % text[0])
 				#fetch Response from dbase and insert in text
 				response = post['lastHit']['response']
+				print "response is %s" % str(response)
 				databaseUser.insertReply(text[0],response, 12345678910,"review",0)
 				#approve and pay worker
+				print "after db.insertReply"
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
+				print "after mturk approve assignment"
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
+				print "after mturk disable Hit"
 				#message = client.messages.create(body="Jenny please?! I love you <3",
 				#							to="+19175748108",    # Replace with your phone number
 				#						    from_="+16467830371") # Replace with your Twilio number
