@@ -120,12 +120,12 @@ module.exports = React.createClass({
     		loaded: true,
     		commentFormType: comment.commentFormType});
     },
-    login: function(comment) {
-    	console.log("LOGIN COMMENT FORM TYPE");
-    	console.log(comment.commentFormType);
-    	this.setState({returnSession: true, 
-    					commentFormType: comment.commentFormType});
-    },
+    // login: function(comment) {
+    // 	console.log("LOGIN COMMENT FORM TYPE");
+    // 	console.log(comment.commentFormType);
+    // 	this.setState({returnSession: true, 
+    // 					commentFormType: comment.commentFormType});
+    // },
 	componentDidMount: function() {
 		setTimeout(function() {
 			//this.socket.on('login',this.login);

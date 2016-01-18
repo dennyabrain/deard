@@ -10,6 +10,8 @@
  
 $dd-black: #2f302c;
 $dd-gray: rgba(47,48,44,0.7);
+$dd-blue: #baddd3;
+$dd-red: #fc5959;
 $header-height: 60px;
 $chat-background-color: #e8dada;
 $card-border-radius: 10px;
@@ -49,11 +51,6 @@ $box-dropshadow: 0px 1px 1px rgba(47, 48, 44, 0.2);
 
 body, html, #app, .layout-static {
   height:100%;
-}
-
-.layout-static {
-  /*background-color: #FD7861;*/
-  background: linear-gradient(60deg, #D4145A, #FD7861, #89EFE5);
 }
 
 /*.container {
@@ -99,12 +96,14 @@ button {
 
 
 input {
+  color: #fff;
   border: none;
   padding: 8px;
   font-size: 18px;
   margin-right: 5px;
-  margin-bottom: 5px;
-  background-color: none;
+  margin-bottom: 15px;
+  background-color: transparent;
+  border-bottom: 1px solid #fff;
   outline: none;
 }
 
@@ -114,7 +113,7 @@ input {
 
 .right {
   float: right;
-  padding-top: 10px;
+  /*padding-top: 10px;*/
   /*margin-left: 20px;
   margin-top: -10px;*/
 }
@@ -123,14 +122,14 @@ input {
   margin-right: 20px;
 }
 
-.title {
+/*.title {
   display: inline-block;
   padding-top: 20px;
   img {
     /*padding-top: 50px;*/
-    /*margin-top: 20px;*/
+    /*margin-top: 20px;
   }
-}
+}*/
 
 
 .main {
@@ -167,8 +166,64 @@ header {
 }
 
 .header-login {
+  display: inline-block;
   a {
     color: #fff;
+  }
+}
+
+.layout-static {
+  background-color: $dd-blue;
+  /*background: linear-gradient(60deg, #fc5959, #e5a89a 50%, #89EFE5);*/
+}
+
+.static-logo-key {
+  img {
+    @include center-element;
+  }
+}
+
+/********************************* 
+
+  login/register
+**********************************/
+.login {
+  margin-top: 40%;
+}
+
+.login-user-area {
+  /*background-color: #fff;*/
+  /*color: #fff;*/
+  padding: 10px 30px 30px 30px;
+
+ /* h2, p{
+    color: #fff;
+  }*/
+  input {
+    width: 100%;
+  }
+}
+
+.login-button {
+  border: 2px solid;
+  border-radius: 80px;
+  width: 80%;
+  margin: 0 auto;
+  color: $dd-black;
+  input {
+    margin-bottom: 0px;
+    border: none;
+  }
+}
+
+.login-fail {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 5px 10px 5px 10px;
+
+  p {
+    margin: 8px 5px;
+    font-size: 16px;
+    color: $dd-red;
   }
 }
 
@@ -196,6 +251,10 @@ header {
       padding-top: 5px;
     }
 
+    .header-row {
+      border-bottom: 1px solid rgba(47, 48, 44, 0.1);
+    }
+
     .mood-back {
       padding-top: 8px;
     }
@@ -218,7 +277,7 @@ header {
   .logo-d {
     @include header-elements;
     @include center-element;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.75);
   }
   
   .title-data {
@@ -392,28 +451,6 @@ textarea {
   position: relative;
   padding-top: 20px;
   /*padding-right: 50px;*/
-}
-
-/* sign in page */
-.old-user-area {
- /* background-color: #fff;*/
-  margin-bottom: 60px;
-  padding: 10px 30px 30px 30px;
-
-  h2, p{
-    color: #fff;
-  }
-}
-
-
-.new-user-area {
-  /*background-color: #fff;*/
-  /*color: #fff;*/
-  padding: 10px 30px 30px 30px;
-
-  h2, p{
-    color: #fff;
-  }
 }
 
 

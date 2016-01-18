@@ -10,7 +10,8 @@ module.exports = React.createClass({
 	},
 
 	getInitialState: function() {
-		return {userKey: null, password: null};
+		return {userKey: null, password: null, 
+				loginFail: false};
 	},
 	getDefaultProps : function() { 
 		return {url:"/login2"}; 
@@ -20,6 +21,10 @@ module.exports = React.createClass({
 	},
 	handlePasswordChange: function(e) {
 		this.setState({password: e.target.value});
+	},
+	handleLoginFail: function() {
+		console.log("handleLoginFail");
+		this.setState({loginFail: true});
 	},
 	handleNewKeySubmit: function(e) {
 		e.preventDefault();
@@ -43,7 +48,9 @@ module.exports = React.createClass({
 				if(data.status == "success"){
 					this.context.setUserKey(key);
 					this.context.history.pushState(null, "/comments", {});
-				}	
+				} else {
+					this.handleLoginFail();
+				}
 
 			}.bind(this),
 			error: function(ehx, status, err) {
@@ -52,13 +59,18 @@ module.exports = React.createClass({
 		});
 	},
 	render: function() {
+		var loginFailMsg = null;
+		if (this.state.loginFail) {
+			loginFailMsg = (
+				<div className="login-fail">
+					<p>Wrong username or password</p>
+				</div>
+			);
+		}
 		return (
 			<div className="login main tk-anonymous-pro">
-				<div className="new-user-area">
-					<h2>Login</h2>
-					<p>
-						If you do not have a username and password, register for a new user <Link to="/register">here</Link>.
-					</p>
+				<div className="login-user-area">	
+					{loginFailMsg}				
 					<form className="logInForm" onSubmit={this.handleNewKeySubmit}>
 						<input type="text" 
 						  placeholder="Username" 
@@ -68,10 +80,17 @@ module.exports = React.createClass({
 						  placeholder="Password" 
 						  value={this.state.userPasscode}
 				  		  onChange={this.handlePasswordChange} />
-						<input type="submit" value="Enter" />
+						<div className="login-button">
+							<input type="submit" value="Login" />
+						</div>
 					</form>
 				</div>
 			</div>
 		)
 	}
 });
+
+// <h2>Login</h2>
+// <p>
+// 	If you do not have a username and password, register for a new user <Link to="/register">here</Link>.
+// </p>

@@ -238,10 +238,9 @@
 			var bgColor = this.BGColors[this.state.mood];
 			var ftColor = this.colors[this.state.mood];
 			diaryStyle = { backgroundColor: bgColor, color: ftColor };
-			console.log("DIARYLAYOUT FONT COLOR: " + ftColor);
 			return React.createElement(
 				'div',
-				{ className: 'container layout-diary', fontColor: ftColor, style: diaryStyle },
+				{ className: 'container layout-diary', style: diaryStyle },
 				this.props.children
 			);
 		}
@@ -310,6 +309,9 @@
 		}
 	});
 
+	// <img src="/static/img/logo-dear.svg" width="100"/>
+	// <img src="/static/img/logo-d-w.svg" width="22"/>
+
 	var StaticHeader = React.createClass({
 		displayName: 'StaticHeader',
 
@@ -319,32 +321,38 @@
 				{ className: "row" },
 				React.createElement(
 					"div",
-					{ className: "title col-xs-8" },
-					React.createElement("img", { src: "/static/img/key.svg", width: "55" }),
-					React.createElement("img", { src: "/static/img/logo-dear.svg", width: "100" }),
-					React.createElement("img", { src: "/static/img/logo-d-w.svg", width: "22" })
-				),
-				React.createElement(
-					"div",
-					{ className: "col-xs-4" },
+					{ className: "col-xs-12 col-md-4" },
 					React.createElement(
 						"div",
 						{ className: "right header-login" },
 						React.createElement(
-							Link,
-							{ to: "/register" },
-							"new account"
+							"p",
+							null,
+							React.createElement(
+								Link,
+								{ to: "/register" },
+								"register"
+							)
 						)
 					),
 					React.createElement(
 						"div",
-						{ className: "right header-login" },
+						{ className: "header-login" },
 						React.createElement(
-							Link,
-							{ to: "/login" },
-							"login"
+							"p",
+							null,
+							React.createElement(
+								Link,
+								{ to: "/login" },
+								"login"
+							)
 						)
 					)
+				),
+				React.createElement(
+					"div",
+					{ className: "static-logo-key col-md-8 col-xs-12" },
+					React.createElement("img", { src: "/static/img/key.svg", width: "55" })
 				)
 			);
 		}
@@ -396,7 +404,7 @@
 
 			return React.createElement(
 				"div",
-				{ className: "row" },
+				{ className: "row header-row" },
 				this.state.headerStatus == "mood" ? React.createElement(
 					"span",
 					null,
@@ -630,12 +638,12 @@
 				loaded: true,
 				commentFormType: comment.commentFormType });
 		},
-		login: function (comment) {
-			console.log("LOGIN COMMENT FORM TYPE");
-			console.log(comment.commentFormType);
-			this.setState({ returnSession: true,
-				commentFormType: comment.commentFormType });
-		},
+		// login: function(comment) {
+		// 	console.log("LOGIN COMMENT FORM TYPE");
+		// 	console.log(comment.commentFormType);
+		// 	this.setState({returnSession: true,
+		// 					commentFormType: comment.commentFormType});
+		// },
 		componentDidMount: function () {
 			setTimeout((function () {
 				//this.socket.on('login',this.login);
@@ -1751,7 +1759,8 @@
 		},
 
 		getInitialState: function () {
-			return { userKey: null, password: null };
+			return { userKey: null, password: null,
+				loginFail: false };
 		},
 		getDefaultProps: function () {
 			return { url: "/login2" };
@@ -1761,6 +1770,10 @@
 		},
 		handlePasswordChange: function (e) {
 			this.setState({ password: e.target.value });
+		},
+		handleLoginFail: function () {
+			console.log("handleLoginFail");
+			this.setState({ loginFail: true });
 		},
 		handleNewKeySubmit: function (e) {
 			e.preventDefault();
@@ -1784,6 +1797,8 @@
 					if (data.status == "success") {
 						this.context.setUserKey(key);
 						this.context.history.pushState(null, "/comments", {});
+					} else {
+						this.handleLoginFail();
 					}
 				}).bind(this),
 				error: (function (ehx, status, err) {
@@ -1792,45 +1807,51 @@
 			});
 		},
 		render: function () {
+			var loginFailMsg = null;
+			if (this.state.loginFail) {
+				loginFailMsg = React.createElement(
+					"div",
+					{ className: "login-fail" },
+					React.createElement(
+						"p",
+						null,
+						"Wrong username or password"
+					)
+				);
+			}
 			return React.createElement(
-				'div',
-				{ className: 'login main tk-anonymous-pro' },
+				"div",
+				{ className: "login main tk-anonymous-pro" },
 				React.createElement(
-					'div',
-					{ className: 'new-user-area' },
+					"div",
+					{ className: "login-user-area" },
+					loginFailMsg,
 					React.createElement(
-						'h2',
-						null,
-						'Login'
-					),
-					React.createElement(
-						'p',
-						null,
-						'If you do not have a username and password, register for a new user ',
-						React.createElement(
-							Link,
-							{ to: '/register' },
-							'here'
-						),
-						'.'
-					),
-					React.createElement(
-						'form',
-						{ className: 'logInForm', onSubmit: this.handleNewKeySubmit },
-						React.createElement('input', { type: 'text',
-							placeholder: 'Username',
+						"form",
+						{ className: "logInForm", onSubmit: this.handleNewKeySubmit },
+						React.createElement("input", { type: "text",
+							placeholder: "Username",
 							value: this.state.userKey,
 							onChange: this.handleNewKeyChange }),
-						React.createElement('input', { type: 'password',
-							placeholder: 'Password',
+						React.createElement("input", { type: "password",
+							placeholder: "Password",
 							value: this.state.userPasscode,
 							onChange: this.handlePasswordChange }),
-						React.createElement('input', { type: 'submit', value: 'Enter' })
+						React.createElement(
+							"div",
+							{ className: "login-button" },
+							React.createElement("input", { type: "submit", value: "Login" })
+						)
 					)
 				)
 			);
 		}
 	});
+
+	// <h2>Login</h2>
+	// <p>
+	// 	If you do not have a username and password, register for a new user <Link to="/register">here</Link>.
+	// </p>
 
 /***/ },
 /* 17 */
@@ -1846,7 +1867,9 @@
 		},
 
 		getInitialState: function () {
-			return { username: null, pw: null };
+			return { username: null, pw: null, phone: null,
+				registerFail: false, noUsername: false,
+				noPhone: false };
 		},
 		getDefaultProps: function () {
 			return { url: "/register" };
@@ -1857,10 +1880,39 @@
 		handlePasswordChange: function (e) {
 			this.setState({ pw: e.target.value });
 		},
+		handlePhoneChange: function (e) {
+			this.setState({ phone: e.target.value });
+		},
+		handleRegisterFail: function () {
+			console.log("handleRegisterFail");
+			this.setState({ registerFail: true });
+		},
+		handleNoUsername: function () {
+			console.log("handleRegisterFail");
+			this.setState({ noUsername: true });
+		},
+		handleNoPhone: function () {
+			console.log("handlePhoneFail");
+			this.setState({ noPhone: true });
+		},
 		handleNewKeySubmit: function (e) {
 			e.preventDefault();
-			var key = this.state.username.trim();
+			var key;
+			if (this.state.username) {
+				key = this.state.username.trim();
+			}
+
+			var phone;
+			if (this.state.phone) {
+				phone = this.state.phone.trim();
+			}
+
 			if (!key) {
+				this.handleNoUsername();
+				return;
+			}
+			if (!phone) {
+				this.handleNoPhone();
 				return;
 			}
 
@@ -1879,6 +1931,8 @@
 					if (data.status == "success") {
 						this.context.setUserKey(key);
 						this.context.history.pushState(null, "/comments", {});
+					} else {
+						this.handleRegisterFail();
 					}
 				}).bind(this),
 				error: (function (ehx, status, err) {
@@ -1887,39 +1941,75 @@
 			});
 		},
 		render: function () {
+			var registerFailMsg = null;
+			if (this.state.registerFail) {
+				registerFailMsg = React.createElement(
+					"div",
+					{ className: "login-fail" },
+					React.createElement(
+						"p",
+						null,
+						"This username is taken."
+					)
+				);
+			} else if (this.state.noUsername) {
+				registerFailMsg = React.createElement(
+					"div",
+					{ className: "login-fail" },
+					React.createElement(
+						"p",
+						null,
+						"Please enter a username."
+					)
+				);
+			} else if (this.state.noPhone) {
+				registerFailMsg = React.createElement(
+					"div",
+					{ className: "login-fail" },
+					React.createElement(
+						"p",
+						null,
+						"We need your phone number notify you of reponses."
+					)
+				);
+			}
 			return React.createElement(
-				'div',
-				{ className: 'login main tk-anonymous-pro' },
+				"div",
+				{ className: "login main tk-anonymous-pro" },
 				React.createElement(
-					'div',
-					{ className: 'new-user-area' },
+					"div",
+					{ className: "login-user-area" },
+					registerFailMsg,
 					React.createElement(
-						'h2',
-						null,
-						'Choose a username and password'
-					),
-					React.createElement(
-						'p',
-						null,
-						'This will remain anonymous.'
-					),
-					React.createElement(
-						'form',
-						{ className: 'logInForm', onSubmit: this.handleNewKeySubmit },
-						React.createElement('input', { type: 'text',
-							placeholder: 'Username',
+						"form",
+						{ className: "logInForm", onSubmit: this.handleNewKeySubmit },
+						React.createElement("input", { type: "text",
+							placeholder: "Username",
 							value: this.state.userKey,
 							onChange: this.handleNewKeyChange }),
-						React.createElement('input', { type: 'password',
-							placeholder: 'Password',
+						React.createElement("input", { type: "password",
+							placeholder: "Password",
 							value: this.state.userPasscode,
 							onChange: this.handlePasswordChange }),
-						React.createElement('input', { type: 'submit', value: 'Enter' })
+						React.createElement("input", { type: "phone",
+							placeholder: "Phone #",
+							value: this.state.phone,
+							onChange: this.handlePhoneChange }),
+						React.createElement(
+							"div",
+							{ className: "login-button" },
+							React.createElement("input", { type: "submit", value: "Register" })
+						)
 					)
 				)
 			);
 		}
 	});
+
+	// <h2>Choose a username and password</h2>
+	// <p>
+	// 	This will remain anonymous.
+	// </p>
 
 /***/ }
 /******/ ]);
