@@ -164,10 +164,9 @@ def comment():
 	if request.method=='POST':
 		postId=session['id']
 
-		diary=Diary(socket,databaseUser,mturk)
-		sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
-		diary.initUser(flaskLogin.current_user.id,sessionDB['sessionIndex'],sessionDB['sessionId'])
-		diary.next()
+		#diary=Diary(socket,databaseUser,mturk)
+		#sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
+		#diary.initUser(flaskLogin.current_user.id,sessionDB['sessionIndex'],sessionDB['sessionId'])
 		diary.run(request.form)
 
 		return jsonify(status='commentInsert')
