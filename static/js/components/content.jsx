@@ -24,26 +24,26 @@ module.exports = React.createClass({
 				this.setState({loadingResponse: false, loaded: true, data:data.comments}, function() {
         				// Update the commentFormType on latest bot response.
 					//var revComments = (data.comments).reverse();
-					console.log("NEW COMMENT FORM TYPE")
-					console.log(data.commentFormType)
+					console.log("BLAH BLAH BALH")
+					console.log(data)
 					var revComments = (data.comments);
 
 					//this.setState({ date:revComments[0].created_at });
-					// if (!this.state.returnSession) {
-					// 	for (var c in revComments) {
-					// 		console.log(revComments[c].commentFormType);
-					// 		if (revComments[c].type == "bot") {						
-					// 			if (this.state.commentFormType != revComments[c].commentFormType) {
-					// 				this.setState({commentFormType : revComments[c].commentFormType});
-					// 				console.log("COMMENT FORMT TYPE FROM SERVER")
-					// 				console.log(revComments[c].commentFormType)
-					// 			}
-					// 			break;
-					// 		}
-					// 	}
-					// } else {
+					if (!this.state.returnSession) {
+						for (var c in revComments) {
+							console.log(revComments[c].commentFormType);
+							if (revComments[c].type == "bot") {						
+								if (this.state.commentFormType != revComments[c].commentFormType) {
+									this.setState({commentFormType : revComments[c].commentFormType});
+									console.log("COMMENT FORMT TYPE FROM SERVER")
+									console.log(revComments[c].commentFormType)
+								}
+								break;
+							}
+						}
+					} else {
 						this.setState({commentFormType: data.commentFormType, returnSession: false});
-					//}
+					}
 				});
 			}.bind(this),
 			error: function(ehx, status, err) {
