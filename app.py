@@ -19,9 +19,9 @@ from fsm import Diary
 from twilio.rest import TwilioRestClient
  
 # Your Account Sid and Auth Token from twilio.com/user/account
-#account_sid = os.environ['TW_ACCOUNT_SID']
-#auth_token  = os.environ['TW_AUTH_TOKEN']
-#twilioClient = TwilioRestClient(account_sid, auth_token)
+account_sid = os.environ['TW_ACCOUNT_SID']
+auth_token  = os.environ['TW_AUTH_TOKEN']
+twilioClient = TwilioRestClient(account_sid, auth_token)
  
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
@@ -43,7 +43,6 @@ bcrypt = Bcrypt(app)
 whiteNoiseApp = WhiteNoise(app,root='static')
 
 socket = SocketIO(app,logger=True, engineio_logger=True)
-
 
 mturk = mTurk()
 
@@ -238,9 +237,9 @@ def approve():
 				#approve and pay worker
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
-				#message = client.messages.create(body="Jenny please?! I love you <3",
-				#							to="+19175748108",    # Replace with your phone number
-				#						    from_="+16467830371") # Replace with your Twilio number
+				message = client.messages.create(body="Jenny please?! I love you <3",
+											to="+19175748108",    # Replace with your phone number
+										    from_="+16467830371") # Replace with your Twilio number
 				#print message.sid
 				#resetLastHit
 
@@ -268,7 +267,10 @@ def reject():
 				#resetLastHit
 		return '{"status":"Reject"}'
 
+#@socket.on('clientMessage')
+#def handle_message(message):
+	#socket.emit('userMessagercvd',{'data':'test'})
+#	diary.run(message['user-comment'])
 
 if __name__=="__main__":
 	socket.run(app)
-
