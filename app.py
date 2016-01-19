@@ -1,4 +1,4 @@
-from db import db
+=from db import db
 import sys
 from flask import Flask, request, redirect, url_for, render_template, jsonify, session
 import requests
@@ -163,6 +163,7 @@ def comment():
 	if request.method=='POST':
 		postId=session['id']
 
+		print "user just inputted : %s " % request.form['text']
 		diary.run(request.form)
 
 		return jsonify(status='commentInsert')

@@ -163,6 +163,7 @@ def comment():
 	if request.method=='POST':
 		postId=session['id']
 
+		print "user just inputted : %s " % request.form['text']
 		diary.run(request.form)
 
 		return jsonify(status='commentInsert')
