@@ -15,7 +15,14 @@ from responseHelper import BotResponse
 from flask.ext.socketio import SocketIO, emit
 from mTurk import mTurk
 from whitenoise import WhiteNoise
-
+from fsm import Diary
+from twilio.rest import TwilioRestClient
+ 
+# Your Account Sid and Auth Token from twilio.com/user/account
+#account_sid = os.environ['TW_ACCOUNT_SID']
+#auth_token  = os.environ['TW_AUTH_TOKEN']
+#twilioClient = TwilioRestClient(account_sid, auth_token)
+ 
 url = 'https://hooks.slack.com/services/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'
 payload = {'key1': 'value1', 'key2': 'value2','text':'asdfsadf asdf sadf '}
 
@@ -41,6 +48,8 @@ socket = SocketIO(app,logger=True, engineio_logger=True)
 mturk = mTurk()
 
 response=BotResponse()
+
+diary=Diary(socket,databaseUser,mturk)
 
 commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
 
@@ -93,14 +102,20 @@ def register():
 
 	#databaseUser.insertOne({request.form['username']:{'pw':request.form['pw']}})
 
-	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':pw_hash,'text':[]}})
+	databaseUser.insertOne({"name":request.form['username'],request.form['username']: {'pw':pw_hash,'text':[],'phone':request.form['phone']}})
 	user = User()
 	user.id=request.form['username']
 	flaskLogin.login_user(user)
+
+	#initialize new diary
 	session['id']=uuid4()
 	session['index']=1
+	diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
+	print('diary is in state %s' %diary.state)
+	
 	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your mood today?" % request.form['username'],session['id'],"mood",0.0)
 	databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})	
+
 	return '{"status":"success"}'
 
 # Get from 30 day range:   /userstats?range=30
@@ -147,134 +162,8 @@ def userstats():
 def comment():
 	if request.method=='POST':
 		postId=session['id']
-		if session['index']==1: #MOOD
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
-			#HACKY MOOD MAPPING
-			# Calling mood score affinn score for now
-			affinMap = {':D':2,':)':1,':/':0,':(':-1,":'(":-2}
-			if request.form['text']==':D' or request.form['text']==':)':
-				mood="happy"
-			elif request.form['text']==':/':
-				mood="ok"
-			else:
-				mood="bad"
-			affinScore = affinMap[request.form['text']]
 
-			session['mood']=mood
-			session['index']=incrementCFT(session['index'])
-			text = response.getSituation(session['mood'])
-			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],affinScore)
-
-			#Converting datetime.now and uuid to str because they are not JSON serializable. Also I know they aren't being used in the front end.
-			socket.emit('insert',{
-								'text':text,
-								'mood_score':affinScore,
-								'created_at':str(datetime.now()),
-								'post_id':str(session['id']),
-								'type':'bot', 
-								'commentFormType':commentFormType[session['index']]})
-			databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-		elif session['index']==2: #SITUATION
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
-			session['index']=incrementCFT(session['index'])
-			text = response.getFeeling(session['mood'])
-			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
-			socket.emit('insert',{
-								'text':text,
-								'mood_score':0,
-								'created_at':str(datetime.now()),
-								'post_id':str(session['id']),
-								'type':'bot', 
-								'commentFormType':commentFormType[session['index']]})
-			session['text']=request.form['text']
-			databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-		elif session['index']==3: #FEELING
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
-			session['index']=incrementCFT(session['index'])
-			text = response.getThought(session['mood'])
-			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
-			socket.emit('insert',{
-								'text':text,
-								'mood_score':0,
-								'created_at':str(datetime.now()),
-								'post_id':str(session['id']),
-								'type':'bot', 
-								'commentFormType':commentFormType[session['index']]})
-			session['text']+='\n Feelings :'+request.form['text']
-			databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-		elif session['index']==4: #THOUGHT
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
-			session['index']=incrementCFT(session['index'])
-			#session['thought']=request.form['text']
-			text = response.getPreMechTurk(session['mood'])
-			databaseUser.insertReply(flaskLogin.current_user.id,text, session['id'], commentFormType[session['index']],0)
-			socket.emit('insert',{
-								'text':text,
-								'mood_score':0,
-								'created_at':str(datetime.now()),
-								'post_id':str(session['id']),
-								'type':'bot', 
-								'commentFormType':commentFormType[session['index']]})
-			session['text']+='\n Thoughts : '+request.form['text']+'\n'
-			databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-		elif session['index']==5: #PREMECHTURK
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
-			session['index']=incrementCFT(session['index'])
-			id=mturk.createHit(session['text'])
-			databaseUser.insertLastHit(flaskLogin.current_user.id,session['text'],id)
-			botResponse = "insert mTurk Response"
-			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
-			socket.emit('insert',{
-								'text':botResponse,
-								'mood_score':0,
-								'created_at':str(datetime.now()),
-								'post_id':str(session['id']),
-								'type':'bot', 
-								'commentFormType':commentFormType[session['index']]})
-			databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-		elif session['index']==6: #REVIEW
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'])
-			session['index']=incrementCFT(session['index'])
-			session['review']=request.form['text']
-			botResponse = response.getReview(session['review'])
-			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
-			#socket.emit('insert','hello review')
-			botResponse2 = response.getRethinking(session['review'])
-			databaseUser.insertReply(flaskLogin.current_user.id,botResponse2, session['id'], commentFormType[session['index']],0)
-			
-			socket.emit('insert',{
-								'text':botResponse,
-								'mood_score':0,
-								'created_at':str(datetime.now()),
-								'post_id':str(session['id']),
-								'type':'bot', 
-								'commentFormType':commentFormType[session['index']]})
-			socket.emit('insert',{
-								'text':botResponse2,
-								'mood_score':0,
-								'created_at':str(datetime.now()),
-								'post_id':str(session['id']),
-								'type':'bot', 
-								'commentFormType':commentFormType[session['index']]})
-			databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-		elif session['index']==7: #RETHINKING
-			databaseUser.insertInput(flaskLogin.current_user.id,request.form['text'],session['id'],request.form['commentFormType'])
-			#session['index']=incrementCFT(session['index'])
-			session['index']=8
-			botResponse = response.getBye(session['mood'])
-			databaseUser.insertReply(flaskLogin.current_user.id,botResponse, session['id'], commentFormType[session['index']],0)
-			socket.emit('insert',{
-								'text':botResponse,
-								'mood_score':0,
-								'created_at':str(datetime.now()),
-								'post_id':str(session['id']),
-								'type':'bot', 
-								'commentFormType':commentFormType[session['index']]})
-			session['index']=incrementCFT(session['index'])
-
-		"""
-		Post Question on mTurk
-		"""
+		diary.run(request.form)
 
 		return jsonify(status='commentInsert')
 
@@ -308,14 +197,15 @@ def login2():
 					if sessionDB['sessionIndex'] != 7:
 						session['id']=sessionDB['sessionId']
 						session['index']=sessionDB['sessionIndex']
+						diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-						# socket.emit('returnSessionLogin',{
-						# 		'commentFormType':commentFormType[session['index']]})
-						# print ("COMMENT FORM TYPE: %s" % commentFormType[session['index']])
+
+						print('diary is in state %s' %diary.state)
 
 					else:
 						session['id']=uuid4()
 						session['index']=1
+						diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
 						databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'], session['id'],"greeting",0)
 						databaseUser.insertReply(request.form['userKey'],"Good morning. How is your mood today?", session['id'],"mood",0)
@@ -327,14 +217,38 @@ def approve():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		print(text[0])
+		for post in databaseUser.findMany({}):
+			if text[0] in post:
+				#fetch Response from dbase and insert in text
+				response = post['lastHit']['response']
+				databaseUser.insertReply(text[0],response, 12345678910,"review",0)
+				#approve and pay worker
+				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
+				mturk.mtc.disable_hit(post['lastHit']['hitID'])
+				#message = client.messages.create(body="Jenny please?! I love you <3",
+				#							to="+19175748108",    # Replace with your phone number
+				#						    from_="+16467830371") # Replace with your Twilio number
+				#print message.sid
+				#resetLastHit
+
+
 		return '{"status":"Approve"}'
 
 @app.route('/reject', methods=['POST'])
 def reject():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
-		print(text[0])
+		print(text[0],text[1])
+		for post in databaseUser.findMany({}):
+			if text[0] in post:
+				#reject the assignment and give feedback
+				mturk.mtc.reject_assignment(post['lastHit']['assignmentID'],text[1])
+				#disable last hit and create new hit
+				mturk.mtc.disable_hit(post['lastHit']['hitID'])
+				mturk.createHit(post['lastHit']['text'])
+				#resetLastHit
 		return '{"status":"Reject"}'
+
 
 if __name__=="__main__":
 	socket.run(app)
