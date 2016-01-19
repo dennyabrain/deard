@@ -69,19 +69,20 @@ module.exports = React.createClass({
 
 		this.setState({data: newComments, loadingResponse: true});
 
-		$.ajax({
-			url: this.props.url,
-			dataType: 'json',
-			type: 'POST',
-			data: comment,
-			success: function(data){
-				console.log("success POST");
-				console.log(data);
-			}.bind(this),
-			error: function(ehx, status, err) {
-				console.log(this.props.url, status, err.toString());
-			}.bind(this)
-		});
+		this.socket.emit('clientMessage', { my: comment });
+		// $.ajax({
+		// 	url: this.props.url,
+		// 	dataType: 'json',
+		// 	type: 'POST',
+		// 	data: comment,
+		// 	success: function(data){
+		// 		console.log("success POST");
+		// 		console.log(data);
+		// 	}.bind(this),
+		// 	error: function(ehx, status, err) {
+		// 		console.log(this.props.url, status, err.toString());
+		// 	}.bind(this)
+		// });
 	},
 	getInitialState: function() {
 		return {data:[], loaded: false, commentFormType: "nothing", 
