@@ -163,7 +163,8 @@ def comment():
 	if request.method=='POST':
 		postId=session['id']
 
-		print "the request.form object is %s" %request.form['text']
+		print "the request form is ===" 
+		print request.form
 		print "user just inputted : %s " % request.form['text']
 		diary.run(request.form)
 
