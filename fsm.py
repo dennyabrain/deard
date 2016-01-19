@@ -71,7 +71,7 @@ class Diary:
 	def run(self,requestForm):
 		print("deard is currently in %s state" % self.state)
 		if self.state=='mood':
-			self.insertInputToDbase(requestForm['text'])
+			self.insertInputToDbase(requestForm['text'],self.state)
 			self.next()
 			print("deard is currently in %s state" % self.state)
 			if requestForm['text']==':D' or requestForm['text']==':)':
@@ -89,7 +89,7 @@ class Diary:
 			self.updateSessionData()
 			
 		elif self.state=='situation' or self.state=='feeling':
-			self.insertInputToDbase(requestForm['text'])
+			self.insertInputToDbase(requestForm['text'],self.state)
 			#text=self.fetchResponseFromJSON(self.mood)
 			if self.state=='situation':
 				text=self.response.getFeeling(self.mood)
@@ -106,7 +106,7 @@ class Diary:
 			self.updateSessionData()
 
 		elif self.state=='thought':
-			self.insertInputToDbase(requestForm['text'])
+			self.insertInputToDbase(requestForm['text'],self.state)
 			text=self.response.getPreMechTurk(self.mood)
 			self.updateMessage(self.state+" : "+str(requestForm['text'])+'\n')
 			self.next()
@@ -133,7 +133,7 @@ class Diary:
 			
 
 		elif self.state=='review':
-			self.insertInputToDbase(requestForm['text'])
+			self.insertInputToDbase(requestForm['text'],self.state)
 			self.next()
 			print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
@@ -148,7 +148,7 @@ class Diary:
 			
 
 		elif self.state=='rethinking':
-			self.insertInputToDbase(requestForm['text'])
+			self.insertInputToDbase(requestForm['text'],self.state)
 			self.next()
 			print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
@@ -182,8 +182,8 @@ class Diary:
 									'commentFormType':self.state
 								})
 
-	def insertInputToDbase(self,text):
-		self.db.insertInput(self.username,text,self.sessionId)
+	def insertInputToDbase(self,text,commentFormType):
+		self.db.insertInput(self.username,text,self.sessionId,commentFormType)
 
 	def incrementSessionIndex(self):
 		self.sessionIndex=(self.sessionIndex+1)%8

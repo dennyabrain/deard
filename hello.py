@@ -1,6 +1,6 @@
 from db import db
 import sys
-from flask import Flask, request, redirect, url_for, render_template, jsonify, session
+from flask import Flask, request, redirect, url_for, render_template, jsonify, session, g
 import requests
 import json
 import flask.ext.login as flaskLogin
@@ -49,8 +49,6 @@ mturk = mTurk()
 
 response=BotResponse()
 
-diary=Diary(socket,databaseUser,mturk)
-
 commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
 
 class User(flaskLogin.UserMixin):
@@ -79,6 +77,8 @@ def reply():
 
 @app.route('/')
 def home():
+	g.diary=Diary(socket,databaseUser,mturk)
+	print g
 	return render_template('index.html')
 
 @app.route('/logout')
@@ -110,8 +110,8 @@ def register():
 	#initialize new diary
 	session['id']=uuid4()
 	session['index']=1
-	diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
-	print('diary is in state %s' %diary.state)
+	g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
+	print('diary is in state %s' %g.diary.state)
 	
 	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your mood today?" % request.form['username'],session['id'],"mood",0.0)
 	databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})	
@@ -176,7 +176,7 @@ def comment():
 		print "the request form is ===" 
 		print request.form
 		print "user just inputted : %s " % request.form['text']
-		diary.run(request.form)
+		g.diary.run(request.form)
 
 		return jsonify(status='commentInsert')
 
@@ -210,15 +210,15 @@ def login2():
 					if sessionDB['sessionIndex'] != 7:
 						session['id']=sessionDB['sessionId']
 						session['index']=sessionDB['sessionIndex']
-						diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
+						g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
 
-						print('diary is in state %s' %diary.state)
+						print('diary is in state %s' %g.diary.state)
 
 					else:
 						session['id']=uuid4()
 						session['index']=1
-						diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
+						g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
 						databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'], session['id'],"greeting",0)
 						databaseUser.insertReply(request.form['userKey'],"Good morning. How is your mood today?", session['id'],"mood",0)
@@ -246,9 +246,9 @@ def approve():
 
 				#diary=Diary(socket,databaseUser,mturk)
 				sessionDB = databaseUser.getSession(text[0])
-				diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
-				diary.machine.set_state("preMechTurk")
-				diary.run(textResponse)
+				g.diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
+				g.diary.machine.set_state("preMechTurk")
+				g.diary.run(textResponse)
 				return '{"status":"Approved. User inserted into database and slack."}'
 		
 		return '{"status":"User Not Found"}'
