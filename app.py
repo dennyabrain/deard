@@ -163,6 +163,19 @@ def comment():
 	if request.method=='POST':
 		postId=session['id']
 
+		if request.form['commentFormType']=='preMechTurk':
+			socket.emit('insert',{
+								'text':"give me a minute...",
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':''})
+			return jsonify(status='commentInsert')
+
+		print "the request form is ===" 
+		print request.form
+		print "user just inputted : %s " % request.form['text']
 		diary.run(request.form)
 
 		return jsonify(status='commentInsert')
@@ -220,8 +233,8 @@ def approve():
 		for post in databaseUser.findMany({}):
 			if text[0] in post:
 				#fetch Response from dbase and insert in text
-				response = post['lastHit']['response']
-				databaseUser.insertReply(text[0],response, 12345678910,"review",0)
+				textResponse = post['lastHit']['response']
+				databaseUser.insertReply(text[0],textResponse, 12345678910,"review",0)
 				#approve and pay worker
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
@@ -231,8 +244,14 @@ def approve():
 				#print message.sid
 				#resetLastHit
 
-
-		return '{"status":"Approve"}'
+				#diary=Diary(socket,databaseUser,mturk)
+				sessionDB = databaseUser.getSession(text[0])
+				diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
+				diary.machine.set_state("preMechTurk")
+				diary.run(textResponse)
+				return '{"status":"Approved. User inserted into database and slack."}'
+		
+		return '{"status":"User Not Found"}'
 
 @app.route('/reject', methods=['POST'])
 def reject():

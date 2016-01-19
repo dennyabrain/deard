@@ -37,7 +37,7 @@ class db:
 				self.collection.update_one({'name': userId}, {'$push': {temp: info}})
 				#self.collection.update_one({'name': userId}, {'$push': {temp: {"type":"user","text":text, "created_at": datetime.now()}}})
 
-	def insertReply(self,userId,text,postId,commentFormType,score=0):
+	def insertReply(self,userId,text,postId,commentFormType,score=-99):
 		for post in self.findMany({}):
 			if userId in post:
 				temp =userId+'.text'
