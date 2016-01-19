@@ -124,7 +124,7 @@ class Diary:
 			#id=self.mturk.createHit(self.message)
 			#self.db.insertLastHit(self.username,self.message,id)
 			print requestForm
-			print ("before emitInserEvent")
+			print ("before emitInsertEvent")
 			self.emitInsertEvent(requestForm,-99,str(datetime.now()))
 			print "emit insert event in preMechTurk"
 			self.updateSessionData()
