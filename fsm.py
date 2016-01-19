@@ -80,6 +80,7 @@ class Diary:
 				self.setMood("ok")
 			else:
 				self.setMood("bad")
+			print self.mood
 			affinScore=Diary.affinMap[requestForm['text']]
 			self.incrementSessionIndex()
 			text=self.response.getSituation(self.mood)
