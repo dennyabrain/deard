@@ -68,7 +68,7 @@ class Diary:
 	def wants_to_log_more(self):
 		return True
 
-	def run(self,requestForm):
+	def run(self,requestForm,sid):
 		print("deard is currently in %s state" % self.state)
 		if self.state=='mood':
 			self.insertInputToDbase(requestForm['text'])
@@ -85,7 +85,7 @@ class Diary:
 			self.incrementSessionIndex()
 			text=self.response.getSituation(self.mood)
 			self.insertReplyIntoDatabase(text,affinScore)
-			self.emitInsertEvent(text,affinScore,str(datetime.now()))
+			self.emitInsertEvent(text,affinScore,str(datetime.now()),sid)
 			self.updateSessionData()
 			
 		elif self.state=='situation' or self.state=='feeling':
@@ -102,7 +102,7 @@ class Diary:
 			print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			self.insertReplyIntoDatabase(text)
-			self.emitInsertEvent(text,-99,str(datetime.now()))
+			self.emitInsertEvent(text,-99,str(datetime.now()),sid)
 			self.updateSessionData()
 
 		elif self.state=='thought':
@@ -113,7 +113,7 @@ class Diary:
 			print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			self.insertReplyIntoDatabase(text)
-			self.emitInsertEvent(text,-99,str(datetime.now()))
+			self.emitInsertEvent(text,-99,str(datetime.now()),sid)
 			id=self.mturk.createHit(self.message)
 			self.db.insertLastHit(self.username,self.message,id)
 			
@@ -126,7 +126,7 @@ class Diary:
 			#self.db.insertLastHit(self.username,self.message,id)
 			print requestForm
 			print ("before emitInsertEvent")
-			self.emitInsertEvent(requestForm,-99,str(datetime.now()))
+			self.emitInsertEvent(requestForm,-99,str(datetime.now()),sid)
 			print "emit insert event in preMechTurk"
 			self.updateSessionData()
 			print "inPreMechTurk after updateSesson"
@@ -142,8 +142,8 @@ class Diary:
 			self.insertReplyIntoDatabase(text1)
 			text2=self.response.getRethinking(self.review)
 			self.insertReplyIntoDatabase(text2)
-			self.emitInsertEvent(text1,-99,str(datetime.now()))
-			self.emitInsertEvent(text2,-99,str(datetime.now()))
+			self.emitInsertEvent(text1,-99,str(datetime.now()),sid)
+			self.emitInsertEvent(text2,-99,str(datetime.now()),sid)
 			self.updateSessionData()
 			
 
@@ -154,7 +154,7 @@ class Diary:
 			self.incrementSessionIndex()
 			text=self.response.getBye(self.mood)
 			self.insertReplyIntoDatabase(text)
-			self.emitInsertEvent(text,-99,str(datetime.now()))
+			self.emitInsertEvent(text,-99,str(datetime.now()),sid)
 			
 
 		elif self.state=='bye':
@@ -165,14 +165,14 @@ class Diary:
 			self.db.insertReply(self.username,text1,self.sessionId,"greeting",0.0)
 			self.db.insertReply(self.username,text2,self.sessionId,"mood",0.0)
 			self.next()
-			self.emitInsertEvent(text1,-99,str(datetime.now()))
+			self.emitInsertEvent(text1,-99,str(datetime.now()),sid)
 			self.next()
-			self.emitInsertEvent(text2,-99,str(datetime.now()))
+			self.emitInsertEvent(text2,-99,str(datetime.now()),sid)
 			self.mood=""
 			self.review=""
 			self.message=""
 
-	def emitInsertEvent(self,text,affinScore,now):
+	def emitInsertEvent(self,text,affinScore,now,sid):
 		self.socket.emit('insert',{
 									'text':text,
 									'mood_score':affinScore,
@@ -180,7 +180,7 @@ class Diary:
 									'post_id':str(self.sessionId),
 									'type':'bot',
 									'commentFormType':self.state
-								})
+								},sid)
 
 	def insertInputToDbase(self,text):
 		self.db.insertInput(self.username,text,self.sessionId)

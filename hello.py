@@ -44,7 +44,6 @@ whiteNoiseApp = WhiteNoise(app,root='static')
 
 socket = SocketIO(app,logger=True, engineio_logger=True)
 
-
 mturk = mTurk()
 
 response=BotResponse()
@@ -170,13 +169,13 @@ def comment():
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
-								'commentFormType':''})
+								'commentFormType':''},request.sid)
 			return jsonify(status='commentInsert')
 
 		print "the request form is ===" 
 		print request.form
 		print "user just inputted : %s " % request.form['text']
-		diary.run(request.form)
+		diary.run(request.form,request.sid 	 )
 
 		return jsonify(status='commentInsert')
 
@@ -268,6 +267,9 @@ def reject():
 				#resetLastHit
 		return '{"status":"Reject"}'
 
+@socket.on('clientMessage')
+def handle_message(message):
+    print('received message: ' + message)
 
 if __name__=="__main__":
 	socket.run(app)
