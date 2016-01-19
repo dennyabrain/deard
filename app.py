@@ -170,7 +170,7 @@ def comment():
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
-								'commentFormType':'')
+								'commentFormType':''})
 			return jsonify(status='commentInsert')
 
 		print "the request form is ===" 
