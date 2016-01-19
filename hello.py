@@ -163,6 +163,16 @@ def comment():
 	if request.method=='POST':
 		postId=session['id']
 
+		if request.form['commentFormType']=='preMechTurk':
+			socket.emit('insert',{
+								'text':"give me a minute...",
+								'affin_score':0,
+								'created_at':str(datetime.now()),
+								'post_id':str(session['id']),
+								'type':'bot', 
+								'commentFormType':'')
+			return jsonify(status='commentInsert')
+
 		print "the request form is ===" 
 		print request.form
 		print "user just inputted : %s " % request.form['text']
