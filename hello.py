@@ -220,8 +220,8 @@ def approve():
 		for post in databaseUser.findMany({}):
 			if text[0] in post:
 				#fetch Response from dbase and insert in text
-				response = post['lastHit']['response']
-				databaseUser.insertReply(text[0],response, 12345678910,"review",0)
+				textResponse = post['lastHit']['response']
+				databaseUser.insertReply(text[0],textResponse, 12345678910,"review",0)
 				#approve and pay worker
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
@@ -234,7 +234,7 @@ def approve():
 				diary=Diary(socket,databaseUser,mturk)
 				sessionDB = databaseUser.getSession(text[0])
 				diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
-				diary.run("placeholderString")
+				diary.run(textResponse)
 				return '{"status":"Approved. User inserted into database and slack."}'
 		
 		return '{"status":"User Not Found"}'
