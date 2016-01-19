@@ -1,4 +1,4 @@
-=from db import db
+from db import db
 import sys
 from flask import Flask, request, redirect, url_for, render_template, jsonify, session
 import requests
@@ -232,7 +232,7 @@ def approve():
 				#print message.sid
 				#resetLastHit
 
-				diary=Diary(socket,databaseUser,mturk)
+				#diary=Diary(socket,databaseUser,mturk)
 				sessionDB = databaseUser.getSession(text[0])
 				diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
 				diary.machine.set_state("preMechTurk")
