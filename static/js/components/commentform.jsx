@@ -121,11 +121,28 @@ var TextFieldInput = React.createClass({
 		this.setState({text: ""});
 	},
 	render: function() {
+		var placeholder = "";
+		switch(this.props.commentFormType) {
+			case "feeling":
+				placeholder = "Write out specific feelings..."; 
+				break;
+	    	case "situation":
+	    		placeholder = "Describe the situation..."; 
+	    		break;
+	    	case "thought":
+	    		placeholder = "Describe your thought..."; 
+	    		break;
+	    	case "rethinking":
+	    		placeholder = "Try to think about this in a positive way..."; 
+	    		break;
+	    	default:
+	    		break;
+		}
 		return (
 			<div className="row">
 				<div className="col-xs-10 input-text">
 					<p><textarea className="form-control" 
-						placeholder="Say something... "  
+						placeholder={placeholder}  
 						value={this.state.text} 
 						onChange={this.handleTextChange} /></p>
 				</div>
@@ -186,58 +203,9 @@ var RatingSelectionInput = React.createClass({
 	}
 });
 
-// var MoodSelectionInput = React.createClass({
-// 	displayName: 'MoodSelectionInput',
 
-// 	handleInput: function(e) {
-// 		//e.preventDefault();
-// 		this.props.textInput({text: e.target.value});
-// 		console.log(e.target.value);
-// 	},
-// 	render: function() {
-		
-// 		return (
-// 			<div className="row">
-// 				<div className="col-xs-1" />
-// 				<div className="col-xs-2">
-// 					<button className="button-emoji" value=":D" onClick={this.handleInput} >
-						
-// 					</button>
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<button className="button-emoji" value=":)" onClick={this.handleInput} >
-						
-// 					</button>
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<button className="button-emoji" value=":/" onClick={this.handleInput} >
-						
-// 					</button>
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<button className="button-emoji" value=":(" onClick={this.handleInput} >
-					
-// 					</button>
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<button className="button-emoji" value=":'(" onClick={this.handleInput} >
-						
-// 					</button>
-// 				</div>
-// 				<div className="col-xs-1" />
-// 			</div>
-// 		)
-// 	}
-// });
-// <input type="hidden" name="button-emoji-value" value={this.state.moodType} />
 var MoodSelectionInput = React.createClass({
 	displayName: 'MoodSelectionInput',
-
-	// getInitialState: function() {
-	// 	return {
-	// 		moodType: null
-	// 	};
-	// },
 
 	handleInput: function(e) {
 		//console.log (this)
@@ -286,79 +254,3 @@ var MoodSelectionInput = React.createClass({
 	}
 });
 
-// var MoodSelectionInput = React.createClass({
-// 	displayName: 'MoodSelectionInput',
-
-// 	handleInput: function(e) {
-// 		//e.preventDefault();
-// 		this.props.textInput({text: e.target.value});
-// 		console.log(e.target.value);
-// 	},
-// 	render: function() {
-// 		var great = ReactEmoji.emojify(":D") 
-// 		return (
-// 			<div className="row">
-// 				<div className="col-xs-1" />
-// 				<div className="col-xs-2">
-// 					<input type="submit" alt=":)" 
-// 						onClick={this.handleInput} value={great} ></input>
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<input type="submit" alt="Submit" 
-// 						onClick={this.handleInput} value=":)" >{ ReactEmoji.emojify(":)") }</input>
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<input type="submit" alt="Submit" 
-// 						onClick={this.handleInput} value=":/" >{ ReactEmoji.emojify(":/") }</input>
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<input type="submit" alt="Submit" 
-// 						onClick={this.handleInput} value=":(" >{ ReactEmoji.emojify(":(") }</input>
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<input type="submit" alt="Submit" 
-// 						onClick={this.handleInput} value=":'(" >{ ReactEmoji.emojify(":'(") }</input>
-// 				</div>
-// 				<div className="col-xs-1" />
-// 			</div>
-// 		)
-// 	}
-// });
-
-// var MoodSelectionInput = React.createClass({
-// 	displayName: 'MoodSelectionInput',
-
-// 	handleInput: function(e) {
-// 		//e.preventDefault();
-// 		this.props.textInput({text: e.target.value});
-// 		console.log(e.target.value);
-// 	},
-// 	render: function() {
-// 		return (
-// 			<div className="row">
-// 				<div className="col-xs-1" />
-// 				<div className="col-xs-2">
-// 					<input type="image" src="/static/img/emoji1.svg" width="60" height="60" alt="Submit" 
-// 						onClick={this.handleInput} value="::D:" />
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<input type="image" src="/static/img/emoji2.svg" width="60" height="60" alt="Submit" 
-// 						onClick={this.handleInput} value="::):" />
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<input type="image" src="/static/img/emoji3.svg" width="60" height="60" alt="Submit" 
-// 						onClick={this.handleInput} value="::/:" />
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<input type="image" src="/static/img/emoji4.svg" width="60" height="60" alt="Submit" 
-// 						onClick={this.handleInput} value="::(:" />
-// 				</div>
-// 				<div className="col-xs-2">
-// 					<input type="image" src="/static/img/emoji5.svg" width="60" height="60" alt="Submit" 
-// 						onClick={this.handleInput} value="::'(:" />
-// 				</div>
-// 				<div className="col-xs-1" />
-// 			</div>
-// 		)
-// 	}
-// });

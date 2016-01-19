@@ -70,6 +70,9 @@ module.exports = React.createClass({
 		this.setState({data: newComments, loadingResponse: true});
 
 		this.socket.emit('clientMessage', { "user-comment": comment });
+		this.socket.on('userMessageRcvd', function(data) {
+			console.log(data);
+		})
 		// $.ajax({
 		// 	url: this.props.url,
 		// 	dataType: 'json',
