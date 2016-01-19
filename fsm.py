@@ -29,11 +29,11 @@ class Diary:
 		#Transitions if User wants to log more
 		self.machine.add_transition('next','bye','greeting',conditions='wants_to_log_more')
 		#Transitions if Mood is Happy
-		self.machine.add_transition('next','thought','rethinking',conditions='is_happy')
-		self.machine.add_transition('next','rethinking','bye')
+		self.machine.add_transition('next','thought','bye',conditions='is_happy')
+		#self.machine.add_transition('next','rethinking','bye')
 		#Transitions if Mood is neutral
-		self.machine.add_transition('next','thought','rethinking',conditions='is_ok')
-		self.machine.add_transition('next','rethinking','bye')
+		self.machine.add_transition('next','thought','bye',conditions='is_ok')
+		#self.machine.add_transition('next','rethinking','bye')
 		#circular 
 		self.machine.add_transition('next','bye','greeting')
 
