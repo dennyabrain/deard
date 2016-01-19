@@ -110,7 +110,6 @@ def register():
 	#initialize new diary
 	session['id']=uuid4()
 	session['index']=1
-	diary=Diary(socket,databaseUser,mturk)
 	diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
 	print('diary is in state %s' %diary.state)
 	
@@ -164,9 +163,6 @@ def comment():
 	if request.method=='POST':
 		postId=session['id']
 
-		#diary=Diary(socket,databaseUser,mturk)
-		#sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
-		#diary.initUser(flaskLogin.current_user.id,sessionDB['sessionIndex'],sessionDB['sessionId'])
 		diary.run(request.form)
 
 		return jsonify(status='commentInsert')
@@ -221,23 +217,14 @@ def approve():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		print(text[0])
-		print databaseUser
 		for post in databaseUser.findMany({}):
-			print (post)
 			if text[0] in post:
-				print ("in post for user %s" % text[0])
 				#fetch Response from dbase and insert in text
-				textResponse = post['lastHit']['response']
-				print "response is %s" % str(textResponse)
-				databaseUser.insertReply(text[0],textResponse, 12345678910,"review",-99)
+				response = post['lastHit']['response']
+				databaseUser.insertReply(text[0],response, 12345678910,"review",0)
 				#approve and pay worker
-				print "after db.insertReply"
-				print "assignmentId : %s" % post['lastHit']['assignmentID']
-				print "hitID : %s " % post['lastHit']['hitID']
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
-				print "after mturk approve assignment"
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
-				print "after mturk disable Hit"
 				#message = client.messages.create(body="Jenny please?! I love you <3",
 				#							to="+19175748108",    # Replace with your phone number
 				#						    from_="+16467830371") # Replace with your Twilio number
@@ -245,20 +232,14 @@ def approve():
 				#resetLastHit
 
 				diary=Diary(socket,databaseUser,mturk)
-				print("after diary init")
 				sessionDB = databaseUser.getSession(text[0])
-				print("after sessionDB")
 				diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
-				print("after init user")
-				diary.machine.set_state('preMechTurk')
-				print diary.state
-				print "text response here is %s " %textResponse
-				diary.run(textResponse)
-				print("after diary run")
+				diary.run("placeholderString")
 				return '{"status":"Approved. User inserted into database and slack."}'
-		
-		return '{"status":"User Not Found"}'
+			else:
+				return '{"status":"User Not Found"}'
 
+		return '{"status":"Approve"}'
 
 @app.route('/reject', methods=['POST'])
 def reject():
