@@ -236,10 +236,8 @@ def approve():
 				diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
 				diary.run("placeholderString")
 				return '{"status":"Approved. User inserted into database and slack."}'
-			else:
-				return '{"status":"User Not Found"}'
-
-		return '{"status":"Approve"}'
+		
+		return '{"status":"User Not Found"}'
 
 @app.route('/reject', methods=['POST'])
 def reject():
