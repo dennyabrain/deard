@@ -17,6 +17,7 @@ from mTurk import mTurk
 from whitenoise import WhiteNoise
 from fsm import Diary
 from twilio.rest import TwilioRestClient
+import os
  
 # Your Account Sid and Auth Token from twilio.com/user/account
 account_sid = os.environ['TW_ACCOUNT_SID']
