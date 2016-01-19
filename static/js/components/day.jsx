@@ -35,6 +35,7 @@ module.exports = React.createClass({
 		var moodCount = 0;
 		var moodSum = 0;
 		var moodAvg = null;
+		var moodEmoji = null;
 		var allData = this.props.data;
 		for (var i = 0; i < allData.length; i++) {
  			if (allData[i].mood_score && allData[i].mood_score != -999) {
@@ -67,6 +68,28 @@ module.exports = React.createClass({
      	moodCount = 0;
      	moodSum = 0;
 
+     	if (moodAvg) {
+     		switch(Math.round(moodAvg)) {
+     			case -2:
+     				moodEmoji = (<p>{ReactEmoji.emojify(":D")}</p>);
+     				break;
+     			case -1:
+     				moodEmoji = (<p>{ReactEmoji.emojify(":)")}</p>);
+     				break;
+     			case 0:
+     				moodEmoji = (<p>{ReactEmoji.emojify(":/")}</p>);
+     				break;
+     			case 1:
+     				moodEmoji = (<p>{ReactEmoji.emojify(":(")}</p>);
+     				break;
+     			case 2:
+     				moodEmoji = (<p>{ReactEmoji.emojify(":'(")}</p>);
+     				break;
+     			default:
+     				break;
+     		}
+     	}
+
 		var borderStyle = {};
 
 		if (this.props.keyNum == "comment-0") {
@@ -92,7 +115,7 @@ module.exports = React.createClass({
 						<p>{dayLogText}</p>
 					</div>
 					<div className="day-mood col-md-2 col-xs-2">
-						{moodAvg}
+						{moodEmoji}
 					</div>
 				</div>
 			</div>

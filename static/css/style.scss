@@ -271,7 +271,7 @@ header {
 **********************************/
 
 .layout-diary {
-  
+  height: 100%;
   header {
     position:fixed; 
     /*margin: 0 auto;*/
@@ -293,11 +293,23 @@ header {
     }
 
     .mood-back {
-      padding-top: 8px;
+      padding-top: 6px;
+      /*margin-right: -50px;*/
+      button {
+        outline: none;
+        border: none;
+        background-color: transparent;
+      }
     }
 
     .mood-next {
-      padding-top: 8px;
+      padding-top: 6px;
+      margin-left: -20px;
+      button {
+        outline: none;
+        border: none;
+        background-color: transparent;
+      }
     }
   }
 
@@ -459,6 +471,11 @@ textarea {
 
   .input-button {
     padding-left: 0px;
+  }
+
+  .button-emoji {
+    border: none;
+    padding: 0px;
   }
 
   button {

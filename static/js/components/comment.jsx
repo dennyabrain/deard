@@ -17,11 +17,19 @@ module.exports = React.createClass({
 
 		var comment = this.props.children;
 		var paragraphs = comment.split(/\n/);
+
+		// var str = 'Twas the night before Xmas...';
+		// var newstr = 
 		var p = paragraphs.map(function(paragraph,i){
-			return (
-				<p>{paragraph}</p>
-			)
+			return (<p>{ReactEmoji.emojify(paragraph)}</p>)
+			// var newPara = paragraph.replace(/(:\D{2,3}:)/g, "ReactEmoji.emojify($1)");
+			// if (newPara) paragraph = newPara;
+			// return (
+			// 	<p>{paragraph}</p>
+			// )
 		});
+
+
 
 		return (
 			<span>

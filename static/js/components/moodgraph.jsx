@@ -114,11 +114,13 @@ module.exports = React.createClass({
 		// }
 	},
 	render: function() {
+		// <img src="/static/img/mood-happy.svg" width="25"/>
+		// <img src="/static/img/mood-sad.svg" width="25"/>
 		return (
 			<div className="moodgraph container-fluid">
 				<div className="moodgraph-key col-md-1 col-xs-1">
-					<img src="/static/img/mood-happy.svg" width="25"/>
-					<img src="/static/img/mood-sad.svg" width="25"/>
+					{ReactEmoji.emojify(":D")}
+					{ReactEmoji.emojify(":'(")}
 				</div>
 				<div className="col-md-11 col-xs-11">
 					<canvas id="myChart" height="300"></canvas>

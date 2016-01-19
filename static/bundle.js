@@ -416,7 +416,7 @@
 								React.createElement(
 									"button",
 									{ onClick: this.backWeek },
-									"back"
+									React.createElement("img", { src: "/static/img/left-arrow.svg", width: "20" })
 								)
 							),
 							React.createElement(
@@ -438,7 +438,7 @@
 								React.createElement(
 									"button",
 									{ onClick: this.backWeek },
-									"back"
+									React.createElement("img", { src: "/static/img/left-arrow.svg", width: "20" })
 								)
 							),
 							React.createElement(
@@ -456,7 +456,7 @@
 								React.createElement(
 									"button",
 									{ onClick: this.nextWeek },
-									"next"
+									React.createElement("img", { src: "/static/img/right-arrow.svg", width: "20" })
 								)
 							)
 						)
@@ -467,7 +467,7 @@
 						React.createElement(
 							Link,
 							{ to: "/comments" },
-							React.createElement("img", { src: "/static/img/logo-d.svg", width: "30", onClick: this.changeHeader })
+							React.createElement("img", { src: "/static/img/chat.svg", width: "30", onClick: this.changeHeader })
 						)
 					)
 				) : React.createElement(
@@ -682,7 +682,7 @@
 			this.setState({ text: e.target.value });
 		},
 		handleSubmit: function (e) {
-			e.preventDefault();
+			if (e) e.preventDefault();
 			//var text = this.state.text.trim();
 			// console.log(e);
 			// var text = e;
@@ -726,6 +726,8 @@
 						default:
 							break;
 					}
+
+					this.handleSubmit();
 				}
 			});
 		},
@@ -892,15 +894,71 @@
 		}
 	});
 
+	// var MoodSelectionInput = React.createClass({
+	// 	displayName: 'MoodSelectionInput',
+
+	// 	handleInput: function(e) {
+	// 		//e.preventDefault();
+	// 		this.props.textInput({text: e.target.value});
+	// 		console.log(e.target.value);
+	// 	},
+	// 	render: function() {
+
+	// 		return (
+	// 			<div className="row">
+	// 				<div className="col-xs-1" />
+	// 				<div className="col-xs-2">
+	// 					<button className="button-emoji" value=":D" onClick={this.handleInput} >
+
+	// 					</button>
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<button className="button-emoji" value=":)" onClick={this.handleInput} >
+
+	// 					</button>
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<button className="button-emoji" value=":/" onClick={this.handleInput} >
+
+	// 					</button>
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<button className="button-emoji" value=":(" onClick={this.handleInput} >
+
+	// 					</button>
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<button className="button-emoji" value=":'(" onClick={this.handleInput} >
+
+	// 					</button>
+	// 				</div>
+	// 				<div className="col-xs-1" />
+	// 			</div>
+	// 		)
+	// 	}
+	// });
+	// <input type="hidden" name="button-emoji-value" value={this.state.moodType} />
 	var MoodSelectionInput = React.createClass({
 		displayName: 'MoodSelectionInput',
 
+		// getInitialState: function() {
+		// 	return {
+		// 		moodType: null
+		// 	};
+		// },
+
 		handleInput: function (e) {
-			//e.preventDefault();
-			this.props.textInput({ text: e.target.value });
-			console.log(e.target.value);
+			//console.log (this)
+			var mood = e.currentTarget.getAttribute('data-mood');
+			// this.setState({moodType : mood}, function() {
+			// 	//this.refs.commentForm.getDOMNode().submit();
+			// }.bind(this));
+			e.preventDefault();
+			this.props.textInput({ text: mood });
+			console.log(mood);
 		},
 		render: function () {
+
 			return React.createElement(
 				"div",
 				{ className: "row" },
@@ -908,37 +966,129 @@
 				React.createElement(
 					"div",
 					{ className: "col-xs-2" },
-					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
-						onClick: this.handleInput, value: ":D" })
+					React.createElement(
+						"a",
+						{ href: "javascript:;", onClick: this.handleInput, "data-mood": ":D" },
+						ReactEmoji.emojify(":D")
+					)
 				),
 				React.createElement(
 					"div",
 					{ className: "col-xs-2" },
-					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
-						onClick: this.handleInput, value: ":)" })
+					React.createElement(
+						"a",
+						{ href: "javascript:;", onClick: this.handleInput, "data-mood": ":)" },
+						ReactEmoji.emojify(":)")
+					)
 				),
 				React.createElement(
 					"div",
 					{ className: "col-xs-2" },
-					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
-						onClick: this.handleInput, value: ":/" })
+					React.createElement(
+						"a",
+						{ href: "javascript:;", onClick: this.handleInput, "data-mood": ":/" },
+						ReactEmoji.emojify(":/")
+					)
 				),
 				React.createElement(
 					"div",
 					{ className: "col-xs-2" },
-					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
-						onClick: this.handleInput, value: ":(" })
+					React.createElement(
+						"a",
+						{ href: "javascript:;", onClick: this.handleInput, "data-mood": ":(" },
+						ReactEmoji.emojify(":(")
+					)
 				),
 				React.createElement(
 					"div",
 					{ className: "col-xs-2" },
-					React.createElement("input", { type: "image", src: "/static/img/emoji1.svg", width: "35", height: "35", alt: "Submit",
-						onClick: this.handleInput, value: ":'(" })
+					React.createElement(
+						"a",
+						{ href: "javascript:;", onClick: this.handleInput, "data-mood": ":'(" },
+						ReactEmoji.emojify(":'(")
+					)
 				),
 				React.createElement("div", { className: "col-xs-1" })
 			);
 		}
 	});
+
+	// var MoodSelectionInput = React.createClass({
+	// 	displayName: 'MoodSelectionInput',
+
+	// 	handleInput: function(e) {
+	// 		//e.preventDefault();
+	// 		this.props.textInput({text: e.target.value});
+	// 		console.log(e.target.value);
+	// 	},
+	// 	render: function() {
+	// 		var great = ReactEmoji.emojify(":D")
+	// 		return (
+	// 			<div className="row">
+	// 				<div className="col-xs-1" />
+	// 				<div className="col-xs-2">
+	// 					<input type="submit" alt=":)"
+	// 						onClick={this.handleInput} value={great} ></input>
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<input type="submit" alt="Submit"
+	// 						onClick={this.handleInput} value=":)" >{ ReactEmoji.emojify(":)") }</input>
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<input type="submit" alt="Submit"
+	// 						onClick={this.handleInput} value=":/" >{ ReactEmoji.emojify(":/") }</input>
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<input type="submit" alt="Submit"
+	// 						onClick={this.handleInput} value=":(" >{ ReactEmoji.emojify(":(") }</input>
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<input type="submit" alt="Submit"
+	// 						onClick={this.handleInput} value=":'(" >{ ReactEmoji.emojify(":'(") }</input>
+	// 				</div>
+	// 				<div className="col-xs-1" />
+	// 			</div>
+	// 		)
+	// 	}
+	// });
+
+	// var MoodSelectionInput = React.createClass({
+	// 	displayName: 'MoodSelectionInput',
+
+	// 	handleInput: function(e) {
+	// 		//e.preventDefault();
+	// 		this.props.textInput({text: e.target.value});
+	// 		console.log(e.target.value);
+	// 	},
+	// 	render: function() {
+	// 		return (
+	// 			<div className="row">
+	// 				<div className="col-xs-1" />
+	// 				<div className="col-xs-2">
+	// 					<input type="image" src="/static/img/emoji1.svg" width="60" height="60" alt="Submit"
+	// 						onClick={this.handleInput} value="::D:" />
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<input type="image" src="/static/img/emoji2.svg" width="60" height="60" alt="Submit"
+	// 						onClick={this.handleInput} value="::):" />
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<input type="image" src="/static/img/emoji3.svg" width="60" height="60" alt="Submit"
+	// 						onClick={this.handleInput} value="::/:" />
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<input type="image" src="/static/img/emoji4.svg" width="60" height="60" alt="Submit"
+	// 						onClick={this.handleInput} value="::(:" />
+	// 				</div>
+	// 				<div className="col-xs-2">
+	// 					<input type="image" src="/static/img/emoji5.svg" width="60" height="60" alt="Submit"
+	// 						onClick={this.handleInput} value="::'(:" />
+	// 				</div>
+	// 				<div className="col-xs-1" />
+	// 			</div>
+	// 		)
+	// 	}
+	// });
 
 /***/ },
 /* 7 */
@@ -1029,12 +1179,20 @@
 
 			var comment = this.props.children;
 			var paragraphs = comment.split(/\n/);
+
+			// var str = 'Twas the night before Xmas...';
+			// var newstr =
 			var p = paragraphs.map(function (paragraph, i) {
 				return React.createElement(
 					'p',
 					null,
-					paragraph
+					ReactEmoji.emojify(paragraph)
 				);
+				// var newPara = paragraph.replace(/(:\D{2,3}:)/g, "ReactEmoji.emojify($1)");
+				// if (newPara) paragraph = newPara;
+				// return (
+				// 	<p>{paragraph}</p>
+				// )
 			});
 
 			return React.createElement(
@@ -1282,14 +1440,16 @@
 			// }
 		},
 		render: function () {
+			// <img src="/static/img/mood-happy.svg" width="25"/>
+			// <img src="/static/img/mood-sad.svg" width="25"/>
 			return React.createElement(
 				'div',
 				{ className: 'moodgraph container-fluid' },
 				React.createElement(
 					'div',
 					{ className: 'moodgraph-key col-md-1 col-xs-1' },
-					React.createElement('img', { src: '/static/img/mood-happy.svg', width: '25' }),
-					React.createElement('img', { src: '/static/img/mood-sad.svg', width: '25' })
+					ReactEmoji.emojify(":D"),
+					ReactEmoji.emojify(":'(")
 				),
 				React.createElement(
 					'div',
@@ -1580,6 +1740,7 @@
 			var moodCount = 0;
 			var moodSum = 0;
 			var moodAvg = null;
+			var moodEmoji = null;
 			var allData = this.props.data;
 			for (var i = 0; i < allData.length; i++) {
 				if (allData[i].mood_score && allData[i].mood_score != -999) {
@@ -1610,6 +1771,48 @@
 			if (moodCount > 0) moodAvg = moodSum / moodCount;
 			moodCount = 0;
 			moodSum = 0;
+
+			if (moodAvg) {
+				switch (Math.round(moodAvg)) {
+					case -2:
+						moodEmoji = React.createElement(
+							'p',
+							null,
+							ReactEmoji.emojify(":D")
+						);
+						break;
+					case -1:
+						moodEmoji = React.createElement(
+							'p',
+							null,
+							ReactEmoji.emojify(":)")
+						);
+						break;
+					case 0:
+						moodEmoji = React.createElement(
+							'p',
+							null,
+							ReactEmoji.emojify(":/")
+						);
+						break;
+					case 1:
+						moodEmoji = React.createElement(
+							'p',
+							null,
+							ReactEmoji.emojify(":(")
+						);
+						break;
+					case 2:
+						moodEmoji = React.createElement(
+							'p',
+							null,
+							ReactEmoji.emojify(":'(")
+						);
+						break;
+					default:
+						break;
+				}
+			}
 
 			var borderStyle = {};
 
@@ -1657,7 +1860,7 @@
 					React.createElement(
 						'div',
 						{ className: 'day-mood col-md-2 col-xs-2' },
-						moodAvg
+						moodEmoji
 					)
 				)
 			);

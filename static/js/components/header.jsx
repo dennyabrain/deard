@@ -169,7 +169,9 @@ var ChatHeader = React.createClass({
 								this.state.weekNum == 0 ? (
 									<div className="row">
 										<div className="mood-back col-xs-2">
-											<button onClick={this.backWeek}>back</button> 
+											<button onClick={this.backWeek}>
+												<img src="/static/img/left-arrow.svg" width="20"/>
+											</button> 
 										</div>
 										<div className="center col-xs-8">
 											<h2>This week</h2> 
@@ -180,13 +182,17 @@ var ChatHeader = React.createClass({
 								:
 								(	<div className="row">
 										<div className="mood-back col-xs-2">
-											<button onClick={this.backWeek}>back</button> 
+											<button onClick={this.backWeek}>
+												<img src="/static/img/left-arrow.svg" width="20"/>
+											</button> 
 										</div>
 										<div className="center col-xs-8">
 											<h2>{headerDate}</h2>
 										</div>
 										<div className="mood-next col-xs-2">
-											<button onClick={this.nextWeek}>next</button> 
+											<button onClick={this.nextWeek}>
+												<img src="/static/img/right-arrow.svg" width="20"/>
+											</button> 
 										</div>
 									</div>
 								) 
@@ -194,7 +200,7 @@ var ChatHeader = React.createClass({
 						</div>
 						<div className="right logo-d col-xs-2">
 							<Link to="/comments">
-								<img src="/static/img/logo-d.svg" width="30" onClick={this.changeHeader} />
+								<img src="/static/img/chat.svg" width="30" onClick={this.changeHeader} />
 							</Link>					
 						</div>	
 					</span>
