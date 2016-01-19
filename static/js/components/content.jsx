@@ -68,26 +68,27 @@ module.exports = React.createClass({
 		var newComments = comments.concat([comment]);
 
 		this.setState({data: newComments, loadingResponse: true});
-		console.log(this.socket);
-		this.socket.emit('clientMessage', { "user-comment": comment });
-		this.socket.on('userMessageRcvd', function(data) {
-			console.log(data);
-		})
 
-		// { "user-comment": comment }
-		// $.ajax({
-		// 	url: this.props.url,
-		// 	dataType: 'json',
-		// 	type: 'POST',
-		// 	data: comment,
-		// 	success: function(data){
-		// 		console.log("success POST");
-		// 		console.log(data);
-		// 	}.bind(this),
-		// 	error: function(ehx, status, err) {
-		// 		console.log(this.props.url, status, err.toString());
-		// 	}.bind(this)
-		// });
+		// SOCKET STUFF
+		// console.log(this.socket);
+		// this.socket.emit('clientMessage', { "user-comment": comment });
+		// this.socket.on('userMessageRcvd', function(data) {
+		// 	console.log(data);
+		// })
+		
+		$.ajax({
+			url: this.props.url,
+			dataType: 'json',
+			type: 'POST',
+			data: comment,
+			success: function(data){
+				console.log("success POST");
+				console.log(data);
+			}.bind(this),
+			error: function(ehx, status, err) {
+				console.log(this.props.url, status, err.toString());
+			}.bind(this)
+		});
 	},
 	getInitialState: function() {
 		return {data:[], loaded: false, commentFormType: "nothing", 

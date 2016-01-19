@@ -90,6 +90,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Loader = __webpack_require__(2);
+	//var TimeoutTransitionGroup = require('./timeout-transition-group')
 	// var io = require('socket.io-client');
 
 	module.exports = React.createClass({
@@ -140,6 +141,10 @@
 			);
 		}
 	});
+
+	// <TimeoutTransitionGroup enterTimeout={100} leaveTimeout={100} transitionName="screen">
+	// 	{this.props.children}
+	// </TimeoutTransitionGroup>
 
 /***/ },
 /* 2 */
@@ -582,26 +587,27 @@
 			var newComments = comments.concat([comment]);
 
 			this.setState({ data: newComments, loadingResponse: true });
-			console.log(this.socket);
-			this.socket.emit('clientMessage', { "user-comment": comment });
-			this.socket.on('userMessageRcvd', function (data) {
-				console.log(data);
-			});
 
-			// { "user-comment": comment }
-			// $.ajax({
-			// 	url: this.props.url,
-			// 	dataType: 'json',
-			// 	type: 'POST',
-			// 	data: comment,
-			// 	success: function(data){
-			// 		console.log("success POST");
-			// 		console.log(data);
-			// 	}.bind(this),
-			// 	error: function(ehx, status, err) {
-			// 		console.log(this.props.url, status, err.toString());
-			// 	}.bind(this)
-			// });
+			// SOCKET STUFF
+			// console.log(this.socket);
+			// this.socket.emit('clientMessage', { "user-comment": comment });
+			// this.socket.on('userMessageRcvd', function(data) {
+			// 	console.log(data);
+			// })
+
+			$.ajax({
+				url: this.props.url,
+				dataType: 'json',
+				type: 'POST',
+				data: comment,
+				success: (function (data) {
+					console.log("success POST");
+					console.log(data);
+				}).bind(this),
+				error: (function (ehx, status, err) {
+					console.log(this.props.url, status, err.toString());
+				}).bind(this)
+			});
 		},
 		getInitialState: function () {
 			return { data: [], loaded: false, commentFormType: "nothing",
@@ -934,7 +940,7 @@
 
 			return React.createElement(
 				"div",
-				{ className: "row" },
+				{ className: "row row-mood" },
 				React.createElement("div", { className: "col-xs-1" }),
 				React.createElement(
 					"div",

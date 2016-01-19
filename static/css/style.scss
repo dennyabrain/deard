@@ -478,6 +478,10 @@ textarea {
     padding: 0px;
   }
 
+  .row-mood {
+    padding-top: 10px;
+  }
+
   button {
     @include button-element;
     text-align: center;
@@ -718,4 +722,29 @@ textarea {
   display: block;
   margin: 0px auto;
   padding-top: 25px;
+}
+
+
+/********************************* 
+
+  transitions
+**********************************/
+.screen-enter {
+  opacity: 0.01;
+  @include transition(opacity .1s ease-in);
+
+  &.screen-enter-hidden {
+    display: none !important;
+  }
+  &.screen-enter-active {
+    opacity: 1;
+  }
+}
+.screen-leave {
+  opacity: 1;
+  @include transition(opacity .1s ease-in);
+
+  &.screen-leave-active {
+    opacity: 0.01;
+  }
 }

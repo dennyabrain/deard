@@ -1,4 +1,5 @@
 var Loader = require('./loader')
+//var TimeoutTransitionGroup = require('./timeout-transition-group')
 // var io = require('socket.io-client');
 
 module.exports = React.createClass({
@@ -42,10 +43,15 @@ module.exports = React.createClass({
 		}.bind(this), 1000);
 	},
 	render: function() {
-		return this.state.loaded ? this.props.children : (
+		return this.state.loaded ? this.props.children
+		 : (
 			<div className="app-loading">
 				<Loader />
 			</div>
 		);
 	}
 });
+
+// <TimeoutTransitionGroup enterTimeout={100} leaveTimeout={100} transitionName="screen">
+// 	{this.props.children}
+// </TimeoutTransitionGroup>
