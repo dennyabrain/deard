@@ -345,4 +345,10 @@ def reject():
 				#resetLastHit
 		return '{"status":"Reject"}'
 
+@socket.on('clientMessage')
+def handle_message(message):
+	socket.emit('userMessagercvd',{'data':'test'})
+    print('received message: ' + str(message))
 
+if __name__=="__main__":
+	socket.run(app)
