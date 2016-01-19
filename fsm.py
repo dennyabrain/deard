@@ -168,6 +168,9 @@ class Diary:
 			self.emitInsertEvent(text1,-99,str(datetime.now()))
 			self.next()
 			self.emitInsertEvent(text2,-99,str(datetime.now()))
+			self.mood=""
+			self.review=""
+			self.message=""
 
 	def emitInsertEvent(self,text,affinScore,now):
 		self.socket.emit('insert',{
