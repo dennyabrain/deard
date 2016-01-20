@@ -171,7 +171,7 @@ def comment():
 		print "post request for %s" %str(diary[flaskLogin.current_user.id])
 		print "diary state for this request is %s " %str(diary[flaskLogin.current_user.id].state)
 		print "==========================================================="
-		
+
 		if request.form['commentFormType']=='preMechTurk':
 			socket.emit('insert',{
 								'text':"give me a minute...",
@@ -179,7 +179,7 @@ def comment():
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
-								'commentFormType':''})
+								'commentFormType':''},sid['denny'])
 			return jsonify(status='commentInsert')
 
 		#print "the request form is ===" 
