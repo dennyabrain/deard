@@ -85,11 +85,7 @@ def reply():
 
 @app.route('/')
 def home():
-	return render_template('indexTest.html')
-
-@app.route('/test')
-def test():
-	return render_template('indexTest2.html', sid=sid["denny"])
+	return render_template('index.html')
 
 @app.route('/logout')
 def logout():
