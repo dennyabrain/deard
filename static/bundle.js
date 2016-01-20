@@ -77,7 +77,7 @@
 				Route,
 				{ component: StaticLayout },
 				React.createElement(IndexRoute, { component: Home }),
-				React.createElement(Route, { path: 'login', component: Login }),
+				React.createElement(Route, { path: 'login2', component: Login }),
 				React.createElement(Route, { path: 'register', component: Register })
 			)
 		)
@@ -332,7 +332,7 @@
 							null,
 							React.createElement(
 								Link,
-								{ to: "/login" },
+								{ to: "/login2" },
 								"login"
 							)
 						)
