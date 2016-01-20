@@ -179,7 +179,7 @@ def comment():
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
-								'commentFormType':'preMechTurk'},sid[flaskLogin.current_user.id])
+								'commentFormType':'preMechTurk'},room=sid[flaskLogin.current_user.id])
 			return jsonify(status='commentInsert')
 
 		#print "the request form is ===" 
