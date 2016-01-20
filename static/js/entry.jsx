@@ -26,7 +26,7 @@ ReactDOM.render((
 			</Route>
 			<Route component={StaticLayout}>
 				<IndexRoute component={Home} />
-				<Route path="login" component={Login} />
+				<Route path="login2" component={Login} />
 				<Route path="register" component={Register} />
 			</Route>
 		</Route>

@@ -78,7 +78,7 @@ var StaticHeader = React.createClass({
 						<p><Link to="/register">register</Link></p>
 					</div> 
 					<div className="header-login">					
-						<p><Link to="/login">login</Link></p>					
+						<p><Link to="/login2">login</Link></p>					
 					</div>	
 				</div>
 				<div className="static-logo-key col-md-8 col-xs-12">
