@@ -258,9 +258,9 @@ def approve():
 
 				#diary=Diary(socket,databaseUser,mturk)
 				sessionDB = databaseUser.getSession(text[0])
-				diary[flaskLogin.current_user.id].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
-				diary[flaskLogin.current_user.id].machine.set_state("preMechTurk")
-				diary[flaskLogin.current_user.id].run(textResponse)
+				diary[text[0]].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
+				diary[text[0]].machine.set_state("preMechTurk")
+				diary[text[0]].run(textResponse)
 				return '{"status":"Approved. User inserted into database and slack."}'
 		
 		return '{"status":"User Not Found"}'
