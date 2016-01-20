@@ -42,6 +42,8 @@ module.exports = React.createClass({
 	render: function() {
 		var bgColor = this.BGColors[this.state.mood];
 		var ftColor = this.colors[this.state.mood];
+		console.log("THIS STATE MOOD IN DIARYLAYOUT")
+		console.log(this.state.mood)
 		var diaryStyle = { backgroundColor : bgColor, color: ftColor };
 		return(
 			<div className="container layout-diary" style={diaryStyle}>					
