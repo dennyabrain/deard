@@ -543,8 +543,8 @@
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments }, function () {
 						// Update the commentFormType on latest bot response.
 						//var revComments = (data.comments).reverse();
-						console.log("BLAH BLAH BALH");
-						console.log(data);
+						// console.log("BLAH BLAH BALH")
+						// console.log(data)
 						var revComments = data.comments;
 
 						//this.setState({ date:revComments[0].created_at });
@@ -1277,11 +1277,13 @@
 							break;
 					}
 					if (startDay > 0) startDay--;else startDay = 6;
-
+					// console.log("***DATA IN MOODGRAPH***")
+					//     		console.log(allData[k])
 					// for each array element, calculate afinn average
 					// -2, -1, 1, 2, 3
 					for (var i = 0; i < allData[k].length; i++) {
-						if (allData[k][i].mood_score && allData[k][i].mood_score != -999) {
+
+						if (allData[k][i].mood_score && allData[k][i].mood_score > -50) {
 							moodCountPerDay++;
 							moodSumPerDay += allData[k][i].mood_score;
 						}
@@ -1291,8 +1293,8 @@
 					moodSumPerDay = 0;
 				}
 			} // end of for loop
-			//console.log("MOOD AVERAGE")
-			//console.log(moodAvgPerDay);
+			// console.log("***MOOD AVERAGE***")
+			// console.log(moodAvgPerDay);
 			var ctx = document.getElementById("myChart").getContext("2d");
 			var gradient = ctx.createLinearGradient(0, 0, 0, 200);
 			// gradient.addColorStop(0, 'rgba(137,239,229,1)');  
@@ -1686,14 +1688,14 @@
 						moodEmoji = React.createElement(
 							'p',
 							null,
-							ReactEmoji.emojify(":D")
+							ReactEmoji.emojify(":'(")
 						);
 						break;
 					case -1:
 						moodEmoji = React.createElement(
 							'p',
 							null,
-							ReactEmoji.emojify(":)")
+							ReactEmoji.emojify(":(")
 						);
 						break;
 					case 0:
@@ -1707,14 +1709,14 @@
 						moodEmoji = React.createElement(
 							'p',
 							null,
-							ReactEmoji.emojify(":(")
+							ReactEmoji.emojify(":)")
 						);
 						break;
 					case 2:
 						moodEmoji = React.createElement(
 							'p',
 							null,
-							ReactEmoji.emojify(":'(")
+							ReactEmoji.emojify(":D")
 						);
 						break;
 					default:

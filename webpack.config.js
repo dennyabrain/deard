@@ -1,5 +1,5 @@
 module.exports = {
-    entry: 'static/js/entry.jsx',
+    entry: './static/js/entry.jsx',
     output: {
         publicPath: 'http://localhost:5000/',
         filename: 'static/bundle.js'

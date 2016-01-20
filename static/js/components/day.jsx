@@ -75,19 +75,19 @@ module.exports = React.createClass({
      	if (moodAvg) {
      		switch(Math.round(moodAvg)) {
      			case -2:
-     				moodEmoji = (<p>{ReactEmoji.emojify(":D")}</p>);
+     				moodEmoji = (<p>{ReactEmoji.emojify(":'(")}</p>);
      				break;
      			case -1:
-     				moodEmoji = (<p>{ReactEmoji.emojify(":)")}</p>);
+     				moodEmoji = (<p>{ReactEmoji.emojify(":(")}</p>);
      				break;
      			case 0:
      				moodEmoji = (<p>{ReactEmoji.emojify(":/")}</p>);
      				break;
      			case 1:
-     				moodEmoji = (<p>{ReactEmoji.emojify(":(")}</p>);
+     				moodEmoji = (<p>{ReactEmoji.emojify(":)")}</p>);
      				break;
      			case 2:
-     				moodEmoji = (<p>{ReactEmoji.emojify(":'(")}</p>);
+     				moodEmoji = (<p>{ReactEmoji.emojify(":D")}</p>);
      				break;
      			default:
      				break;

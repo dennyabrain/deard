@@ -48,11 +48,13 @@ module.exports = React.createClass({
 		 		}
 		 		if (startDay>0) startDay--;
 		 		else startDay = 6;
-
+		 		// console.log("***DATA IN MOODGRAPH***")
+     //     		console.log(allData[k])
          		// for each array element, calculate afinn average
          		// -2, -1, 1, 2, 3
          		for (var i = 0; i < allData[k].length; i++) {
-         			if (allData[k][i].mood_score && allData[k][i].mood_score != -999) {
+
+         			if (allData[k][i].mood_score && allData[k][i].mood_score > -50) {
          				moodCountPerDay++;
          				moodSumPerDay += allData[k][i].mood_score;
          			}
@@ -63,8 +65,8 @@ module.exports = React.createClass({
          		moodSumPerDay = 0;
     		}
 		} // end of for loop
-		console.log("***MOOD AVERAGE***")
-		console.log(moodAvgPerDay);
+		// console.log("***MOOD AVERAGE***")
+		// console.log(moodAvgPerDay);
 		var ctx = document.getElementById("myChart").getContext("2d");
 		var gradient = ctx.createLinearGradient(0, 0, 0, 200);
 		// gradient.addColorStop(0, 'rgba(137,239,229,1)');   
