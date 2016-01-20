@@ -205,7 +205,7 @@ def comment():
 		else:
 			return render_template('index.html')
 
-@app.route('/login2',methods=['POST'])
+@app.route('/login2',methods=['POST','GET'])
 def login2():
 	if request.method=='POST':
 		for post in databaseUser.findMany({}):
@@ -238,6 +238,10 @@ def login2():
 						databaseUser.insertReply(request.form['userKey'],"Good morning. How is your mood today?", session['id'],"mood",0)
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
+
+	if request.method=='GET':
+		return render_template('index.html')
+
 
 @app.route('/approve', methods=['POST'])
 def approve():
