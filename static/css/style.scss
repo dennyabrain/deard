@@ -733,7 +733,10 @@ textarea {
 **********************************/
 .screen-enter {
   opacity: 0.01;
-  @include transition(opacity .1s ease-in);
+  -webkit-transition: opacity .1s ease-in;
+  -moz-transition: opacity .1s ease-in;
+  -ms-transition: opacity .1s ease-in;
+  transition: opacity .1s ease-in;
 
   &.screen-enter-hidden {
     display: none !important;
@@ -744,7 +747,10 @@ textarea {
 }
 .screen-leave {
   opacity: 1;
-  @include transition(opacity .1s ease-in);
+  -webkit-transition: opacity .1s ease-in;
+  -moz-transition: opacity .1s ease-in;
+  -ms-transition: opacity .1s ease-in;
+  transition: opacity .1s ease-in;
 
   &.screen-leave-active {
     opacity: 0.01;
