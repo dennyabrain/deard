@@ -220,7 +220,7 @@ var MoodSelectionInput = React.createClass({
 	render: function() {
 		
 		return (
-			<div className="row">
+			<div className="row row-mood">
 				<div className="col-xs-1" />
 				
 				<div className="col-xs-2">
