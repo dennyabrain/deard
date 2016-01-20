@@ -602,9 +602,9 @@
 						// 	}
 						// } else {
 
-						this.setState({ commentFormType: data.commentFormType, returnSession: false, mood: lastMood });
-						console.log("THIS STATE MOOD IN CONTENT");
-						console.log(this.state.mood);
+						this.setState({ commentFormType: data.commentFormType, returnSession: false });
+						// console.log("THIS STATE MOOD IN CONTENT")
+						// console.log(this.state.mood)
 						//}
 					});
 				}).bind(this),
@@ -696,8 +696,8 @@
 			}).bind(this), 100);
 		},
 		render: function () {
-			// console.log("THIS STATE DATE GETMONTH");
-			// console.log(this.state.date.getMonth());
+			console.log("MOOD PASS TO COMMENT LIST");
+			console.log(this.context.mood);
 			return React.createElement(
 				'span',
 				null,

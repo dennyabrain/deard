@@ -82,9 +82,9 @@ module.exports = React.createClass({
 					// } else {
 					
 					
-					this.setState({commentFormType: data.commentFormType, returnSession: false, mood: lastMood});
-					console.log("THIS STATE MOOD IN CONTENT")
-					console.log(this.state.mood)
+					this.setState({commentFormType: data.commentFormType, returnSession: false});
+					// console.log("THIS STATE MOOD IN CONTENT")
+					// console.log(this.state.mood)
 					//}
 				});
 			}.bind(this),
@@ -134,7 +134,7 @@ module.exports = React.createClass({
 	},
 	getInitialState: function() {
 		return {data:[], loaded: false, commentFormType: "nothing", 
-			status: 'disconnected', date: new Date(), mood: "good",
+			status: 'disconnected', date: new Date(),
 			returnSession: false}
 	}, 
 	getDefaultProps : function() { 
@@ -177,8 +177,8 @@ module.exports = React.createClass({
 		}.bind(this), 100);
 	},
 	render: function() {
-		// console.log("THIS STATE DATE GETMONTH");
-		// console.log(this.state.date.getMonth());
+		console.log("MOOD PASS TO COMMENT LIST");
+		console.log(this.context.mood);
 		return (
 			<span>
 			<Header headerType="chat" date={this.state.date} logoIcon={true} showDate={true}/> 
