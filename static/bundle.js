@@ -548,21 +548,21 @@
 						var revComments = data.comments;
 
 						//this.setState({ date:revComments[0].created_at });
-						if (!this.state.returnSession) {
-							for (var c in revComments) {
-								console.log(revComments[c].commentFormType);
-								if (revComments[c].type == "bot") {
-									if (this.state.commentFormType != revComments[c].commentFormType) {
-										this.setState({ commentFormType: revComments[c].commentFormType });
-										console.log("COMMENT FORMT TYPE FROM SERVER");
-										console.log(revComments[c].commentFormType);
-									}
-									break;
-								}
-							}
-						} else {
-							this.setState({ commentFormType: data.commentFormType, returnSession: false });
-						}
+						// if (!this.state.returnSession) {
+						// 	for (var c in revComments) {
+						// 		console.log(revComments[c].commentFormType);
+						// 		if (revComments[c].type == "bot") {						
+						// 			if (this.state.commentFormType != revComments[c].commentFormType) {
+						// 				this.setState({commentFormType : revComments[c].commentFormType});
+						// 				console.log("COMMENT FORMT TYPE FROM SERVER")
+						// 				console.log(revComments[c].commentFormType)
+						// 			}
+						// 			break;
+						// 		}
+						// 	}
+						// } else {
+						this.setState({ commentFormType: data.commentFormType, returnSession: false });
+						//}
 					});
 				}).bind(this),
 				error: (function (ehx, status, err) {
@@ -1169,8 +1169,8 @@
 				success: (function (data) {
 					//var c = $.extend(true, {},data);
 					//this.context.setUserKey(data.userKey)
-					//console.log("DATA COMMENTS IN MOOD")
-					//console.log(data.comments); // {0:[], 1:[], 2:[]}
+					console.log("DATA COMMENTS IN MOOD");
+					console.log(data.comments); // {0:[], 1:[], 2:[]}
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments });
 				}).bind(this),
 				error: (function (ehx, status, err) {
@@ -1205,6 +1205,8 @@
 		render: function () {
 			var ftColor = this.colors[this.context.mood];
 			console.log("USERDATA FONT COLOR: " + ftColor);
+			console.log("FROM USERDATA TO DAYLIST");
+			console.log(this.state.data);
 			return React.createElement(
 				'span',
 				null,
@@ -1546,9 +1548,13 @@
 			// var todayDate = this.props.today.getDate();
 			var todayDate = this.props.today;
 			var dayListCount = 0;
+
 			//console.log(this.props.data);
 			for (var d in this.props.data) {
+
 				var comment = this.props.data[d];
+				console.log("***DATA IN DAYLIST***");
+				console.log(this.props.data[d]);
 				if (this.props.data.hasOwnProperty(d)) {
 
 					switch (todayDay) {
@@ -1578,7 +1584,7 @@
 					}
 					if (todayDay > 0) todayDay--;else todayDay = 6;
 				} // end of if statement
-				//console.log(comment);
+				console.log(comment);
 				//console.log("dayListCount: " + dayListCount)
 				days.push(React.createElement(Day, { key: 'comment-' + dayListCount, keyNum: 'comment-' + dayListCount, day: day,
 					date: todayDate.getDate(), data: this.props.data[d] }));
@@ -1644,6 +1650,8 @@
 			var moodAvg = null;
 			var moodEmoji = null;
 			var allData = this.props.data;
+			console.log("ALL DATA IN DAY");
+			console.log(allData);
 			for (var i = 0; i < allData.length; i++) {
 				if (allData[i].mood_score && allData[i].mood_score != -999) {
 					moodCount++;
@@ -1663,8 +1671,10 @@
 							}
 						}
 					}
-					//console.log("charCount: "+ charCount);
-					//console.log("dayLogText: "+dayLogText);
+					console.log("DATA IN DAY");
+					console.log(this.props.data[i]);
+					console.log("charCount: " + charCount);
+					console.log("dayLogText: " + dayLogText);
 					charCount = 0;
 					break;
 				}
