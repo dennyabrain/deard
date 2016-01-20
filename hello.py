@@ -224,7 +224,7 @@ def login2():
 						#g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
 
-						print('diary is in state %s' %g.diary.state)
+						#print('diary is in state %s' %g.diary.state)
 
 					else:
 						session['id']=uuid4()
