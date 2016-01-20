@@ -54,38 +54,38 @@ class Diary:
 		self.message+=str(text)
 		
 	def is_sad(self):
-		print("in is_sad")
+		#print("in is_sad")
 		return self.mood=='bad'
 
 	def is_happy(self):
-		print("in is_happy")
+		#print("in is_happy")
 		return self.mood=='happy'
 
 	def is_ok(self):
-		print("in is_ok")
+		#print("in is_ok")
 		return self.mood=='ok'
 
 	def wants_to_log_more(self):
 		return True
 
-	def run(self,requestForm):
-		print("deard is currently in %s state" % self.state)
+	def run(self,requestForm,room):
+		#print("deard is currently in %s state" % self.state)
 		if self.state=='mood':
 			self.insertInputToDbase(requestForm['text'],self.state)
 			self.next()
-			print("deard is currently in %s state" % self.state)
+			#print("deard is currently in %s state" % self.state)
 			if requestForm['text']==':D' or requestForm['text']==':)':
 				self.setMood("happy")
 			elif requestForm['text']==':/':
 				self.setMood("ok")
 			else:
 				self.setMood("bad")
-			print self.mood
+			#print self.mood
 			affinScore=Diary.affinMap[requestForm['text']]
 			self.incrementSessionIndex()
 			text=self.response.getSituation(self.mood)
 			self.insertReplyIntoDatabase(text,affinScore)
-			self.emitInsertEvent(text,affinScore,str(datetime.now()))
+			self.emitInsertEvent(text,affinScore,str(datetime.now()),room)
 			self.updateSessionData()
 			
 		elif self.state=='situation' or self.state=='feeling':
@@ -93,16 +93,16 @@ class Diary:
 			#text=self.fetchResponseFromJSON(self.mood)
 			if self.state=='situation':
 				text=self.response.getFeeling(self.mood)
-				print ("in if condition of situation")
+				#print ("in if condition of situation")
 			elif self.state=='feeling':
 				text=self.response.getThought(self.mood)
-				print ("in if condition of feeling")
+				#print ("in if condition of feeling")
 			self.updateMessage(self.state+" : "+str(requestForm['text'])+'\n')
 			self.next()
-			print("deard is currently in %s state" % self.state)
+			#print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			self.insertReplyIntoDatabase(text)
-			self.emitInsertEvent(text,-99,str(datetime.now()))
+			self.emitInsertEvent(text,-99,str(datetime.now()),room)
 			self.updateSessionData()
 
 		elif self.state=='thought':
@@ -110,51 +110,51 @@ class Diary:
 			text=self.response.getPreMechTurk(self.mood)
 			self.updateMessage(self.state+" : "+str(requestForm['text'])+'\n')
 			self.next()
-			print("deard is currently in %s state" % self.state)
+			#print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			self.insertReplyIntoDatabase(text)
-			self.emitInsertEvent(text,-99,str(datetime.now()))
+			self.emitInsertEvent(text,-99,str(datetime.now()),room)
 			id=self.mturk.createHit(self.message)
 			self.db.insertLastHit(self.username,self.message,id)
 			
 			
 		elif self.state=='preMechTurk':
 			self.next()
-			print("deard is currently in %s state" % self.state)
+			#print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			#id=self.mturk.createHit(self.message)
 			#self.db.insertLastHit(self.username,self.message,id)
-			print requestForm
-			print ("before emitInsertEvent")
-			self.emitInsertEvent(requestForm,-99,str(datetime.now()))
-			print "emit insert event in preMechTurk"
+			#print requestForm
+			#print ("before emitInsertEvent")
+			self.emitInsertEvent(requestForm,-99,str(datetime.now()),room)
+			#print "emit insert event in preMechTurk"
 			self.updateSessionData()
-			print "inPreMechTurk after updateSesson"
+			#print "inPreMechTurk after updateSesson"
 			
 
 		elif self.state=='review':
 			self.insertInputToDbase(requestForm['text'],self.state)
 			self.next()
-			print("deard is currently in %s state" % self.state)
+			#print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			self.setReview(requestForm['text'])
 			text1=self.response.getReview(self.review)
 			self.insertReplyIntoDatabase(text1)
 			text2=self.response.getRethinking(self.review)
 			self.insertReplyIntoDatabase(text2)
-			self.emitInsertEvent(text1,-99,str(datetime.now()))
-			self.emitInsertEvent(text2,-99,str(datetime.now()))
+			self.emitInsertEvent(text1,-99,str(datetime.now()),room)
+			self.emitInsertEvent(text2,-99,str(datetime.now()),room)
 			self.updateSessionData()
 			
 
 		elif self.state=='rethinking':
 			self.insertInputToDbase(requestForm['text'],self.state)
 			self.next()
-			print("deard is currently in %s state" % self.state)
+			#print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			text=self.response.getBye(self.mood)
 			self.insertReplyIntoDatabase(text)
-			self.emitInsertEvent(text,-99,str(datetime.now()))
+			self.emitInsertEvent(text,-99,str(datetime.now()),room)
 			
 
 		elif self.state=='bye':
@@ -165,14 +165,14 @@ class Diary:
 			self.db.insertReply(self.username,text1,self.sessionId,"greeting",0.0)
 			self.db.insertReply(self.username,text2,self.sessionId,"mood",0.0)
 			self.next()
-			self.emitInsertEvent(text1,-99,str(datetime.now()))
+			self.emitInsertEvent(text1,-99,str(datetime.now()),room)
 			self.next()
-			self.emitInsertEvent(text2,-99,str(datetime.now()))
+			self.emitInsertEvent(text2,-99,str(datetime.now()),room)
 			self.mood=""
 			self.review=""
 			self.message=""
 
-	def emitInsertEvent(self,text,affinScore,now):
+	def emitInsertEvent(self,text,affinScore,now,roomId):
 		self.socket.emit('insert',{
 									'text':text,
 									'mood_score':affinScore,
@@ -180,7 +180,7 @@ class Diary:
 									'post_id':str(self.sessionId),
 									'type':'bot',
 									'commentFormType':self.state
-								})
+								},room=roomId)
 
 	def insertInputToDbase(self,text,commentFormType):
 		self.db.insertInput(self.username,text,self.sessionId,commentFormType)
@@ -189,7 +189,7 @@ class Diary:
 		self.sessionIndex=(self.sessionIndex+1)%8
 
 	def fetchResponseFromJSON(self,mode):
-		print mode
+		#print mode
 		text = self.response.getText(self.state,mode)
 		return text
 
