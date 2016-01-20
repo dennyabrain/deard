@@ -24,10 +24,48 @@ module.exports = React.createClass({
 				this.setState({loadingResponse: false, loaded: true, data:data.comments}, function() {
         				// Update the commentFormType on latest bot response.
 					//var revComments = (data.comments).reverse();
-					// console.log("BLAH BLAH BALH")
-					// console.log(data)
-					var revComments = (data.comments);
+					console.log("BLAH BLAH BALH")
+					console.log(data)
+					var lastMood; 
 
+					var revComments = (data.comments);
+					console.log(revComments[6]);
+					for (var c = revComments.length-1; c > 0; c--) {
+						console.log("REVCOMMENTS")
+						console.log(revComments[c]);
+						if (revComments[c].type == "bot") {	
+							if (revComments[c].commentFormType == "situation") {
+								switch (revComments[c].mood_score) {
+									case -2:
+										lastMood = "worst";
+										console.log("LAST MOOD IS NOW WORST")
+										break;
+									case -1:
+										lastMood = "bad";
+										console.log("LAST MOOD IS NOW BAD")
+										break;
+									case 0:
+										lastMood = "ok";
+										console.log("LAST MOOD IS NOW OK")
+										break;
+									case 1:
+										lastMood = "good";
+										console.log("LAST MOOD IS NOW GOOD")
+										break;
+									case 2:
+										lastMood = "great";
+										console.log("LAST MOOD IS NOW GREAT")
+										break;
+									default:
+										break;
+								}
+								//lastMood = revComments[c].mood_score;
+								this.context.setMood({mood: lastMood});
+								//this.setState({mood: lastMood});
+								break;
+							}
+						}
+					}
 					//this.setState({ date:revComments[0].created_at });
 					// if (!this.state.returnSession) {
 					// 	for (var c in revComments) {
@@ -42,7 +80,11 @@ module.exports = React.createClass({
 					// 		}
 					// 	}
 					// } else {
-						this.setState({commentFormType: data.commentFormType, returnSession: false});
+					
+					
+					this.setState({commentFormType: data.commentFormType, returnSession: false, mood: lastMood});
+					console.log("THIS STATE MOOD IN CONTENT")
+					console.log(this.state.mood)
 					//}
 				});
 			}.bind(this),
