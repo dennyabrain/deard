@@ -52,6 +52,7 @@ response=BotResponse()
 commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
 
 diary={}
+sid={}
 
 class User(flaskLogin.UserMixin):
 	pass
@@ -85,6 +86,10 @@ def reply():
 @app.route('/')
 def home():
 	return render_template('indexTest.html')
+
+@app.route('/test')
+def test():
+	return render_template('indexTest2.html', sid=sid["denny"])
 
 @app.route('/logout')
 def logout():
@@ -281,6 +286,8 @@ def reject():
 
 @socket.on('my event')
 def handle_json(json):
+	print('socket roomname is %s')%str(request.sid)
+	sid['denny']=request.sid
 	print('received json: ' + str(json))	
 
 if __name__=="__main__":
