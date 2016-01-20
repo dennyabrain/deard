@@ -24,8 +24,8 @@ module.exports = React.createClass({
 				this.setState({loadingResponse: false, loaded: true, data:data.comments}, function() {
         				// Update the commentFormType on latest bot response.
 					//var revComments = (data.comments).reverse();
-					console.log("NEW COMMENT FORM TYPE")
-					console.log(data.commentFormType)
+					console.log("BLAH BLAH BALH")
+					console.log(data)
 					var revComments = (data.comments);
 
 					//this.setState({ date:revComments[0].created_at });
