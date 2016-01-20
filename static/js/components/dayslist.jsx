@@ -24,9 +24,13 @@ module.exports = React.createClass({
 		// var todayDate = this.props.today.getDate();
 		var todayDate = this.props.today;
 		var dayListCount = 0;
+		
 		//console.log(this.props.data);
 		for(var d in this.props.data) {
+
 			var comment = this.props.data[d];
+			console.log("***DATA IN DAYLIST***")
+			console.log(this.props.data[d]);
 			if (this.props.data.hasOwnProperty(d)) {
 				
 		 		switch(todayDay) {

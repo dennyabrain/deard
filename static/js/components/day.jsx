@@ -37,6 +37,8 @@ module.exports = React.createClass({
 		var moodAvg = null;
 		var moodEmoji = null;
 		var allData = this.props.data;
+		console.log("ALL DATA IN DAY")
+		console.log(allData)
 		for (var i = 0; i < allData.length; i++) {
  			if (allData[i].mood_score && allData[i].mood_score != -999) {
  				moodCount++;
@@ -57,8 +59,10 @@ module.exports = React.createClass({
 						}
 					}
 				}
-				//console.log("charCount: "+ charCount);
-				//console.log("dayLogText: "+dayLogText);
+				console.log("DATA IN DAY")
+				console.log(this.props.data[i])
+				console.log("charCount: "+ charCount);
+				console.log("dayLogText: "+dayLogText);
 				charCount = 0;
 				break;
 			}

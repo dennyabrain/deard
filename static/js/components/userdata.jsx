@@ -44,8 +44,8 @@ module.exports = React.createClass({
 			success: function(data){
 				//var c = $.extend(true, {},data);
 				//this.context.setUserKey(data.userKey)
-				//console.log("DATA COMMENTS IN MOOD")
-				//console.log(data.comments); // {0:[], 1:[], 2:[]}
+				console.log("DATA COMMENTS IN MOOD")
+				console.log(data.comments); // {0:[], 1:[], 2:[]}
 				this.setState({loadingResponse: false, loaded: true, data: data.comments});
 
 			}.bind(this),
@@ -84,6 +84,8 @@ module.exports = React.createClass({
 	render: function() {
 		var ftColor = this.colors[this.context.mood];
 		console.log("USERDATA FONT COLOR: "+ftColor);
+		console.log("FROM USERDATA TO DAYLIST")
+		console.log(this.state.data);
 		return (
 			<span>
 			<Header headerType="mood" logoIcon={true} showDate={true} 
