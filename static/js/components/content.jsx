@@ -110,6 +110,7 @@ module.exports = React.createClass({
     connect: function() {
     	console.log("SOCKET CONNECT");
     	this.setState({ status: 'connected' });
+    	this.socket.emit('my event', {data: "I'm connected"});
     	console.log("connected: "+ this.socket.id);
     },
     disconnect: function() {
