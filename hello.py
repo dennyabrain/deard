@@ -250,7 +250,7 @@ def approve():
 				#approve and pay worker
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
-				message = client.messages.create(body="Jenny please?! I love you <3",
+				message = twilioClient.messages.create(body="Jenny please?! I love you <3",
 											to="+19175748108",    # Replace with your phone number
 										    from_="+16467830371") # Replace with your Twilio number
 				#print message.sid
@@ -258,9 +258,9 @@ def approve():
 
 				#diary=Diary(socket,databaseUser,mturk)
 				sessionDB = databaseUser.getSession(text[0])
-				g.diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
-				g.diary.machine.set_state("preMechTurk")
-				g.diary.run(textResponse)
+				diary[flaskLogin.current_user.id].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
+				diary[flaskLogin.current_user.id].machine.set_state("preMechTurk")
+				diary[flaskLogin.current_user.id].run(textResponse)
 				return '{"status":"Approved. User inserted into database and slack."}'
 		
 		return '{"status":"User Not Found"}'
