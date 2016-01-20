@@ -162,6 +162,7 @@ def userstats():
 		# Return results
 		return jsonify(comments=text,daterange=daterange,startdate=startdate.strftime('%Y-%m-%d'),enddate=enddate.strftime('%Y-%m-%d'))
 
+@app.route('/comments/data')
 @app.route('/comments', methods=['POST','GET'])
 def comment():
 	if request.method=='POST':
