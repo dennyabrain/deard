@@ -166,9 +166,12 @@ def userstats():
 def comment():
 	if request.method=='POST':
 		postId=session['id']
+		print "==========================================================="
+		print "post request for %s" %str(flaskLogin.current_user.id)
 		print "post request for %s" %str(diary[flaskLogin.current_user.id])
 		print "diary state for this request is %s " %str(diary[flaskLogin.current_user.id].state)
-
+		print "==========================================================="
+		
 		if request.form['commentFormType']=='preMechTurk':
 			socket.emit('insert',{
 								'text':"give me a minute...",
