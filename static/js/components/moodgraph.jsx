@@ -63,8 +63,8 @@ module.exports = React.createClass({
          		moodSumPerDay = 0;
     		}
 		} // end of for loop
-		//console.log("MOOD AVERAGE")
-		//console.log(moodAvgPerDay);
+		console.log("***MOOD AVERAGE***")
+		console.log(moodAvgPerDay);
 		var ctx = document.getElementById("myChart").getContext("2d");
 		var gradient = ctx.createLinearGradient(0, 0, 0, 200);
 		// gradient.addColorStop(0, 'rgba(137,239,229,1)');   
