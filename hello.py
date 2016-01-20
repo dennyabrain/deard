@@ -1,6 +1,6 @@
 from db import db
 import sys
-from flask import Flask, request, redirect, url_for, render_template, jsonify, session, g
+from flask import Flask, request, redirect, url_for, render_template, jsonify, session
 import requests
 import json
 import flask.ext.login as flaskLogin
@@ -51,8 +51,15 @@ response=BotResponse()
 
 commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
 
+diary={}
+
 class User(flaskLogin.UserMixin):
 	pass
+
+@app.before_request
+def before():
+	diary = Diary(socket,databaseUser,mturk)
+	print diary
 
 def request_wants_json():
     best = request.accept_mimetypes.best_match(['application/json', 'text/html'])
@@ -77,9 +84,7 @@ def reply():
 
 @app.route('/')
 def home():
-	g.diary=Diary(socket,databaseUser,mturk)
-	print g
-	return render_template('index.html')
+	return render_template('indexTest.html')
 
 @app.route('/logout')
 def logout():
@@ -106,12 +111,14 @@ def register():
 	user = User()
 	user.id=request.form['username']
 	flaskLogin.login_user(user)
-
+	#session['diary']=Diary(socket,databaseUser,mturk)
 	#initialize new diary
 	session['id']=uuid4()
 	session['index']=1
-	g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
-	print('diary is in state %s' %g.diary.state)
+	print "current user id is %s" % flaskLogin.current_user.id
+	diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
+	diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
+	#print('diary is in state %s' %g.diary.state)
 	
 	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your mood today?" % request.form['username'],session['id'],"mood",0.0)
 	databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})	
@@ -176,7 +183,8 @@ def comment():
 		print "the request form is ===" 
 		print request.form
 		print "user just inputted : %s " % request.form['text']
-		g.diary.run(request.form)
+		#print "diary instance in POST comment %s"g.diary
+		diary[flaskLogin.current_user.id].run(request.form)
 
 		return jsonify(status='commentInsert')
 
@@ -210,7 +218,9 @@ def login2():
 					if sessionDB['sessionIndex'] != 7:
 						session['id']=sessionDB['sessionId']
 						session['index']=sessionDB['sessionIndex']
-						g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
+						diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
+						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
+						#g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
 
 						print('diary is in state %s' %g.diary.state)
@@ -218,7 +228,8 @@ def login2():
 					else:
 						session['id']=uuid4()
 						session['index']=1
-						g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
+						diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
+						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
 						databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'], session['id'],"greeting",0)
 						databaseUser.insertReply(request.form['userKey'],"Good morning. How is your mood today?", session['id'],"mood",0)
@@ -268,10 +279,9 @@ def reject():
 				#resetLastHit
 		return '{"status":"Reject"}'
 
-#@socket.on('clientMessage')
-#def handle_message(message):
-	#socket.emit('userMessagercvd',{'data':'test'})
-#	diary.run(message['user-comment'])
+@socket.on('my event')
+def handle_json(json):
+	print('received json: ' + str(json))	
 
 if __name__=="__main__":
 	socket.run(app)
