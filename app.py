@@ -43,7 +43,8 @@ bcrypt = Bcrypt(app)
 
 whiteNoiseApp = WhiteNoise(app,root='static')
 
-socket = SocketIO(app,logger=True, engineio_logger=True)
+#socket = SocketIO(app,logger=True, engineio_logger=True)
+socket = SocketIO(app)
 
 mturk = mTurk()
 
@@ -52,14 +53,10 @@ response=BotResponse()
 commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
 
 diary={}
+sid={}
 
 class User(flaskLogin.UserMixin):
 	pass
-
-@app.before_request
-def before():
-	diary = Diary(socket,databaseUser,mturk)
-	print diary
 
 def request_wants_json():
     best = request.accept_mimetypes.best_match(['application/json', 'text/html'])
@@ -89,7 +86,7 @@ def home():
 @app.route('/logout')
 def logout():
 	flaskLogin.logout_user()
-	print("logged out")
+	#print("logged out")
 	return redirect("/", code=302)
 	
 @app.route('/register',methods=['POST','GET'])
@@ -115,7 +112,7 @@ def register():
 	#initialize new diary
 	session['id']=uuid4()
 	session['index']=1
-	print "current user id is %s" % flaskLogin.current_user.id
+	#print "current user id is %s" % flaskLogin.current_user.id
 	diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
 	diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
 	#print('diary is in state %s' %g.diary.state)
@@ -165,10 +162,16 @@ def userstats():
 		# Return results
 		return jsonify(comments=text,daterange=daterange,startdate=startdate.strftime('%Y-%m-%d'),enddate=enddate.strftime('%Y-%m-%d'))
 
+@app.route('/comments/data')
 @app.route('/comments', methods=['POST','GET'])
 def comment():
 	if request.method=='POST':
 		postId=session['id']
+		print "==========================================================="
+		print "post request for %s" %str(flaskLogin.current_user.id)
+		print "post request for %s" %str(sid[flaskLogin.current_user.id])
+		print "diary state for this request is %s " %str(diary[flaskLogin.current_user.id].state)
+		print "==========================================================="
 
 		if request.form['commentFormType']=='preMechTurk':
 			socket.emit('insert',{
@@ -177,14 +180,14 @@ def comment():
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
-								'commentFormType':''})
+								'commentFormType':''},room=sid[flaskLogin.current_user.id])
 			return jsonify(status='commentInsert')
 
-		print "the request form is ===" 
-		print request.form
-		print "user just inputted : %s " % request.form['text']
+		#print "the request form is ===" 
+		#print request.form
+		#print "user just inputted : %s " % request.form['text']
 		#print "diary instance in POST comment %s"g.diary
-		diary[flaskLogin.current_user.id].run(request.form)
+		diary[flaskLogin.current_user.id].run(request.form,sid[flaskLogin.current_user.id])
 
 		return jsonify(status='commentInsert')
 
@@ -214,7 +217,7 @@ def login2():
 					# CREATE A NEW SESSION ID ASSOCIATED WITH THIS USER
 					
 					sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
-					print ("SESSION INDEX: %s" % sessionDB['sessionIndex'])
+					#print ("SESSION INDEX: %s" % sessionDB['sessionIndex'])
 					if sessionDB['sessionIndex'] != 7:
 						session['id']=sessionDB['sessionId']
 						session['index']=sessionDB['sessionIndex']
@@ -223,7 +226,7 @@ def login2():
 						#g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
 
-						print('diary is in state %s' %g.diary.state)
+						#print('diary is in state %s' %g.diary.state)
 
 					else:
 						session['id']=uuid4()
@@ -240,7 +243,7 @@ def login2():
 def approve():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
-		print(text[0])
+		#print(text[0])
 		for post in databaseUser.findMany({}):
 			if text[0] in post:
 				#fetch Response from dbase and insert in text
@@ -249,7 +252,7 @@ def approve():
 				#approve and pay worker
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
-				message = client.messages.create(body="Jenny please?! I love you <3",
+				message = twilioClient.messages.create(body="Hey, its D. See what I got for you. http://deard.herokuapp.com/",
 											to="+19175748108",    # Replace with your phone number
 										    from_="+16467830371") # Replace with your Twilio number
 				#print message.sid
@@ -257,9 +260,9 @@ def approve():
 
 				#diary=Diary(socket,databaseUser,mturk)
 				sessionDB = databaseUser.getSession(text[0])
-				g.diary.initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
-				g.diary.machine.set_state("preMechTurk")
-				g.diary.run(textResponse)
+				diary[text[0]].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
+				diary[text[0]].machine.set_state("preMechTurk")
+				diary[text[0]].run(textResponse,sid[text[0]])
 				return '{"status":"Approved. User inserted into database and slack."}'
 		
 		return '{"status":"User Not Found"}'
@@ -268,7 +271,7 @@ def approve():
 def reject():
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
-		print(text[0],text[1])
+		#print(text[0],text[1])
 		for post in databaseUser.findMany({}):
 			if text[0] in post:
 				#reject the assignment and give feedback
@@ -279,10 +282,13 @@ def reject():
 				#resetLastHit
 		return '{"status":"Reject"}'
 
-#@socket.on('clientMessage')
-#def handle_message(message):
-	#socket.emit('userMessagercvd',{'data':'test'})
-#	diary.run(message['user-comment'])
+@socket.on('my event')
+def handle_json(json):
+	#print('socket roomname is %s')%str(request.sid)
+	sid[flaskLogin.current_user.id]=request.sid
+	print "in my event with sid %s " %str(sid)
+	print "for user %s" %flaskLogin.current_user.id
+	#print('received json: ' + str(json))	
 
 if __name__=="__main__":
 	socket.run(app)
