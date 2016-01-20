@@ -2,13 +2,14 @@ from boto.mturk.connection import MTurkConnection
 from boto.mturk.question import QuestionContent, Question, QuestionForm, Overview, AnswerSpecification, SelectionAnswer, FormattedContent, FreeTextAnswer
 from boto.resultset import ResultSet
 import os
+from htmlString import mTurkForm
 
 class mTurk:
 	def __init__(self):
 		self.ACCESS_ID=os.environ['ACCESS_KEY_ID']
 		self.SECRET_KEY=os.environ['SECRET_ACCESS_KEY']		
 		self.HOST='mechanicalturk.sandbox.amazonaws.com'
-		self.title='Please respond as a therapist to this question'
+		self.title='Please respond as a therapist/friend to this person'
 		self.description=('Read this diary entry and give a thoughtful advice to this person')
 		self.keywords='diary,therapist,friend,advice'
 		self.connectMTurk()
@@ -21,8 +22,9 @@ class mTurk:
 
 	def buildOverview(self):
 		self.overview=Overview()
-		self.overview.append_field('Title','Deard Response')
-		self.overview.append(FormattedContent('<h2>DearD User Post</h2>'))
+		self.overview.append_field('Title','Write a response as a friend or a therapist to this person in distress')
+		#self.overview.append(FormattedContent('<h2>DearD User Post</h2>'))
+		self.overview.append(FormattedContent(mTurkForm))
 
 	def buildQuestion(self,diaryEntry):
 		self.qc = QuestionContent()
