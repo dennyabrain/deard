@@ -60,7 +60,7 @@ module.exports = React.createClass({
 										break;
 								}
 								//lastMood = revComments[c].mood_score;
-								this.context.setMood({mood: lastMood});
+								this.context.setMood(lastMood);
 								//this.setState({mood: lastMood});
 								break;
 							}

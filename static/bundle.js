@@ -226,6 +226,7 @@
 			var ftColor = this.colors[this.state.mood];
 			console.log("THIS STATE MOOD IN DIARYLAYOUT");
 			console.log(this.state.mood);
+			console.log(bgColor, ftColor, this.state.mood);
 			var diaryStyle = { backgroundColor: bgColor, color: ftColor };
 			return React.createElement(
 				'div',
@@ -581,7 +582,7 @@
 											break;
 									}
 									//lastMood = revComments[c].mood_score;
-									this.context.setMood({ mood: lastMood });
+									this.context.setMood(lastMood);
 									//this.setState({mood: lastMood});
 									break;
 								}
@@ -654,7 +655,7 @@
 		},
 		getInitialState: function () {
 			return { data: [], loaded: false, commentFormType: "nothing",
-				status: 'disconnected', date: new Date(), mood: "good",
+				status: 'disconnected', date: new Date(),
 				returnSession: false };
 		},
 		getDefaultProps: function () {
