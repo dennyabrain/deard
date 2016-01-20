@@ -168,7 +168,7 @@ def comment():
 		postId=session['id']
 		print "==========================================================="
 		print "post request for %s" %str(flaskLogin.current_user.id)
-		print "post request for %s" %str(diary[flaskLogin.current_user.id])
+		print "post request for %s" %str(sid[flaskLogin.current_user.id])
 		print "diary state for this request is %s " %str(diary[flaskLogin.current_user.id].state)
 		print "==========================================================="
 
@@ -179,14 +179,14 @@ def comment():
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
-								'commentFormType':''},sid['denny'])
+								'commentFormType':'preMechTurk'},sid[flaskLogin.current_user.id])
 			return jsonify(status='commentInsert')
 
 		#print "the request form is ===" 
 		#print request.form
 		#print "user just inputted : %s " % request.form['text']
 		#print "diary instance in POST comment %s"g.diary
-		diary[flaskLogin.current_user.id].run(request.form,sid['denny'])
+		diary[flaskLogin.current_user.id].run(request.form,sid[flaskLogin.current_user.id])
 
 		return jsonify(status='commentInsert')
 
@@ -261,7 +261,7 @@ def approve():
 				sessionDB = databaseUser.getSession(text[0])
 				diary[text[0]].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
 				diary[text[0]].machine.set_state("preMechTurk")
-				diary[text[0]].run(textResponse,sid['denny'])
+				diary[text[0]].run(textResponse,sid[flaskLogin.current_user.id])
 				return '{"status":"Approved. User inserted into database and slack."}'
 		
 		return '{"status":"User Not Found"}'
@@ -284,7 +284,9 @@ def reject():
 @socket.on('my event')
 def handle_json(json):
 	#print('socket roomname is %s')%str(request.sid)
-	sid['denny']=request.sid
+	sid[flaskLogin.current_user.id]=request.sid
+	print "in my event with sid %s " %str(sid)
+	print "for user %s" %flaskLogin.current_user.id
 	#print('received json: ' + str(json))	
 
 if __name__=="__main__":
