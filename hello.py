@@ -250,7 +250,7 @@ def approve():
 				#approve and pay worker
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
-				message = twilioClient.messages.create(body="Jenny please?! I love you <3",
+				message = twilioClient.messages.create(body="Hey, its D. See what I got for you. http://deard.herokuapp.com/",
 											to="+19175748108",    # Replace with your phone number
 										    from_="+16467830371") # Replace with your Twilio number
 				#print message.sid
