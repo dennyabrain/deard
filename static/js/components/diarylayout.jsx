@@ -42,7 +42,7 @@ module.exports = React.createClass({
 	render: function() {
 		var bgColor = this.BGColors[this.state.mood];
 		var ftColor = this.colors[this.state.mood];
-		diaryStyle = { backgroundColor : bgColor, color: ftColor };
+		var diaryStyle = { backgroundColor : bgColor, color: ftColor };
 		return(
 			<div className="container layout-diary" style={diaryStyle}>					
 				{this.props.children}

@@ -224,7 +224,7 @@
 		render: function () {
 			var bgColor = this.BGColors[this.state.mood];
 			var ftColor = this.colors[this.state.mood];
-			diaryStyle = { backgroundColor: bgColor, color: ftColor };
+			var diaryStyle = { backgroundColor: bgColor, color: ftColor };
 			return React.createElement(
 				'div',
 				{ className: 'container layout-diary', style: diaryStyle },
@@ -628,6 +628,7 @@
 		connect: function () {
 			console.log("SOCKET CONNECT");
 			this.setState({ status: 'connected' });
+			this.socket.emit('my event', { data: "I'm connected" });
 			console.log("connected: " + this.socket.id);
 		},
 		disconnect: function () {
@@ -1090,11 +1091,6 @@
 					null,
 					ReactEmoji.emojify(paragraph)
 				);
-				// var newPara = paragraph.replace(/(:\D{2,3}:)/g, "ReactEmoji.emojify($1)");
-				// if (newPara) paragraph = newPara;
-				// return (
-				// 	<p>{paragraph}</p>
-				// )
 			});
 
 			return React.createElement(
@@ -1584,7 +1580,7 @@
 					}
 					if (todayDay > 0) todayDay--;else todayDay = 6;
 				} // end of if statement
-				console.log(comment);
+				//console.log(comment);
 				//console.log("dayListCount: " + dayListCount)
 				days.push(React.createElement(Day, { key: 'comment-' + dayListCount, keyNum: 'comment-' + dayListCount, day: day,
 					date: todayDate.getDate(), data: this.props.data[d] }));
