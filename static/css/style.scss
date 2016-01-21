@@ -262,6 +262,18 @@ header {
   }
 }
 
+.register-phone-msg {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 5px 10px 5px 10px;
+
+  p {
+    margin: 8px 5px;
+    font-size: 16px;
+    color: $dd-black;
+  }
+  
+}
+
 .home-logo {
   margin-top: 100px;
 }

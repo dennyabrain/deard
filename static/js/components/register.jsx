@@ -10,7 +10,8 @@ module.exports = React.createClass({
 	getInitialState: function() {
 		return {username: null, pw: null, phone: null,
 				registerFail: false, noUsername: false,
-			    noPhone: false};
+			    noPhone: false, badPhoneFormat: false,
+				enteredNum: 0};
 	},
 	getDefaultProps : function() { 
 		return {url:"/register"}; 
@@ -22,7 +23,11 @@ module.exports = React.createClass({
 		this.setState({pw: e.target.value});
 	},
 	handlePhoneChange: function(e) {
-		this.setState({phone: e.target.value});
+
+		this.setState({
+					phone: e.target.value});
+		//enteredNum: this.state.enteredNum + 1,
+		// if (this.state.enteredNum == 3)
 	},
 	handleRegisterFail: function() {
 		console.log("handleRegisterFail");
@@ -36,9 +41,14 @@ module.exports = React.createClass({
 		console.log("handlePhoneFail");
 		this.setState({noPhone: true});
 	},
+	handleBadPhoneFormat: function() {
+		console.log("handleBadPhoneFormat");
+		this.setState({badPhoneFormat: true});
+	},
 	handleNewKeySubmit: function(e) {
 		e.preventDefault();
 		var key;
+		var phoneRegex = "^(1\\-)?[0-9]{3}\\-?[0-9]{3}\\-?[0-9]{4}$";
 		if (this.state.username){
 			key = this.state.username.trim();
 		}
@@ -47,6 +57,7 @@ module.exports = React.createClass({
 		if (this.state.phone) {
 			phone = this.state.phone.trim();
 		} 
+		console.log(phone);
 		
 		if (!key) {
 			this.handleNoUsername();
@@ -54,6 +65,10 @@ module.exports = React.createClass({
 		}
 		if (!phone) {
 			this.handleNoPhone();
+			return;
+		}
+		if (!phone.match(phoneRegex)) {
+			this.handleBadPhoneFormat();
 			return;
 		}
 		
@@ -102,6 +117,12 @@ module.exports = React.createClass({
 					<p>We need your phone number notify you of reponses.</p>
 				</div>
 			);
+		} else if (this.state.badPhoneFormat) {
+			registerFailMsg = (
+				<div className="login-fail">
+					<p>Please enter your phone # in this format 1234567890.</p>
+				</div>
+			);
 		}
 		return (
 			<div className="login main tk-anonymous-pro">
@@ -115,11 +136,15 @@ module.exports = React.createClass({
 				  		<input type="password" 
 						  placeholder="Password" 
 						  value={this.state.userPasscode}
-				  		  onChange={this.handlePasswordChange} />
+				  		  onChange={this.handlePasswordChange} /> 
 				  		<input type="phone"
 						  placeholder="Phone #" 
 						  value={this.state.phone}
 				  		  onChange={this.handlePhoneChange} />
+				  		<div className="register-phone-msg">
+				  			<p>Your phone # allows D. to message you once there is a response. 
+				  			Your info will NEVER be used for any other purposes. Pinky promise.</p>
+				  		</div> 
 						<div className="login-button">
 							<input type="submit" value="Register" />
 						</div>
