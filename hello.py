@@ -220,7 +220,8 @@ def login2():
 					#print ("SESSION INDEX: %s" % sessionDB['sessionIndex'])
 					if sessionDB['sessionIndex'] != 7:
 						session['id']=sessionDB['sessionId']
-						session['index']=sessionDB['sessionIndex']
+						session['index']=sessionDB['sessionIndex']-1
+						print "restoring diary to state %s" %commentFormType[session['index']]
 						diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
 						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
 						#g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
