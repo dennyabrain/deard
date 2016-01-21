@@ -18,7 +18,8 @@ module.exports = React.createClass({
 		userKey : React.PropTypes.any,
 		setUserKey : React.PropTypes.func,
 		history : React.PropTypes.object,
-		mood: React.PropTypes.any	
+		mood: React.PropTypes.any,
+		setMood: React.PropTypes.func
 	},
 	childContextTypes : {
 		week : React.PropTypes.any,
@@ -56,7 +57,58 @@ module.exports = React.createClass({
 				console.log("DATA COMMENTS IN MOOD")
 				console.log(data.comments); // {0:[], 1:[], 2:[]}
 				this.setState({loadingResponse: false, loaded: true, data: data.comments});
-				if (refreshed){console.log("REFRESHED!!!")}
+				if (refreshed){
+					console.log("REFRESHED!!!");
+					
+					var lastMood; 
+					var revComments = (data.comments[0]);
+					//var arr = []; //array to store object keys
+					
+					console.log("REVCOMMENTS LENGTH")
+					console.log(revComments);
+					
+					// for (var c in revComments) {
+					// 	arr.push(c);
+					// }
+					for (var c = revComments.length-1; c >= 0; c--) {
+						console.log("REVCOMMENTS")
+						console.log(revComments[c]);
+						if (revComments[c].type == "bot") {	
+							if (revComments[c].commentFormType == "situation") {
+								switch (revComments[c].mood_score) {
+									case -2:
+										lastMood = "worst";
+										//console.log("LAST MOOD IS NOW WORST")
+										break;
+									case -1:
+										lastMood = "bad";
+										//console.log("LAST MOOD IS NOW BAD")
+										break;
+									case 0:
+										lastMood = "ok";
+										//console.log("LAST MOOD IS NOW OK")
+										break;
+									case 1:
+										lastMood = "good";
+										//console.log("LAST MOOD IS NOW GOOD")
+										break;
+									case 2:
+										lastMood = "great";
+										//console.log("LAST MOOD IS NOW GREAT")
+										break;
+									default:
+										break;
+								}
+								//lastMood = revComments[c].mood_score;
+								this.context.setMood(lastMood);
+								//this.setState({mood: lastMood});
+								console.log("USERDATA SETMOOD NEW CONTEXT MOOD")
+								console.log(this.context.mood);
+								break;
+							}
+						}
+					}
+				}
 
 			}.bind(this),
 			error: function(ehx, status, err) {
@@ -96,6 +148,8 @@ module.exports = React.createClass({
 		console.log("USERDATA FONT COLOR: "+ftColor);
 		console.log("FROM USERDATA TO DAYLIST")
 		console.log(this.state.data);
+		console.log("THIS CONTEXT MOOD")
+		console.log(this.context.mood);
 		return (
 			<span>
 			<Header headerType="mood" logoIcon={true} showDate={true} 
