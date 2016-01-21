@@ -2254,6 +2254,15 @@
 							onChange: this.handlePhoneChange }),
 						React.createElement(
 							"div",
+							{ className: "register-phone-msg" },
+							React.createElement(
+								"p",
+								null,
+								"Your phone # allows D. to message you once there is a response. Your info will NEVER be used for any other purposes. Pinky promise."
+							)
+						),
+						React.createElement(
+							"div",
 							{ className: "login-button" },
 							React.createElement("input", { type: "submit", value: "Register" })
 						)

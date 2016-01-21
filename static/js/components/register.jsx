@@ -136,11 +136,15 @@ module.exports = React.createClass({
 				  		<input type="password" 
 						  placeholder="Password" 
 						  value={this.state.userPasscode}
-				  		  onChange={this.handlePasswordChange} />
+				  		  onChange={this.handlePasswordChange} /> 
 				  		<input type="phone"
 						  placeholder="Phone #" 
 						  value={this.state.phone}
 				  		  onChange={this.handlePhoneChange} />
+				  		<div className="register-phone-msg">
+				  			<p>Your phone # allows D. to message you once there is a response. 
+				  			Your info will NEVER be used for any other purposes. Pinky promise.</p>
+				  		</div> 
 						<div className="login-button">
 							<input type="submit" value="Register" />
 						</div>
