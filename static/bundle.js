@@ -1083,19 +1083,22 @@
 		},
 		render: function () {
 			var lastTimeAt = 0;
+			var timeAt = "";
 			var commentNodes = this.props.data.map(function (comment, i) {
-				if (comment.created_at && comment.created_at - lastTimeAt >= 300) {
-					lastTimeAt = comment.created_at;
-					var d = new Date(comment.created_at * 1000),
+
+				if (comment.type == "bot" && comment.commentFormType == "mood") {
+					//lastTimeAt = comment.created_at;
+
+					var d = new Date(comment.created_at),
 					    h = d.getHours() > 12 ? d.getHours() - 12 : d.getHours(),
 					    z = d.getHours() == 23 || d.getHours() < 12 ? 'am' : 'pm';
 					timeAt = h + ':' + ("00" + d.getMinutes()).slice(-2) + ' ' + z;
-				} else {
-					timeAt = null;
+					// console.log("******TIME AT*****")
+					// console.log(d)
 				}
 				return React.createElement(
 					Comment,
-					{ key: 'comment-' + i, timeAt: timeAt, commentId: comment.id, commentAfinnScore: comment.afinn_score, commentType: comment.type },
+					{ key: 'comment-' + i, commentId: comment.id, commentAfinnScore: comment.afinn_score, commentType: comment.type },
 					comment.text
 				);
 			});
@@ -1103,11 +1106,19 @@
 			return React.createElement(
 				'div',
 				{ ref: 'commentList', className: 'commentList', id: 'commentList' },
+				React.createElement(
+					'p',
+					{ className: 'center', style: { fontSize: "15px" } },
+					timeAt
+				),
 				commentNodes,
 				this.props.loading ? React.createElement(Loader, null) : ""
 			);
 		}
 	});
+
+	// if (comment.created_at && comment.created_at - lastTimeAt >= 300) {
+	// 	lastTimeAt = comment.created_at;
 
 /***/ },
 /* 8 */
