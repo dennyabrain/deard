@@ -149,11 +149,11 @@ class Diary:
 			
 
 		elif self.state=='review':
-			self.insertInputToDbase(requestForm,self.state)
+			self.insertInputToDbase(requestForm['text'],self.state)
 			self.next()
 			#print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
-			self.setReview(requestForm)
+			self.setReview(requestForm['text'])
 			text1=self.response.getReview(self.review)
 			self.insertReplyIntoDatabase(text1)
 			text2=self.response.getRethinking(self.review)
