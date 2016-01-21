@@ -175,8 +175,8 @@ def comment():
 
 		if request.form['commentFormType']=='preMechTurk':
 			databaseUser.insertInput(flaskLogin.current_user.id,"OK",session['id'],"blankState")
-			diary[flaskLogin.current_user.id].incrementSessionIndex()
-			diary[flaskLogin.current_user.id].updateSessionData()
+			#diary[flaskLogin.current_user.id].incrementSessionIndex()
+			#diary[flaskLogin.current_user.id].updateSessionData()
 			socket.emit('insert',{
 								'text':"give me a minute...",
 								'affin_score':0,
