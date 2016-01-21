@@ -281,7 +281,7 @@ def approve():
 									'text':"give me a minute...",
 									'affin_score':0,
 									'created_at':str(datetime.now()),
-									'post_id':str(session['id']),
+									'post_id':str(sessionDB['sessionId']),
 									'type':'bot', 
 									'commentFormType':'blankState'},room=sid[flaskLogin.current_user.id])
 				return '{"status":"Approved. User inserted into database and slack."}'
