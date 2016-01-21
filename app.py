@@ -167,11 +167,11 @@ def userstats():
 def comment():
 	if request.method=='POST':
 		postId=session['id']
-		print "==========================================================="
-		print "post request for %s" %str(flaskLogin.current_user.id)
-		print "post request for %s" %str(sid[flaskLogin.current_user.id])
-		print "diary state for this request is %s " %str(diary[flaskLogin.current_user.id].state)
-		print "==========================================================="
+		#print "==========================================================="
+		#print "post request for %s" %str(flaskLogin.current_user.id)
+		#print "post request for %s" %str(sid[flaskLogin.current_user.id])
+		print "diary state for this post request is %s " %str(diary[flaskLogin.current_user.id].state)
+		#print "==========================================================="
 
 		if request.form['commentFormType']=='preMechTurk':
 			databaseUser.insertInput(flaskLogin.current_user.id,"OK",session['id'],"preMechTurk")

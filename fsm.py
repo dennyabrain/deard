@@ -107,18 +107,29 @@ class Diary:
 			self.updateSessionData()
 
 		elif self.state=='thought':
-			self.insertInputToDbase(requestForm['text'],self.state)
-			text=self.response.getPreMechTurk(self.mood)
-			self.updateMessage(self.state+" : "+str(requestForm['text'])+'\n')
-			self.next()
-			#print("deard is currently in %s state" % self.state)
-			self.incrementSessionIndex()
-			self.insertReplyIntoDatabase(text)
-			self.emitInsertEvent(text,-99,str(datetime.now()),room)
-			id=self.mturk.createHit(self.message)
-			self.db.insertLastHit(self.username,self.message,id)
-			self.updateSessionData()
-			
+			if self.mood=='bad':
+				self.insertInputToDbase(requestForm['text'],self.state)
+				text=self.response.getPreMechTurk(self.mood)
+				self.updateMessage(self.state+" : "+str(requestForm['text'])+'\n')
+				self.next()
+				#print("deard is currently in %s state" % self.state)
+				self.incrementSessionIndex()
+				self.insertReplyIntoDatabase(text)
+				self.emitInsertEvent(text,-99,str(datetime.now()),room)
+				id=self.mturk.createHit(self.message)
+				self.db.insertLastHit(self.username,self.message,id)
+				self.updateSessionData()
+			else:
+				self.insertInputToDbase(requestForm['text'],self.state)
+				text=self.response.getBye(self.mood)
+				print ("========== %s ========="%self.state)
+				self.next()
+				print ("========== %s ========="%self.state)
+				self.sessionIndex=9
+				self.insertReplyIntoDatabase(text)
+				self.emitInsertEvent(text,-99,str(datetime.now()),room)
+				self.updateSessionData()
+				
 			
 		elif self.state=='preMechTurk':
 			self.next()
@@ -202,7 +213,7 @@ class Diary:
 		return text
 
 	def insertReplyIntoDatabase(self,text,affinScore=-99):
-		self.db.insertReply(self.username,text,self.sessionId, Diary.commentFormType[self.sessionIndex],affinScore)
+		self.db.insertReply(self.username,text,self.sessionId, self.state,affinScore)
 
 	def updateSessionData(self):
 		print "in updateSessionData with sessionIndex %s" %str(self.sessionIndex)
