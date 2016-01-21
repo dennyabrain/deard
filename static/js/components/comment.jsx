@@ -24,12 +24,12 @@ module.exports = React.createClass({
 			return (<p>{ReactEmoji.emojify(paragraph)}</p>)
 		});
 
-
+		// <p className="center" style={{fontSize: "15px"}}>{timeAt}</p>
 
 		return (
 			<span>
-			{ this.props.timeAt ? 
-				(<div className="timestamp">{this.props.timeAt}</div>) :
+			{ this.props.timeAt != null ? 
+				(<p className="center" style={{fontSize: "15px"}}>{this.props.timeAt}</p>) :
 				""
 			}
 			{
