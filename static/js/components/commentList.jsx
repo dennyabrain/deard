@@ -43,21 +43,23 @@ module.exports = React.createClass({
 						h = (d.getHours() > 12 ? d.getHours() - 12 : d.getHours()),
 						z = d.getHours() == 23 || d.getHours() < 12 ? 'am' : 'pm';
 				timeAt = h + ':' + ("00" + d.getMinutes()).slice(-2) + ' ' + z;
-				// console.log("******TIME AT*****")
-				// console.log(d)
+				console.log("******TIME AT*****")
+				console.log(d)
+				console.log(comment)
 			} 
 			return (
 				<Comment key={'comment-' + i} commentId={comment.id} commentAfinnScore={comment.afinn_score} commentType={comment.type}>
 					{comment.text}
 				</Comment>
 			);
+			
 		});
 
 		
 
 		return (
 			<div ref="commentList" className="commentList" id="commentList">
-				<p className="center" style={{fontSize: "15px"}}>{timeAt}</p>
+			    <p className="center" style={{fontSize: "15px"}}>{timeAt}</p>
 				{commentNodes} 
 				{this.props.loading? (<Loader />) : ""}
 			</div>

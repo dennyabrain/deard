@@ -947,17 +947,7 @@
 				React.createElement(
 					"div",
 					{ className: "col-xs-2" },
-					React.createElement("input", { type: "submit", value: "wtf", onClick: this.handleInput })
-				),
-				React.createElement(
-					"div",
-					{ className: "col-xs-2" },
-					React.createElement("input", { type: "submit", value: "bad", onClick: this.handleInput })
-				),
-				React.createElement(
-					"div",
-					{ className: "col-xs-2" },
-					React.createElement("input", { type: "submit", value: "meh", onClick: this.handleInput })
+					React.createElement("input", { type: "submit", value: "great", onClick: this.handleInput })
 				),
 				React.createElement(
 					"div",
@@ -967,7 +957,17 @@
 				React.createElement(
 					"div",
 					{ className: "col-xs-2" },
-					React.createElement("input", { type: "submit", value: "great", onClick: this.handleInput })
+					React.createElement("input", { type: "submit", value: "meh", onClick: this.handleInput })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-2" },
+					React.createElement("input", { type: "submit", value: "bad", onClick: this.handleInput })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-xs-2" },
+					React.createElement("input", { type: "submit", value: "wtf", onClick: this.handleInput })
 				),
 				React.createElement("div", { className: "col-xs-1" })
 			);
@@ -1093,8 +1093,9 @@
 					    h = d.getHours() > 12 ? d.getHours() - 12 : d.getHours(),
 					    z = d.getHours() == 23 || d.getHours() < 12 ? 'am' : 'pm';
 					timeAt = h + ':' + ("00" + d.getMinutes()).slice(-2) + ' ' + z;
-					// console.log("******TIME AT*****")
-					// console.log(d)
+					console.log("******TIME AT*****");
+					console.log(d);
+					console.log(comment);
 				}
 				return React.createElement(
 					Comment,
@@ -1154,12 +1155,14 @@
 				);
 			});
 
+			// <p className="center" style={{fontSize: "15px"}}>{timeAt}</p>
+
 			return React.createElement(
 				'span',
 				null,
-				this.props.timeAt ? React.createElement(
-					'div',
-					{ className: 'timestamp' },
+				this.props.timeAt != null ? React.createElement(
+					'p',
+					{ className: 'center', style: { fontSize: "15px" } },
 					this.props.timeAt
 				) : "",
 				this.props.commentType == "user" ? React.createElement(
