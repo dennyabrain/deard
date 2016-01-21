@@ -194,7 +194,7 @@ class Diary:
 		self.db.insertInput(self.username,text,self.sessionId,commentFormType)
 
 	def incrementSessionIndex(self):
-		self.sessionIndex=(self.sessionIndex+1)%8
+		self.sessionIndex=(self.sessionIndex+1)%9
 
 	def fetchResponseFromJSON(self,mode):
 		#print mode

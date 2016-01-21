@@ -50,7 +50,7 @@ mturk = mTurk()
 
 response=BotResponse()
 
-commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
+commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','blankState','review','rethinking','bye']
 
 diary={}
 sid={}
@@ -174,9 +174,11 @@ def comment():
 		print "==========================================================="
 
 		if request.form['commentFormType']=='preMechTurk':
-			databaseUser.insertInput(flaskLogin.current_user.id,"OK",session['id'],"blankState")
-			#diary[flaskLogin.current_user.id].incrementSessionIndex()
-			#diary[flaskLogin.current_user.id].updateSessionData()
+			databaseUser.insertInput(flaskLogin.current_user.id,"OK",session['id'],"preMechTurk")
+			databaseUser.insertReply(flaskLogin.current_user.id,"give me a minute...",session['id'],"blankState",-99)
+			diary[flaskLogin.current_user.id].incrementSessionIndex()
+			diary[flaskLogin.current_user.id].next()
+			diary[flaskLogin.current_user.id].updateSessionData()
 			socket.emit('insert',{
 								'text':"give me a minute...",
 								'affin_score':0,
