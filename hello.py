@@ -283,7 +283,7 @@ def approve():
 									'created_at':str(datetime.now()),
 									'post_id':str(sessionDB['sessionId']),
 									'type':'bot', 
-									'commentFormType':'blankState'},room=sid[flaskLogin.current_user.id])
+									'commentFormType':'review'},room=sid[text[0]])
 				return '{"status":"Approved. User inserted into database and slack."}'
 		print("**************APPROVE BLOCK*************")
 		return '{"status":"User Not Found"}'
