@@ -105,3 +105,12 @@ class db:
 		for post in self.findMany({}):
 			if userId in post:
 				return post['sessionData']
+
+	def newInsertSetSession(self,userId,name,value):
+		for post in self.findMany({}):
+			if userId in post:
+				self.collection.update_one({
+											'name': userId
+											}, 
+											{'$set': {name:value}}
+											)

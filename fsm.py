@@ -116,19 +116,23 @@ class Diary:
 			self.emitInsertEvent(text,-99,str(datetime.now()),room)
 			id=self.mturk.createHit(self.message)
 			self.db.insertLastHit(self.username,self.message,id)
+			self.updateSessionData()
 			
 			
 		elif self.state=='preMechTurk':
 			self.next()
 			#print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
+			print self.sessionIndex
 			#id=self.mturk.createHit(self.message)
 			#self.db.insertLastHit(self.username,self.message,id)
 			#print requestForm
 			#print ("before emitInsertEvent")
 			self.emitInsertEvent(requestForm,-99,str(datetime.now()),room)
 			#print "emit insert event in preMechTurk"
+			print "before calling updateSessionData in preMechTurk"
 			self.updateSessionData()
+			print "before calling updateSessionData in preMechTurk"
 			#print "inPreMechTurk after updateSesson"
 			
 
@@ -149,12 +153,12 @@ class Diary:
 
 		elif self.state=='rethinking':
 			self.insertInputToDbase(requestForm['text'],self.state)
+			self.next()
 			#print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			text=self.response.getBye(self.mood)
 			self.insertReplyIntoDatabase(text)
 			self.emitInsertEvent(text,-99,str(datetime.now()),room)
-			self.next()
 			
 
 		elif self.state=='bye':
@@ -197,7 +201,7 @@ class Diary:
 		self.db.insertReply(self.username,text,self.sessionId, Diary.commentFormType[self.sessionIndex],affinScore)
 
 	def updateSessionData(self):
+		print "in updateSessionData with sessionIndex %s" %str(self.sessionIndex)
 		self.db.insertSetSession(self.username,'sessionData',{"sessionId":self.sessionId,
 															"sessionIndex":self.sessionIndex
 															})
-
