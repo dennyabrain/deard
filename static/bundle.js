@@ -2148,6 +2148,7 @@
 			if (this.state.phone) {
 				phone = this.state.phone.trim();
 			}
+			console.log(phone);
 
 			if (!key) {
 				this.handleNoUsername();
@@ -2157,7 +2158,7 @@
 				this.handleNoPhone();
 				return;
 			}
-			if (!phone.matches(phoneRegex)) {
+			if (!phone.match(phoneRegex)) {
 				this.handleBadPhoneFormat();
 				return;
 			}
@@ -2225,7 +2226,7 @@
 					React.createElement(
 						"p",
 						null,
-						"Please enter your phone # as xxx-xxx-xxxx."
+						"Please enter your phone # in this format 1234567890."
 					)
 				);
 			}

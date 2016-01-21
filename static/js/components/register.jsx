@@ -57,6 +57,7 @@ module.exports = React.createClass({
 		if (this.state.phone) {
 			phone = this.state.phone.trim();
 		} 
+		console.log(phone);
 		
 		if (!key) {
 			this.handleNoUsername();
@@ -66,7 +67,7 @@ module.exports = React.createClass({
 			this.handleNoPhone();
 			return;
 		}
-		if (!phone.matches(phoneRegex)) {
+		if (!phone.match(phoneRegex)) {
 			this.handleBadPhoneFormat();
 			return;
 		}
@@ -119,7 +120,7 @@ module.exports = React.createClass({
 		} else if (this.state.badPhoneFormat) {
 			registerFailMsg = (
 				<div className="login-fail">
-					<p>Please enter your phone # as xxx-xxx-xxxx.</p>
+					<p>Please enter your phone # in this format 1234567890.</p>
 				</div>
 			);
 		}
