@@ -174,13 +174,16 @@ def comment():
 		print "==========================================================="
 
 		if request.form['commentFormType']=='preMechTurk':
+			databaseUser.insertInput(flaskLogin.current_user.id,"OK",session['id'],"blankState")
+			diary[flaskLogin.current_user.id].incrementSessionIndex()
+			diary[flaskLogin.current_user.id].updateSessionData()
 			socket.emit('insert',{
 								'text':"give me a minute...",
 								'affin_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
-								'commentFormType':''},room=sid[flaskLogin.current_user.id])
+								'commentFormType':'blankState'},room=sid[flaskLogin.current_user.id])
 			return jsonify(status='commentInsert')
 
 		#print "the request form is ===" 
@@ -199,7 +202,11 @@ def comment():
 				comments = databaseUser.listAllText(flaskLogin.current_user.id)
 				sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
 				session['index']=sessionDB['sessionIndex']
-				return jsonify(userKey=flaskLogin.current_user.id, comments=comments,commentFormType=commentFormType[session['index']])
+				print ("sessionIndex = %s "%session['index'])
+				if session['index']==5:
+					return jsonify(userKey=flaskLogin.current_user.id, comments=comments,commentFormType="")
+				else:
+					return jsonify(userKey=flaskLogin.current_user.id, comments=comments,commentFormType=commentFormType[session['index']])
 			else:
 				return jsonify(error='true')
 		else:
@@ -256,9 +263,8 @@ def approve():
 				#approve and pay worker
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
-				phone = "1"+str(post[text[0]]["phone"])
 				message = twilioClient.messages.create(body="Hey, its D. See what I got for you. http://deard.herokuapp.com/",
-											to=phone,    # Replace with your phone number
+											to="+19175748108",    # Replace with your phone number
 										    from_="+16467830371") # Replace with your Twilio number
 				#print message.sid
 				#resetLastHit
