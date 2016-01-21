@@ -111,13 +111,14 @@ def register():
 	#session['diary']=Diary(socket,databaseUser,mturk)
 	#initialize new diary
 	session['id']=uuid4()
+	session['index']=1
 	#print "current user id is %s" % flaskLogin.current_user.id
 	diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
 	diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
 	#print('diary is in state %s' %g.diary.state)
 	
 	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your mood today?" % request.form['username'],session['id'],"mood",0.0)
-	databaseUser.newInsertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"state":diary[flaskLogin.current_user.id].state})	
+	databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})	
 
 	return '{"status":"success"}'
 
@@ -197,7 +198,8 @@ def comment():
 			if flaskLogin.current_user and flaskLogin.current_user.id:
 				comments = databaseUser.listAllText(flaskLogin.current_user.id)
 				sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
-				return jsonify(userKey=flaskLogin.current_user.id, comments=comments,commentFormType=sessionDB["state"])
+				session['index']=sessionDB['sessionIndex']
+				return jsonify(userKey=flaskLogin.current_user.id, comments=comments,commentFormType=commentFormType[session['index']])
 			else:
 				return jsonify(error='true')
 		else:
@@ -216,25 +218,24 @@ def login2():
 					
 					sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
 					#print ("SESSION INDEX: %s" % sessionDB['sessionIndex'])
-				
-					session['id']=sessionDB['sessionId']
-					session['state']=sessionDB['state']
-					print "restoring diary to state %s" %session['state']
-					diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
-					diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['state'],session['id'])
-					#g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
-					databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"state":session['state']})
+					if sessionDB['sessionIndex'] != 7:
+						session['id']=sessionDB['sessionId']
+						session['index']=sessionDB['sessionIndex']
+						diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
+						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
+						#g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
+						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
 
 						#print('diary is in state %s' %g.diary.state)
 
-					#else:
-					#	session['id']=uuid4()
-					#	session['index']=1
-					#	diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
-					#	diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
-					#	databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-					#	databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'], session['id'],"greeting",0)
-					#	databaseUser.insertReply(request.form['userKey'],"Good morning. How is your mood today?", session['id'],"mood",0)
+					else:
+						session['id']=uuid4()
+						session['index']=1
+						diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
+						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
+						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
+						databaseUser.insertReply(request.form['userKey'],"Hey, %s. How's it going?" % request.form['userKey'], session['id'],"greeting",0)
+						databaseUser.insertReply(request.form['userKey'],"Good morning. How is your mood today?", session['id'],"mood",0)
 					return '{"status":"success"}'
 		return '{"status":"fail"}'
 
@@ -255,9 +256,8 @@ def approve():
 				#approve and pay worker
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
 				mturk.mtc.disable_hit(post['lastHit']['hitID'])
-				phone = "1"+str(post[text[0]]["phone"])
 				message = twilioClient.messages.create(body="Hey, its D. See what I got for you. http://deard.herokuapp.com/",
-											to=phone,    # Replace with your phone number
+											to="+19175748108",    # Replace with your phone number
 										    from_="+16467830371") # Replace with your Twilio number
 				#print message.sid
 				#resetLastHit
