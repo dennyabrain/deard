@@ -203,10 +203,7 @@ def comment():
 				sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
 				session['index']=sessionDB['sessionIndex']
 				print ("sessionIndex = %s "%session['index'])
-				if session['index']==5:
-					return jsonify(userKey=flaskLogin.current_user.id, comments=comments,commentFormType="")
-				else:
-					return jsonify(userKey=flaskLogin.current_user.id, comments=comments,commentFormType=commentFormType[session['index']])
+				return jsonify(userKey=flaskLogin.current_user.id, comments=comments,commentFormType=commentFormType[session['index']])
 			else:
 				return jsonify(error='true')
 		else:
