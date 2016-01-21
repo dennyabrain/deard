@@ -24,37 +24,37 @@ module.exports = React.createClass({
 				this.setState({loadingResponse: false, loaded: true, data:data.comments}, function() {
         				// Update the commentFormType on latest bot response.
 					//var revComments = (data.comments).reverse();
-					console.log("BLAH BLAH BALH")
-					console.log(data)
+					// console.log("BLAH BLAH BALH")
+					// console.log(data)
 					var lastMood; 
 
 					var revComments = (data.comments);
-					console.log(revComments[6]);
+					//console.log(revComments[6]);
 					for (var c = revComments.length-1; c > 0; c--) {
-						console.log("REVCOMMENTS")
-						console.log(revComments[c]);
+						// console.log("REVCOMMENTS")
+						// console.log(revComments[c]);
 						if (revComments[c].type == "bot") {	
 							if (revComments[c].commentFormType == "situation") {
 								switch (revComments[c].mood_score) {
 									case -2:
 										lastMood = "worst";
-										console.log("LAST MOOD IS NOW WORST")
+										//console.log("LAST MOOD IS NOW WORST")
 										break;
 									case -1:
 										lastMood = "bad";
-										console.log("LAST MOOD IS NOW BAD")
+										//console.log("LAST MOOD IS NOW BAD")
 										break;
 									case 0:
 										lastMood = "ok";
-										console.log("LAST MOOD IS NOW OK")
+										//console.log("LAST MOOD IS NOW OK")
 										break;
 									case 1:
 										lastMood = "good";
-										console.log("LAST MOOD IS NOW GOOD")
+										//console.log("LAST MOOD IS NOW GOOD")
 										break;
 									case 2:
 										lastMood = "great";
-										console.log("LAST MOOD IS NOW GREAT")
+										//console.log("LAST MOOD IS NOW GREAT")
 										break;
 									default:
 										break;
@@ -83,8 +83,10 @@ module.exports = React.createClass({
 					
 					
 					this.setState({commentFormType: data.commentFormType, returnSession: false});
-					// console.log("THIS STATE MOOD IN CONTENT")
-					// console.log(this.state.mood)
+					console.log("**LAST COMMENTS COMMENTTYPE FORM**")
+					console.log(data.commentFormType)
+					console.log("**ALL COMMENTS COMMENTTYPE FORM**")
+					console.log(data.comments)
 					//}
 				});
 			}.bind(this),
@@ -101,8 +103,8 @@ module.exports = React.createClass({
 		// not use Date.now() for this and would have a more robust system in place.
 
 		// comments.type, comments.text 
-		console.log("HANDLING COMMENT SUBMIT IN CONTENT")
-		console.log(comment)
+		// console.log("HANDLING COMMENT SUBMIT IN CONTENT")
+		// console.log(comment)
 
 		comment.id = Date.now();
 		// comment.author = this.context.userKey;

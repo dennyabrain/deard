@@ -199,7 +199,7 @@ var ChatHeader = React.createClass({
 							}				
 						</div>
 						<div className="right logo-d col-xs-2">
-							<Link to="/comments">
+							<Link to="/comments" >
 								<img src="/static/img/chat.svg" width="30" onClick={this.changeHeader} />
 							</Link>					
 						</div>	
@@ -225,4 +225,8 @@ var ChatHeader = React.createClass({
 		)
 	}
 });
+
+// <Link to="/comments">
+// 	<img src="/static/img/chat.svg" width="30" onClick={this.changeHeader} />
+// </Link>	
 

@@ -224,9 +224,9 @@
 		render: function () {
 			var bgColor = this.BGColors[this.state.mood];
 			var ftColor = this.colors[this.state.mood];
-			console.log("THIS STATE MOOD IN DIARYLAYOUT");
-			console.log(this.state.mood);
-			console.log(bgColor, ftColor, this.state.mood);
+			// console.log("THIS STATE MOOD IN DIARYLAYOUT")
+			// console.log(this.state.mood)
+			// console.log(bgColor, ftColor, this.state.mood)
 			var diaryStyle = { backgroundColor: bgColor, color: ftColor };
 			return React.createElement(
 				'div',
@@ -516,6 +516,10 @@
 		}
 	});
 
+	// <Link to="/comments">
+	// 	<img src="/static/img/chat.svg" width="30" onClick={this.changeHeader} />
+	// </Link>
+
 /***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
@@ -546,37 +550,37 @@
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments }, function () {
 						// Update the commentFormType on latest bot response.
 						//var revComments = (data.comments).reverse();
-						console.log("BLAH BLAH BALH");
-						console.log(data);
+						// console.log("BLAH BLAH BALH")
+						// console.log(data)
 						var lastMood;
 
 						var revComments = data.comments;
-						console.log(revComments[6]);
+						//console.log(revComments[6]);
 						for (var c = revComments.length - 1; c > 0; c--) {
-							console.log("REVCOMMENTS");
-							console.log(revComments[c]);
+							// console.log("REVCOMMENTS")
+							// console.log(revComments[c]);
 							if (revComments[c].type == "bot") {
 								if (revComments[c].commentFormType == "situation") {
 									switch (revComments[c].mood_score) {
 										case -2:
 											lastMood = "worst";
-											console.log("LAST MOOD IS NOW WORST");
+											//console.log("LAST MOOD IS NOW WORST")
 											break;
 										case -1:
 											lastMood = "bad";
-											console.log("LAST MOOD IS NOW BAD");
+											//console.log("LAST MOOD IS NOW BAD")
 											break;
 										case 0:
 											lastMood = "ok";
-											console.log("LAST MOOD IS NOW OK");
+											//console.log("LAST MOOD IS NOW OK")
 											break;
 										case 1:
 											lastMood = "good";
-											console.log("LAST MOOD IS NOW GOOD");
+											//console.log("LAST MOOD IS NOW GOOD")
 											break;
 										case 2:
 											lastMood = "great";
-											console.log("LAST MOOD IS NOW GREAT");
+											//console.log("LAST MOOD IS NOW GREAT")
 											break;
 										default:
 											break;
@@ -604,8 +608,10 @@
 						// } else {
 
 						this.setState({ commentFormType: data.commentFormType, returnSession: false });
-						// console.log("THIS STATE MOOD IN CONTENT")
-						// console.log(this.state.mood)
+						console.log("**LAST COMMENTS COMMENTTYPE FORM**");
+						console.log(data.commentFormType);
+						console.log("**ALL COMMENTS COMMENTTYPE FORM**");
+						console.log(data.comments);
 						//}
 					});
 				}).bind(this),
@@ -622,8 +628,8 @@
 			// not use Date.now() for this and would have a more robust system in place.
 
 			// comments.type, comments.text
-			console.log("HANDLING COMMENT SUBMIT IN CONTENT");
-			console.log(comment);
+			// console.log("HANDLING COMMENT SUBMIT IN CONTENT")
+			// console.log(comment)
 
 			comment.id = Date.now();
 			// comment.author = this.context.userKey;
@@ -1202,6 +1208,12 @@
 			this.getCommentsFromServer(range);
 		},
 		getCommentsFromServer: function (range) {
+			var date = this.state.date;
+			var r = "?range=7&startdate=" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+			var refreshed = false;
+			if (range == r) {
+				refreshed = true;
+			}
 			$.ajax({
 				url: this.props.url + range,
 				dataType: 'json',
@@ -1212,6 +1224,9 @@
 					console.log("DATA COMMENTS IN MOOD");
 					console.log(data.comments); // {0:[], 1:[], 2:[]}
 					this.setState({ loadingResponse: false, loaded: true, data: data.comments });
+					if (refreshed) {
+						console.log("REFRESHED!!!");
+					}
 				}).bind(this),
 				error: (function (ehx, status, err) {
 					console.log(this.props.url, status, err.toString());
@@ -1327,7 +1342,7 @@
 					// -2, -1, 1, 2, 3
 					for (var i = 0; i < allData[k].length; i++) {
 
-						if (allData[k][i].mood_score && allData[k][i].mood_score > -50) {
+						if (allData[k][i].mood_score != null && allData[k][i].mood_score > -50) {
 							moodCountPerDay++;
 							moodSumPerDay += allData[k][i].mood_score;
 						}
@@ -1368,7 +1383,9 @@
 				scaleSteps: 10,
 				scaleStepWidth: 100,
 				scaleStartValue: -500,
-				scaleShowGridLines: false,
+				// scaleShowGridLines : true,
+				scaleShowHorizontalLines: true,
+				scaleShowVerticalLines: false,
 				datasetFill: false,
 				scaleLineColor: 'transparent',
 				scaleShowLabels: false,
@@ -1595,8 +1612,8 @@
 			for (var d in this.props.data) {
 
 				var comment = this.props.data[d];
-				console.log("***DATA IN DAYLIST***");
-				console.log(this.props.data[d]);
+				// console.log("***DATA IN DAYLIST***")
+				// console.log(this.props.data[d]);
 				if (this.props.data.hasOwnProperty(d)) {
 
 					switch (todayDay) {
@@ -1692,12 +1709,18 @@
 			var moodAvg = null;
 			var moodEmoji = null;
 			var allData = this.props.data;
-			console.log("ALL DATA IN DAY");
-			console.log(allData);
+			// console.log("ALL DATA IN DAY")
+			// console.log(allData)
 			for (var i = 0; i < allData.length; i++) {
-				if (allData[i].mood_score && allData[i].mood_score != -999) {
+				// console.log("ALLDATA MOOD SCORE")
+				// console.log(allData[i].mood_score)
+				if (allData[i].mood_score != null && allData[i].mood_score > -50) {
 					moodCount++;
 					moodSum += allData[i].mood_score;
+					// 	console.log("*******AHHHHHHH*******")
+					// console.log(moodCount)
+					// console.log("MOOD SUM")
+					// console.log(moodSum)
 				}
 
 				if (this.props.data[i].type == "user" && this.props.data[i].commentFormType == "situation") {
@@ -1722,11 +1745,20 @@
 				}
 			}
 
+			console.log("MOOD COUNT");
+			console.log(moodCount);
+			console.log("MOOD SUM");
+			console.log(moodSum);
 			if (moodCount > 0) moodAvg = moodSum / moodCount;
 			moodCount = 0;
 			moodSum = 0;
 
-			if (moodAvg) {
+			console.log("MOOD AVG");
+			console.log(moodAvg);
+			console.log("MOOD AVG ROUNDED");
+			console.log(Math.round(moodAvg));
+
+			if (moodAvg != null) {
 				switch (Math.round(moodAvg)) {
 					case -2:
 						moodEmoji = React.createElement(
@@ -1779,8 +1811,10 @@
 			}
 
 			// console.log("this.props.key: "+this.props.keyNum)
-			// console.log("borderStyle: ")
-			// console.log(borderStyle )
+			console.log("MOOD EMOJI FOR DAY");
+			console.log(moodEmoji);
+			console.log("MOOD AVG FOR DAY");
+			console.log(moodAvg);
 
 			return React.createElement(
 				'div',

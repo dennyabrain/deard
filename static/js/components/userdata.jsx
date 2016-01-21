@@ -37,6 +37,15 @@ module.exports = React.createClass({
 		this.getCommentsFromServer(range);
 	},
 	getCommentsFromServer: function(range) {
+		var date = this.state.date;
+		var r = "?range=7&startdate=" +
+				date.getFullYear() + "-" +
+				(date.getMonth() + 1) + "-" +
+				date.getDate();
+		var refreshed = false;
+		if (range == r) {
+			refreshed = true;
+		}
 		$.ajax({
 			url: this.props.url+range,
 			dataType: 'json',
@@ -47,6 +56,7 @@ module.exports = React.createClass({
 				console.log("DATA COMMENTS IN MOOD")
 				console.log(data.comments); // {0:[], 1:[], 2:[]}
 				this.setState({loadingResponse: false, loaded: true, data: data.comments});
+				if (refreshed){console.log("REFRESHED!!!")}
 
 			}.bind(this),
 			error: function(ehx, status, err) {
