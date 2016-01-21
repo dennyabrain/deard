@@ -224,7 +224,7 @@ def login2():
 					
 					sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
 					#print ("SESSION INDEX: %s" % sessionDB['sessionIndex'])
-					if sessionDB['sessionIndex'] != 7:
+					if sessionDB['sessionIndex'] != 9:
 						session['id']=sessionDB['sessionId']
 						session['index']=sessionDB['sessionIndex']
 						diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
