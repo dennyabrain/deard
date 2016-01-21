@@ -4,8 +4,8 @@ from datetime import datetime
 from responseHelper import BotResponse
 
 class Diary:
-	states=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
-	commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','review','rethinking','bye']
+	states=['greeting','mood','situation','feeling','thought','preMechTurk','blankState','review','rethinking','bye']
+	commentFormType=['greeting','mood','situation','feeling','thought','preMechTurk','blankState','review','rethinking','bye']
 	affinMap = {':D':2,':)':1,':/':0,':(':-1,":'(":-2}
 	def __init__(self,socket,db,mturk):
 		self.socket=socket
@@ -22,6 +22,7 @@ class Diary:
 		self.machine.add_transition('next','feeling','thought')
 		#Transitions if Mood is sad
 		self.machine.add_transition('next','thought','preMechTurk',conditions='is_sad')
+		self.machine.add_transition('next','preMechTurk','blankState')
 		#self.machine.add_transition('next','thought','preMechTurk')
 		self.machine.add_transition('next','preMechTurk','review')
 		self.machine.add_transition('next','review','rethinking')
@@ -169,8 +170,11 @@ class Diary:
 			self.db.insertReply(self.username,text1,self.sessionId,"greeting",0.0)
 			self.db.insertReply(self.username,text2,self.sessionId,"mood",0.0)
 			self.next()
+			self.incrementSessionIndex()
 			self.emitInsertEvent(text1,-99,str(datetime.now()),room)
 			self.next()
+			self.incrementSessionIndex()
+			self.updateSessionData()
 			self.emitInsertEvent(text2,-99,str(datetime.now()),room)
 			self.mood=""
 			self.review=""

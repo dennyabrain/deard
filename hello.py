@@ -174,13 +174,16 @@ def comment():
 		print "==========================================================="
 
 		if request.form['commentFormType']=='preMechTurk':
+			databaseUser.insertInput(flaskLogin.current_user.id,"OK",session['id'],"blankState")
+			diary[flaskLogin.current_user.id].incrementSessionIndex()
+			diary[flaskLogin.current_user.id].updateSessionData()
 			socket.emit('insert',{
 								'text':"give me a minute...",
 								'affin_score':0,
 								'created_at':str(datetime.now()),
 								'post_id':str(session['id']),
 								'type':'bot', 
-								'commentFormType':''},room=sid[flaskLogin.current_user.id])
+								'commentFormType':'blankState'},room=sid[flaskLogin.current_user.id])
 			return jsonify(status='commentInsert')
 
 		#print "the request form is ===" 
