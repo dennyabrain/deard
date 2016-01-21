@@ -257,7 +257,7 @@ def approve():
 		for post in databaseUser.findMany({}):
 			if text[0] in post:
 				#fetch Response from dbase and insert in text
-				textResponse = post['lastHit']['response']
+				textResponse['text'] = post['lastHit']['response']
 				databaseUser.insertReply(text[0],textResponse, 12345678910,"review",0)
 				#approve and pay worker
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
