@@ -277,6 +277,7 @@ def approve():
 				diary[text[0]].db.insertSetSession(text[0],'sessionData',{"sessionId":sessionDB['sessionId'],
 																		"sessionIndex":8
 																		})
+				diary[text[0]].set_state("review")
 				socket.emit('insert',{
 									'text':"give me a minute...",
 									'affin_score':0,
