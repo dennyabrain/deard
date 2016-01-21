@@ -30,7 +30,7 @@ module.exports = React.createClass({
 
 					var revComments = (data.comments);
 					//console.log(revComments[6]);
-					for (var c = revComments.length-1; c > 0; c--) {
+					for (var c = revComments.length-1; c >= 0; c--) {
 						// console.log("REVCOMMENTS")
 						// console.log(revComments[c]);
 						if (revComments[c].type == "bot") {	
