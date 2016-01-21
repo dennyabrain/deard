@@ -37,12 +37,18 @@ module.exports = React.createClass({
 		var moodAvg = null;
 		var moodEmoji = null;
 		var allData = this.props.data;
-		console.log("ALL DATA IN DAY")
-		console.log(allData)
+		// console.log("ALL DATA IN DAY")
+		// console.log(allData)
 		for (var i = 0; i < allData.length; i++) {
- 			if (allData[i].mood_score && allData[i].mood_score != -999) {
+			// console.log("ALLDATA MOOD SCORE")
+			// console.log(allData[i].mood_score)
+ 			if (allData[i].mood_score != null && allData[i].mood_score > -50) {
  				moodCount++;
  				moodSum += allData[i].mood_score;
+ 			// 	console.log("*******AHHHHHHH*******")
+				// console.log(moodCount)
+				// console.log("MOOD SUM")
+				// console.log(moodSum)
  			}
 
 			if (this.props.data[i].type == "user" &&
@@ -68,11 +74,20 @@ module.exports = React.createClass({
 			}
 		}
 
+		console.log("MOOD COUNT")
+		console.log(moodCount)
+		console.log("MOOD SUM")
+		console.log(moodSum)
 		if (moodCount > 0) moodAvg = moodSum/moodCount;
      	moodCount = 0;
      	moodSum = 0;
 
-     	if (moodAvg) {
+     	console.log("MOOD AVG")
+		console.log(moodAvg)
+		console.log("MOOD AVG ROUNDED")
+		console.log(Math.round(moodAvg))
+
+     	if (moodAvg!=null) {
      		switch(Math.round(moodAvg)) {
      			case -2:
      				moodEmoji = (<p>{ReactEmoji.emojify(":'(")}</p>);
@@ -105,8 +120,10 @@ module.exports = React.createClass({
 		}
 
 		// console.log("this.props.key: "+this.props.keyNum)
-		// console.log("borderStyle: ")
-		// console.log(borderStyle )
+		console.log("MOOD EMOJI FOR DAY")
+		console.log(moodEmoji)
+		console.log("MOOD AVG FOR DAY")
+		console.log(moodAvg)
 
 		return (
 			<div className="day container-fluid" style={borderStyle} >

@@ -54,7 +54,7 @@ module.exports = React.createClass({
          		// -2, -1, 1, 2, 3
          		for (var i = 0; i < allData[k].length; i++) {
 
-         			if (allData[k][i].mood_score && allData[k][i].mood_score > -50) {
+         			if (allData[k][i].mood_score != null && allData[k][i].mood_score > -50) {
          				moodCountPerDay++;
          				moodSumPerDay += allData[k][i].mood_score;
          			}
@@ -98,7 +98,9 @@ module.exports = React.createClass({
 	        scaleSteps : 10,
 	        scaleStepWidth : 100,
 	        scaleStartValue : -500, 
-			scaleShowGridLines : false,
+			// scaleShowGridLines : true,
+			scaleShowHorizontalLines: true,
+			scaleShowVerticalLines: false,
 			datasetFill : false,
 			scaleLineColor: 'transparent',
 			scaleShowLabels: false,
