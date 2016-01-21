@@ -149,12 +149,12 @@ class Diary:
 
 		elif self.state=='rethinking':
 			self.insertInputToDbase(requestForm['text'],self.state)
-			self.next()
 			#print("deard is currently in %s state" % self.state)
 			self.incrementSessionIndex()
 			text=self.response.getBye(self.mood)
 			self.insertReplyIntoDatabase(text)
 			self.emitInsertEvent(text,-99,str(datetime.now()),room)
+			self.next()
 			
 
 		elif self.state=='bye':
