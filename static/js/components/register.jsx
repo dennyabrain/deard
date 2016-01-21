@@ -10,7 +10,8 @@ module.exports = React.createClass({
 	getInitialState: function() {
 		return {username: null, pw: null, phone: null,
 				registerFail: false, noUsername: false,
-			    noPhone: false};
+			    noPhone: false, badPhoneFormat: false,
+				enteredNum: 0};
 	},
 	getDefaultProps : function() { 
 		return {url:"/register"}; 
@@ -22,7 +23,11 @@ module.exports = React.createClass({
 		this.setState({pw: e.target.value});
 	},
 	handlePhoneChange: function(e) {
-		this.setState({phone: e.target.value});
+
+		this.setState({
+					phone: e.target.value});
+		//enteredNum: this.state.enteredNum + 1,
+		// if (this.state.enteredNum == 3)
 	},
 	handleRegisterFail: function() {
 		console.log("handleRegisterFail");
@@ -36,9 +41,14 @@ module.exports = React.createClass({
 		console.log("handlePhoneFail");
 		this.setState({noPhone: true});
 	},
+	handleBadPhoneFormat: function() {
+		console.log("handleBadPhoneFormat");
+		this.setState({badPhoneFormat: true});
+	},
 	handleNewKeySubmit: function(e) {
 		e.preventDefault();
 		var key;
+		var phoneRegex = "^(1\\-)?[0-9]{3}\\-?[0-9]{3}\\-?[0-9]{4}$";
 		if (this.state.username){
 			key = this.state.username.trim();
 		}
@@ -54,6 +64,10 @@ module.exports = React.createClass({
 		}
 		if (!phone) {
 			this.handleNoPhone();
+			return;
+		}
+		if (!phone.matches(phoneRegex)) {
+			this.handleBadPhoneFormat();
 			return;
 		}
 		
@@ -100,6 +114,12 @@ module.exports = React.createClass({
 			registerFailMsg = (
 				<div className="login-fail">
 					<p>We need your phone number notify you of reponses.</p>
+				</div>
+			);
+		} else if (this.state.badPhoneFormat) {
+			registerFailMsg = (
+				<div className="login-fail">
+					<p>Please enter your phone # as xxx-xxx-xxxx.</p>
 				</div>
 			);
 		}
