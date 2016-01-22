@@ -278,6 +278,7 @@ def approve():
 																		"sessionIndex":7
 																		})
 				diary[text[0]].machine.set_state("review")
+				diary[text[0]].sessionIndex=7
 				socket.emit('insert',{
 									'text':textResponse,
 									'affin_score':0,
