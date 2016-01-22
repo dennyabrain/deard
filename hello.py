@@ -264,7 +264,7 @@ def approve():
 			if text[0] in post:
 				#fetch Response from dbase and insert in text
 				#post[""]
-				phoneNumber = "+1"+str(post['phone'])
+				phoneNumber = "+1"+str(post[text[0]]["phone"])
 				textResponse= post['lastHit']['response']
 				databaseUser.insertReply(text[0],textResponse, 12345678910,"review",0)
 				#approve and pay worker
