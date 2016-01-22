@@ -344,16 +344,7 @@
 				React.createElement(
 					"div",
 					{ className: "static-logo-key col-md-8 col-xs-12" },
-					this.context.location.pathname == "/" ? React.createElement(
-						Link,
-						{ to: "/" },
-						React.createElement(
-							"div",
-							{ className: "home-logo" },
-							React.createElement("img", { src: "/static/img/key-black.svg", width: "65" }),
-							React.createElement("img", { src: "/static/img/logo-deard.svg", width: "160" })
-						)
-					) : React.createElement(Link, { to: "/" })
+					this.context.location.pathname == "/" ? "" : React.createElement(Link, { to: "/" })
 				)
 			);
 		}
@@ -1966,7 +1957,57 @@
 			return React.createElement(
 				"div",
 				{ className: "home main" },
-				React.createElement("h2", { className: "tk-anonymous-pro" })
+				React.createElement(
+					"div",
+					{ className: "home-logo center" },
+					React.createElement("img", { className: "center", src: "/static/img/key-black.svg", width: "65" }),
+					React.createElement("img", { className: "center", src: "/static/img/logo-deard.svg", width: "160" })
+				),
+				React.createElement(
+					"p",
+					{ className: "tk-anonymous-pro center" },
+					"Hey there, dear d. is a smart diary that responds to you and helps you track your mood."
+				),
+				React.createElement("img", { className: "center", src: "/static/img/home-phone1.png", width: "70%" }),
+				React.createElement("img", { className: "center", src: "/static/img/home-phone3.png", width: "70%" }),
+				React.createElement("img", { className: "center", src: "/static/img/home-phone2.png", width: "70%" }),
+				React.createElement(
+					Link,
+					{ to: "/register" },
+					React.createElement(
+						"button",
+						{ type: "text", value: "register" },
+						React.createElement(
+							"h2",
+							null,
+							"Sign up"
+						)
+					)
+				),
+				React.createElement(
+					"p",
+					{ className: "center text-bottom" },
+					"Get started by creating a new account."
+				),
+				React.createElement(
+					"p",
+					{ className: "center text-bottom" },
+					"Made with ",
+					ReactEmoji.emojify("<3"),
+					" by ",
+					React.createElement(
+						"a",
+						{ href: "http://fromjia.com" },
+						"Jia"
+					),
+					" and ",
+					React.createElement(
+						"a",
+						{ href: "" },
+						"Denny"
+					),
+					"."
+				)
 			);
 		}
 	});
