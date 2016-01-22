@@ -258,7 +258,7 @@ def approve():
 		for post in databaseUser.findMany({}):
 			if text[0] in post:
 				#fetch Response from dbase and insert in text
-				
+				#post[""]
 				textResponse= post['lastHit']['response']
 				databaseUser.insertReply(text[0],textResponse, 12345678910,"review",0)
 				#approve and pay worker
@@ -275,11 +275,11 @@ def approve():
 				sessionDB = databaseUser.getSession(text[0])
 				diary[text[0]].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
 				diary[text[0]].db.insertSetSession(text[0],'sessionData',{"sessionId":sessionDB['sessionId'],
-																		"sessionIndex":8
+																		"sessionIndex":7
 																		})
 				diary[text[0]].machine.set_state("review")
 				socket.emit('insert',{
-									'text':"give me a minute...",
+									'text':textResponse,
 									'affin_score':0,
 									'created_at':str(datetime.now()),
 									'post_id':str(sessionDB['sessionId']),

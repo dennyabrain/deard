@@ -251,13 +251,15 @@ def login2():
 
 @app.route('/approve', methods=['POST'])
 def approve():
+	print("**************APPROVE BLOCK*************")
 	if request.method=='POST':
 		text = request.form['text'].split(' ',1)
 		#print(text[0])
 		for post in databaseUser.findMany({}):
 			if text[0] in post:
 				#fetch Response from dbase and insert in text
-				textResponse = post['lastHit']['response']
+				#post[""]
+				textResponse= post['lastHit']['response']
 				databaseUser.insertReply(text[0],textResponse, 12345678910,"review",0)
 				#approve and pay worker
 				mturk.mtc.approve_assignment(post['lastHit']['assignmentID'])
@@ -267,14 +269,24 @@ def approve():
 										    from_="+16467830371") # Replace with your Twilio number
 				#print message.sid
 				#resetLastHit
-
+				#sessionDB['sessionId']
+				#sessionDB['sessionIndex']
 				#diary=Diary(socket,databaseUser,mturk)
 				sessionDB = databaseUser.getSession(text[0])
 				diary[text[0]].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
+				diary[text[0]].db.insertSetSession(text[0],'sessionData',{"sessionId":sessionDB['sessionId'],
+																		"sessionIndex":7
+																		})
 				diary[text[0]].machine.set_state("review")
-				diary[text[0]].run(textResponse,sid[text[0]])
+				socket.emit('insert',{
+									'text':textResponse,
+									'affin_score':0,
+									'created_at':str(datetime.now()),
+									'post_id':str(sessionDB['sessionId']),
+									'type':'bot', 
+									'commentFormType':'review'},room=sid[text[0]])
 				return '{"status":"Approved. User inserted into database and slack."}'
-		
+		print("**************APPROVE BLOCK*************")
 		return '{"status":"User Not Found"}'
 
 @app.route('/reject', methods=['POST'])
