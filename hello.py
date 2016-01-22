@@ -227,11 +227,14 @@ def login2():
 					if sessionDB['sessionIndex'] != 9:
 						session['id']=sessionDB['sessionId']
 						session['index']=sessionDB['sessionIndex']
+						session['mood']=sessionDB['mood']
+						session['review']=sessionDB['review']
+						session['message']=sessionDB['message']
 						diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
-						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
-						diary[flaskLogin.current_user.id].machine.set_state(commentFormType[session['index']])
+						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'],session['mood'],session['review'],session['message'])
+						#diary[flaskLogin.current_user.id].machine.set_state(commentFormType[session['index']])
 						#g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
-						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
+						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index'],"mood":session['mood'],"review":session["review"]})
 						print('**** %s ****'%str(session['index']))
 						#print('diary is in state %s' %g.diary.state)
 
@@ -274,7 +277,7 @@ def approve():
 				#sessionDB['sessionIndex']
 				#diary=Diary(socket,databaseUser,mturk)
 				sessionDB = databaseUser.getSession(text[0])
-				diary[text[0]].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
+				diary[text[0]].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'],sessionDB["mood"],sessionDB["review"])
 				diary[text[0]].db.insertSetSession(text[0],'sessionData',{"sessionId":sessionDB['sessionId'],
 																		"sessionIndex":7
 																		})

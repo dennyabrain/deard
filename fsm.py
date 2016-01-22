@@ -39,11 +39,16 @@ class Diary:
 		self.machine.add_transition('next','bye','greeting')
 
 		self.message=""
+		self.mood=""
+		self.review=""
 
-	def initUser(self,userId,sessionIndex,sessionId):
+	def initUser(self,userId,sessionIndex,sessionId,mood="",review="",message=""):
 		self.username=userId
 		self.sessionIndex=sessionIndex
 		self.sessionId=sessionId
+		self.machine.set_state(Diary.commentFormType[sessionIndex])
+		self.mood=mood
+		self.review=review
 
 	def setMood(self,mood):
 		self.mood=mood
@@ -218,5 +223,8 @@ class Diary:
 	def updateSessionData(self):
 		print "in updateSessionData with sessionIndex %s" %str(self.sessionIndex)
 		self.db.insertSetSession(self.username,'sessionData',{"sessionId":self.sessionId,
-															"sessionIndex":self.sessionIndex
+															"sessionIndex":self.sessionIndex,
+															"mood":self.mood,
+															"review":self.review,
+															"message":self.message
 															})
