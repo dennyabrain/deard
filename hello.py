@@ -87,6 +87,7 @@ def home():
 def logout():
 	flaskLogin.logout_user()
 	#print("logged out")
+
 	return redirect("/", code=302)
 	
 @app.route('/register',methods=['POST','GET'])
@@ -224,7 +225,7 @@ def login2():
 					
 					sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
 					#print ("SESSION INDEX: %s" % sessionDB['sessionIndex'])
-					if sessionDB['sessionIndex'] != 9:
+					if sessionDB['sessionIndex'] != 10:
 						session['id']=sessionDB['sessionId']
 						session['index']=sessionDB['sessionIndex']
 						session['mood']=sessionDB['mood']

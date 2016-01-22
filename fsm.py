@@ -185,13 +185,12 @@ class Diary:
 			#TODO start a new session
 			self.db.insertReply(self.username,text1,self.sessionId,"greeting",0.0)
 			self.db.insertReply(self.username,text2,self.sessionId,"mood",0.0)
-			self.next()
-			self.incrementSessionIndex()
+			self.machine.set_state("mood")
+			self.sessionIndex=1
 			self.emitInsertEvent(text1,-99,str(datetime.now()),room)
-			self.next()
-			self.incrementSessionIndex()
-			self.updateSessionData()
 			self.emitInsertEvent(text2,-99,str(datetime.now()),room)
+			self.updateSessionData()
+			
 			self.mood=""
 			self.review=""
 			self.message=""
