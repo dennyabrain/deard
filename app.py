@@ -87,6 +87,7 @@ def home():
 def logout():
 	flaskLogin.logout_user()
 	#print("logged out")
+
 	return redirect("/", code=302)
 	
 @app.route('/register',methods=['POST','GET'])
@@ -118,7 +119,7 @@ def register():
 	#print('diary is in state %s' %g.diary.state)
 	
 	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your mood today?" % request.form['username'],session['id'],"mood",0.0)
-	databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})	
+	databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index'],"mood":"","review":"","message":""})	
 
 	return '{"status":"success"}'
 
@@ -224,14 +225,18 @@ def login2():
 					
 					sessionDB = databaseUser.getSession(flaskLogin.current_user.id)
 					#print ("SESSION INDEX: %s" % sessionDB['sessionIndex'])
-					if sessionDB['sessionIndex'] != 9:
+					if sessionDB['sessionIndex'] != 10:
 						session['id']=sessionDB['sessionId']
 						session['index']=sessionDB['sessionIndex']
+						session['mood']=sessionDB['mood']
+						session['review']=sessionDB['review']
+						session['message']=sessionDB['message']
 						diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
-						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
+						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'],session['mood'],session['review'],session['message'])
+						#diary[flaskLogin.current_user.id].machine.set_state(commentFormType[session['index']])
 						#g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
-						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-
+						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index'],"mood":session['mood'],"review":session["review"],"message":session["message"]})
+						print('**** %s ****'%str(session['index']))
 						#print('diary is in state %s' %g.diary.state)
 
 					else:
@@ -273,11 +278,12 @@ def approve():
 				#sessionDB['sessionIndex']
 				#diary=Diary(socket,databaseUser,mturk)
 				sessionDB = databaseUser.getSession(text[0])
-				diary[text[0]].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'])
+				diary[text[0]].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'],sessionDB["mood"],sessionDB["review"])
 				diary[text[0]].db.insertSetSession(text[0],'sessionData',{"sessionId":sessionDB['sessionId'],
 																		"sessionIndex":7
 																		})
 				diary[text[0]].machine.set_state("review")
+				diary[text[0]].sessionIndex=7
 				socket.emit('insert',{
 									'text':textResponse,
 									'affin_score':0,
