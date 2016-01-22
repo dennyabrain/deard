@@ -13,9 +13,9 @@ module.exports = React.createClass({
 				<p className="tk-anonymous-pro center">
 					Hey there, dear d. is a smart diary that responds to you and helps you track your mood.
 				</p>
-				<img className="center" src="/static/img/home-phone1.png" width="70%" />
-				<img className="center" src="/static/img/home-phone3.png" width="70%" />
-				<img className="center" src="/static/img/home-phone2.png" width="70%" />
+				<img className="center" src="https://s3.amazonaws.com/deard-assets/static/img/home-phone1.png" width="70%" />
+				<img className="center" src="https://s3.amazonaws.com/deard-assets/static/img/home-phone3.png" width="70%" />
+				<img className="center" src="https://s3.amazonaws.com/deard-assets/static/img/home-phone2.png" width="70%" />
 				<Link to="/register"><button type="text" value="register"><h2>Sign up</h2></button></Link>
 				<p className="center text-bottom">Get started by creating a new account.</p>
 				<p className="center text-bottom">Made with {ReactEmoji.emojify("<3")} by <a href="http://fromjia.com">Jia</a> and <a href="">Denny</a>.</p>
