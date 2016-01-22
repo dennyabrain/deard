@@ -281,7 +281,10 @@ def approve():
 				sessionDB = databaseUser.getSession(text[0])
 				diary[text[0]].initUser(text[0],sessionDB['sessionIndex'],sessionDB['sessionId'],sessionDB["mood"],sessionDB["review"])
 				diary[text[0]].db.insertSetSession(text[0],'sessionData',{"sessionId":sessionDB['sessionId'],
-																		"sessionIndex":7
+																		"sessionIndex":7,
+																		"mood":sessionDB['mood'],
+																		"review":sessionDB['review'],
+																		"message":sessionDB['message']
 																		})
 				diary[text[0]].machine.set_state("review")
 				diary[text[0]].sessionIndex=7
