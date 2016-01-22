@@ -234,7 +234,7 @@ def login2():
 						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'],session['mood'],session['review'],session['message'])
 						#diary[flaskLogin.current_user.id].machine.set_state(commentFormType[session['index']])
 						#g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
-						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index'],"mood":session['mood'],"review":session["review"]})
+						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index'],"mood":session['mood'],"review":session["review"],"message":session["message"]})
 						print('**** %s ****'%str(session['index']))
 						#print('diary is in state %s' %g.diary.state)
 
