@@ -229,9 +229,10 @@ def login2():
 						session['index']=sessionDB['sessionIndex']
 						diary[flaskLogin.current_user.id]=Diary(socket,databaseUser,mturk)
 						diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
+						diary[flaskLogin.current_user.id].machine.set_state(commentFormType[session['index']])
 						#g.diary.initUser(flaskLogin.current_user.id,session['index'],session['id'])
 						databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index']})
-
+						print('**** %s ****'%str(session['index']))
 						#print('diary is in state %s' %g.diary.state)
 
 					else:
