@@ -41,7 +41,7 @@ loginManager=flaskLogin.LoginManager()
 loginManager.init_app(app)
 bcrypt = Bcrypt(app)
 
-whiteNoiseApp = WhiteNoise(app,root='static')
+whiteNoiseApp = WhiteNoise(app,root='./static')
 
 #socket = SocketIO(app,logger=True, engineio_logger=True)
 socket = SocketIO(app)
