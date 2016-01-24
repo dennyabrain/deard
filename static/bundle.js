@@ -1960,17 +1960,21 @@
 				React.createElement(
 					"div",
 					{ className: "home-logo center" },
-					React.createElement("img", { className: "center", src: "/static/img/key-black.svg", width: "65" }),
-					React.createElement("img", { className: "center", src: "/static/img/logo-deard.svg", width: "160" })
+					React.createElement("img", { className: "center", src: "/static/img/key-black.svg", width: "55" }),
+					React.createElement("img", { className: "center", src: "/static/img/logo-deard.svg", width: "200" })
 				),
 				React.createElement(
 					"p",
-					{ className: "tk-anonymous-pro center" },
+					{ className: "center" },
 					"Hey there, dear d. is a smart diary that responds to you and helps you track your mood."
 				),
-				React.createElement("img", { className: "center", src: "/static/img/home-phone1.png", width: "70%" }),
-				React.createElement("img", { className: "center", src: "/static/img/home-phone3.png", width: "70%" }),
-				React.createElement("img", { className: "center", src: "/static/img/home-phone2.png", width: "70%" }),
+				React.createElement(
+					"div",
+					{ className: "home-phone-imgs" },
+					React.createElement("img", { className: "center", src: "https://s3.amazonaws.com/deard-assets/static/img/home-phone1.png", width: "70%" }),
+					React.createElement("img", { className: "center", src: "https://s3.amazonaws.com/deard-assets/static/img/home-phone3.png", width: "70%" }),
+					React.createElement("img", { className: "center", src: "https://s3.amazonaws.com/deard-assets/static/img/home-phone2.png", width: "70%" })
+				),
 				React.createElement(
 					Link,
 					{ to: "/register" },
@@ -1991,7 +1995,7 @@
 				),
 				React.createElement(
 					"p",
-					{ className: "center text-bottom" },
+					{ className: "home-footer-text center text-bottom" },
 					"Made with ",
 					ReactEmoji.emojify("<3"),
 					" by ",
@@ -2005,8 +2009,7 @@
 						"a",
 						{ href: "" },
 						"Denny"
-					),
-					"."
+					)
 				)
 			);
 		}
