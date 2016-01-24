@@ -23,30 +23,34 @@ module.exports = React.createClass({
 		var comment = this.props.children;
 		var paragraphs = comment.split(/\n/);
 		var htmlLink = null;
-		var htmlLinkRegex = /(https?:\/\/[^\s\/$.?#].[^\s]*)/m;
+		//'https://fromjia1.typeform.com/to/XpQBTW'
+		var htmlLinkRegex = /(https?:\/\/\w+\.\w+\.com\/\w+\/\w+)/;
+
 		var p = paragraphs.map(function(paragraph,i){
 			console.log(paragraph);
 			
 			htmlLink = htmlLinkRegex.exec(paragraph);
+			console.log(htmlLink);
 			if (htmlLink!=null) {
+				console.log("htmlLInk[0]: "+htmlLink[0]);
 				return (
 					<span>
 						<p>
 							{ReactEmoji.emojify(paragraph, {attributes: {width: '40px', height: '40px'}})}
 						</p>
-						<button dangerouslySetInnerHTML={this.createMarkup(htmlLink)} />
+						<button dangerouslySetInnerHTML={this.createMarkup(htmlLink[0])} />
 					</span>
 				)
 			}				
 			
 			return (<p>{ReactEmoji.emojify(paragraph, {attributes: {width: '40px', height: '40px'}})}</p>)
-		});
-
+		}.bind(this));
+		// console.log("*****p*****")
+		// console.log(p)
 		// <p className="center" style={{fontSize: "15px"}}>{timeAt}</p>
 
 		return (
 			<span>
-			
 			{ this.props.timeAt != null ? 
 				(<p className="center" style={{fontSize: "15px"}}>{this.props.timeAt}</p>) :
 				""
@@ -60,7 +64,7 @@ module.exports = React.createClass({
 					) :
 					(
 						<div className="comment comment-bot tk-anonymous-pro" style={commentStyle}>
-							{this.props.children}
+							{p}
 						</div>
 					)
 			}

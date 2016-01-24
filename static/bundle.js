@@ -1142,12 +1142,16 @@
 			var comment = this.props.children;
 			var paragraphs = comment.split(/\n/);
 			var htmlLink = null;
-			var htmlLinkRegex = /(https?:\/\/[^\s\/$.?#].[^\s]*)/m;
-			var p = paragraphs.map(function (paragraph, i) {
+			//'https://fromjia1.typeform.com/to/XpQBTW'
+			var htmlLinkRegex = /(https?:\/\/\w+\.\w+\.com\/\w+\/\w+)/;
+
+			var p = paragraphs.map((function (paragraph, i) {
 				console.log(paragraph);
 
 				htmlLink = htmlLinkRegex.exec(paragraph);
+				console.log(htmlLink);
 				if (htmlLink != null) {
+					console.log("htmlLInk[0]: " + htmlLink[0]);
 					return React.createElement(
 						'span',
 						null,
@@ -1156,7 +1160,7 @@
 							null,
 							ReactEmoji.emojify(paragraph, { attributes: { width: '40px', height: '40px' } })
 						),
-						React.createElement('button', { dangerouslySetInnerHTML: this.createMarkup(htmlLink) })
+						React.createElement('button', { dangerouslySetInnerHTML: this.createMarkup(htmlLink[0]) })
 					);
 				}
 
@@ -1165,8 +1169,9 @@
 					null,
 					ReactEmoji.emojify(paragraph, { attributes: { width: '40px', height: '40px' } })
 				);
-			});
-
+			}).bind(this));
+			// console.log("*****p*****")
+			// console.log(p)
 			// <p className="center" style={{fontSize: "15px"}}>{timeAt}</p>
 
 			return React.createElement(
@@ -1184,7 +1189,7 @@
 				) : React.createElement(
 					'div',
 					{ className: 'comment comment-bot tk-anonymous-pro', style: commentStyle },
-					this.props.children
+					p
 				),
 				React.createElement('div', { className: 'clearfix' })
 			);
