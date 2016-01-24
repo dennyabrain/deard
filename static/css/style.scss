@@ -54,17 +54,16 @@ $box-dropshadow: 0px 1px 1px rgba(47, 48, 44, 0.2);
 }
 
 @mixin button-element-solid {
-  padding: 10px 30px;
+  padding: 10px 60px;
   border: none;
   outline: none;
   border-radius: 30px;
-  background-color: $dd-black;
+  background-color: #fff;
+  color: #fff;
   font-size: 18px;
   text-align: center;
   margin: 0 auto;
   display: block;
-  margin-top: 50px;
-  margin-bottom: 20px;
   text-decoration: none;
 }
 
@@ -473,6 +472,7 @@ header {
   margin-right: 30px;
   border-radius: 10px 10px 10px 2px;
   background-color: rgba(255,255,255,0.50);
+  line-height: 22px;
   font-size: 17px;
   /*display: block;*/
   float: left;

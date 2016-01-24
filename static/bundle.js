@@ -1129,7 +1129,7 @@
 		},
 
 		createMarkup: function (link) {
-			return { __html: "<a href=" + link + ">go here</a>" };
+			return { __html: "<a href=" + link + ">more info</a>" };
 		},
 
 		render: function () {
@@ -1152,6 +1152,8 @@
 				console.log(htmlLink);
 				if (htmlLink != null) {
 					console.log("htmlLInk[0]: " + htmlLink[0]);
+					paragraph = paragraph.replace(htmlLinkRegex, "");
+					console.log(paragraph);
 					return React.createElement(
 						'span',
 						null,
