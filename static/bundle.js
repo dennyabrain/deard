@@ -1128,7 +1128,12 @@
 			'worst': '#acc1b9'
 		},
 
+		createMarkup: function (link) {
+			return { __html: "<a href=" + link + ">go here</a>" };
+		},
+
 		render: function () {
+
 			if (this.props.commentType == "bot") {
 				var scoreBgColor = this.colors[this.props.mood],
 				    commentStyle = { color: scoreBgColor };
@@ -1136,10 +1141,25 @@
 
 			var comment = this.props.children;
 			var paragraphs = comment.split(/\n/);
-
-			// var str = 'Twas the night before Xmas...';
-			// var newstr =
+			var htmlLink = null;
+			var htmlLinkRegex = /(https?:\/\/[^\s\/$.?#].[^\s]*)/m;
 			var p = paragraphs.map(function (paragraph, i) {
+				console.log(paragraph);
+
+				htmlLink = htmlLinkRegex.exec(paragraph);
+				if (htmlLink != null) {
+					return React.createElement(
+						'span',
+						null,
+						React.createElement(
+							'p',
+							null,
+							ReactEmoji.emojify(paragraph, { attributes: { width: '40px', height: '40px' } })
+						),
+						React.createElement('button', { dangerouslySetInnerHTML: this.createMarkup(htmlLink) })
+					);
+				}
+
 				return React.createElement(
 					'p',
 					null,
