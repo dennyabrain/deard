@@ -1965,7 +1965,7 @@
 				),
 				React.createElement(
 					"p",
-					{ className: "tk-anonymous-pro center" },
+					{ className: "center" },
 					"Hey there, dear d. is a smart diary that responds to you and helps you track your mood."
 				),
 				React.createElement(
@@ -2009,8 +2009,7 @@
 						"a",
 						{ href: "" },
 						"Denny"
-					),
-					"."
+					)
 				)
 			);
 		}
