@@ -11,7 +11,7 @@ module.exports = React.createClass({
 					<img className="center" src="/static/img/logo-deard.svg" width="200"/>
 				</div>
 				<p className="center">
-					Hey there, dear d. is a smart diary that responds to you and helps you track your mood.
+					Smart diary that responds to you and helps you track your mood.
 				</p>
 				<div className="home-phone-imgs">
 					<img className="center" src="https://s3.amazonaws.com/deard-assets/static/img/home-phone1.png" width="70%" />

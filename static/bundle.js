@@ -979,6 +979,7 @@
 			console.log(mood);
 		},
 		render: function () {
+			var emojiSize = { width: '35px', height: '35px' };
 
 			return React.createElement(
 				"div",
@@ -990,7 +991,7 @@
 					React.createElement(
 						"a",
 						{ href: "javascript:;", onClick: this.handleInput, "data-mood": ":D" },
-						ReactEmoji.emojify(":D")
+						ReactEmoji.emojify(":D", { attributes: emojiSize })
 					)
 				),
 				React.createElement(
@@ -999,7 +1000,7 @@
 					React.createElement(
 						"a",
 						{ href: "javascript:;", onClick: this.handleInput, "data-mood": ":)" },
-						ReactEmoji.emojify(":)")
+						ReactEmoji.emojify(":)", { attributes: emojiSize })
 					)
 				),
 				React.createElement(
@@ -1008,7 +1009,7 @@
 					React.createElement(
 						"a",
 						{ href: "javascript:;", onClick: this.handleInput, "data-mood": ":/" },
-						ReactEmoji.emojify(":/")
+						ReactEmoji.emojify(":/", { attributes: emojiSize })
 					)
 				),
 				React.createElement(
@@ -1017,7 +1018,7 @@
 					React.createElement(
 						"a",
 						{ href: "javascript:;", onClick: this.handleInput, "data-mood": ":(" },
-						ReactEmoji.emojify(":(")
+						ReactEmoji.emojify(":(", { attributes: emojiSize })
 					)
 				),
 				React.createElement(
@@ -1026,7 +1027,7 @@
 					React.createElement(
 						"a",
 						{ href: "javascript:;", onClick: this.handleInput, "data-mood": ":'(" },
-						ReactEmoji.emojify(":'(")
+						ReactEmoji.emojify(":'(", { attributes: emojiSize })
 					)
 				),
 				React.createElement("div", { className: "col-xs-1" })
@@ -1142,7 +1143,7 @@
 				return React.createElement(
 					'p',
 					null,
-					ReactEmoji.emojify(paragraph)
+					ReactEmoji.emojify(paragraph, { attributes: { width: '40px', height: '40px' } })
 				);
 			});
 
@@ -1815,41 +1816,43 @@
 			console.log("MOOD AVG ROUNDED");
 			console.log(Math.round(moodAvg));
 
+			var emojiSize = { width: '35px', height: '35px' };
+
 			if (moodAvg != null) {
 				switch (Math.round(moodAvg)) {
 					case -2:
 						moodEmoji = React.createElement(
 							'p',
 							null,
-							ReactEmoji.emojify(":'(")
+							ReactEmoji.emojify(":'(", { attributes: emojiSize })
 						);
 						break;
 					case -1:
 						moodEmoji = React.createElement(
 							'p',
 							null,
-							ReactEmoji.emojify(":(")
+							ReactEmoji.emojify(":(", { attributes: emojiSize })
 						);
 						break;
 					case 0:
 						moodEmoji = React.createElement(
 							'p',
 							null,
-							ReactEmoji.emojify(":/")
+							ReactEmoji.emojify(":/", { attributes: emojiSize })
 						);
 						break;
 					case 1:
 						moodEmoji = React.createElement(
 							'p',
 							null,
-							ReactEmoji.emojify(":)")
+							ReactEmoji.emojify(":)", { attributes: emojiSize })
 						);
 						break;
 					case 2:
 						moodEmoji = React.createElement(
 							'p',
 							null,
-							ReactEmoji.emojify(":D")
+							ReactEmoji.emojify(":D", { attributes: emojiSize })
 						);
 						break;
 					default:
@@ -1966,7 +1969,7 @@
 				React.createElement(
 					"p",
 					{ className: "center" },
-					"Hey there, dear d. is a smart diary that responds to you and helps you track your mood."
+					"Smart diary that responds to you and helps you track your mood."
 				),
 				React.createElement(
 					"div",
