@@ -218,6 +218,7 @@ var MoodSelectionInput = React.createClass({
 		console.log(mood);
 	},
 	render: function() {
+		var emojiSize = {width: '35px', height: '35px'};
 		
 		return (
 			<div className="row row-mood">
@@ -225,27 +226,27 @@ var MoodSelectionInput = React.createClass({
 				
 				<div className="col-xs-2">
 					<a href="javascript:;" onClick={this.handleInput} data-mood=":D">
-						{ ReactEmoji.emojify(":D") }
+						{ ReactEmoji.emojify(":D", {attributes: emojiSize}) }
 					</a>
 				</div>
 				<div className="col-xs-2">
 					<a href="javascript:;" onClick={this.handleInput} data-mood=":)">
-						{ ReactEmoji.emojify(":)") }
+						{ ReactEmoji.emojify(":)", {attributes: emojiSize}) }
 					</a>
 				</div>
 				<div className="col-xs-2">
 					<a href="javascript:;" onClick={this.handleInput} data-mood=":/">
-						{ ReactEmoji.emojify(":/") }
+						{ ReactEmoji.emojify(":/", {attributes: emojiSize}) }
 					</a>
 				</div>
 				<div className="col-xs-2">
 					<a href="javascript:;" onClick={this.handleInput} data-mood=":(">
-						{ ReactEmoji.emojify(":(") }
+						{ ReactEmoji.emojify(":(", {attributes: emojiSize}) }
 					</a>
 				</div>
 				<div className="col-xs-2">
 					<a href="javascript:;" onClick={this.handleInput} data-mood=":'(">
-						{ ReactEmoji.emojify(":'(") }
+						{ ReactEmoji.emojify(":'(", {attributes: emojiSize}) }
 					</a>
 				</div>
 				<div className="col-xs-1" />

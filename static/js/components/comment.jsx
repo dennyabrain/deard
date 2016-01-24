@@ -21,7 +21,7 @@ module.exports = React.createClass({
 		// var str = 'Twas the night before Xmas...';
 		// var newstr = 
 		var p = paragraphs.map(function(paragraph,i){
-			return (<p>{ReactEmoji.emojify(paragraph)}</p>)
+			return (<p>{ReactEmoji.emojify(paragraph, {attributes: {width: '40px', height: '40px'}})}</p>)
 		});
 
 		// <p className="center" style={{fontSize: "15px"}}>{timeAt}</p>
