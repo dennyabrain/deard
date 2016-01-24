@@ -53,6 +53,21 @@ $box-dropshadow: 0px 1px 1px rgba(47, 48, 44, 0.2);
   top: 8px;
 }
 
+@mixin button-element-solid {
+  padding: 10px 30px;
+  border: none;
+  outline: none;
+  border-radius: 30px;
+  background-color: $dd-black;
+  font-size: 18px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  text-decoration: none;
+}
+
 /********************************* 
 
   layouts
@@ -461,6 +476,14 @@ header {
   font-size: 17px;
   /*display: block;*/
   float: left;
+  
+  button {
+    @include button-element-solid;
+  }
+
+  p {
+    font-size: 17px;
+  }
 }
 
 .timestamp {
