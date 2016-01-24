@@ -7,7 +7,7 @@ module.exports = React.createClass({
 		return (
 			<div className="home main">
 				<div className="home-logo center">
-					<img className="center" src="/static/img/key-black.svg" width="65"/>
+					<img className="center" src="/static/img/key-black.svg" width="55"/>
 					<img className="center" src="/static/img/logo-deard.svg" width="200"/>
 				</div>
 				<p className="center">
