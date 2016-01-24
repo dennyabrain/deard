@@ -8,8 +8,13 @@ module.exports = React.createClass({
 		'bad': '#b8bfa1',
 		'worst': '#acc1b9'
 	},
+
+	createMarkup: function(link) {
+		return {__html: "<a href="+link+">go here</a>"};
+	},
 	
 	render: function() {
+		
 		if (this.props.commentType == "bot") {
 			var scoreBgColor = this.colors[this.props.mood],
 					commentStyle = { color : scoreBgColor };
@@ -17,10 +22,23 @@ module.exports = React.createClass({
 
 		var comment = this.props.children;
 		var paragraphs = comment.split(/\n/);
-
-		// var str = 'Twas the night before Xmas...';
-		// var newstr = 
+		var htmlLink = null;
+		var htmlLinkRegex = /(https?:\/\/[^\s\/$.?#].[^\s]*)/m;
 		var p = paragraphs.map(function(paragraph,i){
+			console.log(paragraph);
+			
+			htmlLink = htmlLinkRegex.exec(paragraph);
+			if (htmlLink!=null) {
+				return (
+					<span>
+						<p>
+							{ReactEmoji.emojify(paragraph, {attributes: {width: '40px', height: '40px'}})}
+						</p>
+						<button dangerouslySetInnerHTML={this.createMarkup(htmlLink)} />
+					</span>
+				)
+			}				
+			
 			return (<p>{ReactEmoji.emojify(paragraph, {attributes: {width: '40px', height: '40px'}})}</p>)
 		});
 
@@ -28,6 +46,7 @@ module.exports = React.createClass({
 
 		return (
 			<span>
+			
 			{ this.props.timeAt != null ? 
 				(<p className="center" style={{fontSize: "15px"}}>{this.props.timeAt}</p>) :
 				""
