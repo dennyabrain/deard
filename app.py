@@ -118,7 +118,8 @@ def register():
 	diary[flaskLogin.current_user.id].initUser(flaskLogin.current_user.id,session['index'],session['id'])
 	#print('diary is in state %s' %g.diary.state)
 	
-	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. How was your mood today?" % request.form['username'],session['id'],"mood",0.0)
+	databaseUser.insertReply(request.form['username'],"Hi, %s. I'm Dee. I'm here whenever you want to talk about your day, and help you keep track of the topics and your mood. I'd also like to get to know you more. Go <a href='https://fromjia1.typeform.com/to/XpQBTW'>here</a> to answer a few questions about yourself." % request.form['username'],session['id'],"mood",0.0)
+	databaseUser.insertReply(request.form['username'],"How was your mood today?",session['id'],"mood",0.0)
 	databaseUser.insertSetSession(flaskLogin.current_user.id,'sessionData',{"sessionId":session['id'],"sessionIndex":session['index'],"mood":"","review":"","message":""})	
 
 	return '{"status":"success"}'
