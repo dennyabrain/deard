@@ -73,7 +73,7 @@ var StaticHeader = React.createClass({
 	render: function() {
 		return (
 			<div className="row">
-				<div className="col-xs-12 col-md-4">
+				<div className="col-xs-12">
 					<div className="right header-login">
 						<p><Link to="/register">register</Link></p>
 					</div> 
@@ -81,23 +81,21 @@ var StaticHeader = React.createClass({
 						<p><Link to="/login2">login</Link></p>					
 					</div>	
 				</div>
-				<div className="static-logo-key col-md-8 col-xs-12">
-					{ this.context.location.pathname == "/" ? (
-							""
-						)
-						:(
-							<Link to="/">
-								
-							</Link>
-						) 
-					}
-				</div>
 			</div>
 		)
 	}
 });
-// <img src="/static/img/key-black.svg" width="55"/>
-// <a href="/"><img src="/static/img/key.svg" width="55"/></a>
+// <div className="static-logo-key col-xs-12">
+// 	{ this.context.location.pathname == "/" ? (
+// 			""
+// 		)
+// 		:(
+// 			<Link to="/">
+				
+// 			</Link>
+// 		) 
+// 	}
+// </div>
 
 var ChatHeader = React.createClass({
 	displayName: 'ChatHeader',
@@ -171,7 +169,7 @@ var ChatHeader = React.createClass({
 										<div className="center col-xs-8">
 											<h2>This week</h2> 
 										</div>					
-										<div className="right col-xs-2" style={{backgroundColor: "transparent"}}></div>
+										<div className="col-xs-2" style={{backgroundColor: "transparent"}}></div>
 									</div>
 								)
 								:
@@ -193,27 +191,32 @@ var ChatHeader = React.createClass({
 								) 
 							}				
 						</div>
-						<div className="right logo-d col-xs-2">
-							<Link to="/comments" >
-								<img src="/static/img/chat.svg" width="30" onClick={this.changeHeader} />
-							</Link>					
-						</div>	
+						<Link to="/comments" >
+							<div className="right logo-d col-xs-2">				
+								<img src="/static/img/icons-chat.svg" width="20" onClick={this.changeHeader} />	
+								<p>chat</p>											
+							</div>	
+						</Link>	
 					</span>
 				):
 				(
 					<span>
-						<div className="title-data col-xs-2">
-							<Link to="/comments/data">
-								<img src="/static/img/data-icon2.svg" width="25" 
-									onClick={this.changeHeader} />
-							</Link>
-						</div>
+						<Link to="/comments/data">
+							<div className="title-data col-xs-2">							
+								<img src="/static/img/icons-data.svg" width="20" 
+										onClick={this.changeHeader} />	
+								<p>data</p>						
+							</div>
+						</Link>
 						<div className="logo-d col-xs-8">
 							<h2>{this.props.month} {this.props.date}</h2>
 						</div>
-						<div className="right col-xs-2">
-							<a href="/logout" onClick={this.logout}><img src="/static/img/logout.svg" width="10"/></a>					
-						</div>	
+						<a href="/logout" onClick={this.logout}>
+							<div className="right col-xs-2">
+								<img src="/static/img/icons-logout.svg" width="20"/>
+								<p>logout</p>						
+							</div>	
+						</a>
 					</span>
 				)}
 			</div>

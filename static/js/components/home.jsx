@@ -11,12 +11,12 @@ module.exports = React.createClass({
 					<img className="center" src="/static/img/logo-deard.svg" width="200"/>
 				</div>
 				<p className="center">
-					Smart diary that responds to you and helps you track your mood.
+					Interactive diary that helps you track your mood.
 				</p>
 				<div className="home-phone-imgs">
-					<img className="center" src="https://s3.amazonaws.com/deard-assets/static/img/home-phone1.png" width="70%" />
-					<img className="center" src="https://s3.amazonaws.com/deard-assets/static/img/home-phone3.png" width="70%" />
-					<img className="center" src="https://s3.amazonaws.com/deard-assets/static/img/home-phone2.png" width="70%" />
+					<img className="center" src="https://s3.amazonaws.com/deard-assets/static/img/home-phone1.png" width="240px" />
+					<img className="center" src="https://s3.amazonaws.com/deard-assets/static/img/home-phone3.png" width="240px" />
+					<img className="center" src="https://s3.amazonaws.com/deard-assets/static/img/home-phone2.png" width="240px" />
 				</div>
 				<Link to="/register"><button type="text" value="register"><h2>Sign up</h2></button></Link>
 				<p className="center text-bottom">Get started by creating a new account.</p>

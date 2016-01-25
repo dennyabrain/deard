@@ -313,7 +313,7 @@
 				{ className: "row" },
 				React.createElement(
 					"div",
-					{ className: "col-xs-12 col-md-4" },
+					{ className: "col-xs-12" },
 					React.createElement(
 						"div",
 						{ className: "right header-login" },
@@ -340,17 +340,21 @@
 							)
 						)
 					)
-				),
-				React.createElement(
-					"div",
-					{ className: "static-logo-key col-md-8 col-xs-12" },
-					this.context.location.pathname == "/" ? "" : React.createElement(Link, { to: "/" })
 				)
 			);
 		}
 	});
-	// <img src="/static/img/key-black.svg" width="55"/>
-	// <a href="/"><img src="/static/img/key.svg" width="55"/></a>
+	// <div className="static-logo-key col-xs-12">
+	// 	{ this.context.location.pathname == "/" ? (
+	// 			""
+	// 		)
+	// 		:(
+	// 			<Link to="/">
+
+	// 			</Link>
+	// 		)
+	// 	}
+	// </div>
 
 	var ChatHeader = React.createClass({
 		displayName: 'ChatHeader',
@@ -427,7 +431,7 @@
 									"This week"
 								)
 							),
-							React.createElement("div", { className: "right col-xs-2", style: { backgroundColor: "transparent" } })
+							React.createElement("div", { className: "col-xs-2", style: { backgroundColor: "transparent" } })
 						) : React.createElement(
 							"div",
 							{ className: "row" },
@@ -461,25 +465,35 @@
 						)
 					),
 					React.createElement(
-						"div",
-						{ className: "right logo-d col-xs-2" },
+						Link,
+						{ to: "/comments" },
 						React.createElement(
-							Link,
-							{ to: "/comments" },
-							React.createElement("img", { src: "/static/img/chat.svg", width: "30", onClick: this.changeHeader })
+							"div",
+							{ className: "right logo-d col-xs-2" },
+							React.createElement("img", { src: "/static/img/icons-chat.svg", width: "20", onClick: this.changeHeader }),
+							React.createElement(
+								"p",
+								null,
+								"chat"
+							)
 						)
 					)
 				) : React.createElement(
 					"span",
 					null,
 					React.createElement(
-						"div",
-						{ className: "title-data col-xs-2" },
+						Link,
+						{ to: "/comments/data" },
 						React.createElement(
-							Link,
-							{ to: "/comments/data" },
-							React.createElement("img", { src: "/static/img/data-icon2.svg", width: "25",
-								onClick: this.changeHeader })
+							"div",
+							{ className: "title-data col-xs-2" },
+							React.createElement("img", { src: "/static/img/icons-data.svg", width: "20",
+								onClick: this.changeHeader }),
+							React.createElement(
+								"p",
+								null,
+								"data"
+							)
 						)
 					),
 					React.createElement(
@@ -494,12 +508,17 @@
 						)
 					),
 					React.createElement(
-						"div",
-						{ className: "right col-xs-2" },
+						"a",
+						{ href: "/logout", onClick: this.logout },
 						React.createElement(
-							"a",
-							{ href: "/logout", onClick: this.logout },
-							React.createElement("img", { src: "/static/img/logout.svg", width: "10" })
+							"div",
+							{ className: "right col-xs-2" },
+							React.createElement("img", { src: "/static/img/icons-logout.svg", width: "20" }),
+							React.createElement(
+								"p",
+								null,
+								"logout"
+							)
 						)
 					)
 				)
@@ -1466,8 +1485,8 @@
 			var options = {
 				scaleOverride: true,
 				scaleSteps: 10,
-				scaleStepWidth: 100,
-				scaleStartValue: -500,
+				scaleStepWidth: 50,
+				scaleStartValue: -250,
 				// scaleShowGridLines : true,
 				scaleShowHorizontalLines: true,
 				scaleShowVerticalLines: false,
@@ -1497,6 +1516,9 @@
 					'div',
 					{ className: 'moodgraph-key col-md-1 col-xs-1' },
 					ReactEmoji.emojify(":D"),
+					ReactEmoji.emojify(":)"),
+					ReactEmoji.emojify(":/"),
+					ReactEmoji.emojify(":("),
 					ReactEmoji.emojify(":'(")
 				),
 				React.createElement(
@@ -1996,14 +2018,14 @@
 				React.createElement(
 					"p",
 					{ className: "center" },
-					"Smart diary that responds to you and helps you track your mood."
+					"Interactive diary that helps you track your mood."
 				),
 				React.createElement(
 					"div",
 					{ className: "home-phone-imgs" },
-					React.createElement("img", { className: "center", src: "https://s3.amazonaws.com/deard-assets/static/img/home-phone1.png", width: "70%" }),
-					React.createElement("img", { className: "center", src: "https://s3.amazonaws.com/deard-assets/static/img/home-phone3.png", width: "70%" }),
-					React.createElement("img", { className: "center", src: "https://s3.amazonaws.com/deard-assets/static/img/home-phone2.png", width: "70%" })
+					React.createElement("img", { className: "center", src: "https://s3.amazonaws.com/deard-assets/static/img/home-phone1.png", width: "240px" }),
+					React.createElement("img", { className: "center", src: "https://s3.amazonaws.com/deard-assets/static/img/home-phone3.png", width: "240px" }),
+					React.createElement("img", { className: "center", src: "https://s3.amazonaws.com/deard-assets/static/img/home-phone2.png", width: "240px" })
 				),
 				React.createElement(
 					Link,
