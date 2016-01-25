@@ -8,7 +8,7 @@ class mTurk:
 	def __init__(self):
 		self.ACCESS_ID=os.environ['ACCESS_KEY_ID']
 		self.SECRET_KEY=os.environ['SECRET_ACCESS_KEY']		
-		self.HOST='mechanicalturk.amazonaws.com'
+		self.HOST='mechanicalturk.sandbox.amazonaws.com'
 		self.title='Please respond as a therapist/friend to this person'
 		self.description=('Read this diary entry and give a thoughtful advice to this person')
 		self.keywords='diary,therapist,friend,advice'
