@@ -45,17 +45,18 @@ $box-dropshadow: 0px 1px 1px rgba(47, 48, 44, 0.2);
 }
 
 @mixin button-element {
-  border: 2px solid black;
+  /*border: 2px solid $dd-black;*/
   border-radius: 20px;
   font-size: 18px;
   background-color: transparent;
   outline: none;
   top: 8px;
+  color: $dd-black;
 }
 
 @mixin button-element-solid {
   padding: 10px 60px;
-  border: none;
+  /*border: none;*/
   outline: none;
   border-radius: 30px;
   background-color: #fff;
@@ -114,6 +115,10 @@ button {
 /*#app {
   background-color: $dd-peach;
 }*/
+
+.containter {
+  max-width: 650px;
+}
 
 .app-loading {
   /*background-color: $dd-peach;*/
@@ -350,7 +355,10 @@ header {
     /*border-bottom: 1px solid $dd-black;*/
     /*text-align: center;*/
     p {
-      padding-top: 5px;
+      padding-top: 0px;
+      font-size: 10px;
+      text-align: center;
+      color: $dd-gray;
     }
 
     .header-row {
@@ -360,6 +368,8 @@ header {
     .mood-back {
       padding-top: 6px;
       /*margin-right: -50px;*/
+      margin-left: 10px;
+      margin-right: -10px;
       button {
         outline: none;
         border: none;
@@ -369,7 +379,7 @@ header {
 
     .mood-next {
       padding-top: 6px;
-      margin-left: -20px;
+      margin-left: -25px;
       button {
         outline: none;
         border: none;
@@ -391,15 +401,15 @@ header {
   .logo-d {
     @include header-elements;
     @include center-element;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.88);
   }
   
   .title-data {
     @include header-elements;
+    padding-top: 15px;
     background-color: #fff;
     img{
       @include center-element;
-      padding-top: 15px;
     }
   }
   
@@ -412,9 +422,10 @@ header {
   .right {
     @include header-elements;
     background-color: #fff;
-    a {
+    padding-top: 15px;
+    border-left: 1px solid rgba(47,48,44,0.1);
+    img {
       @include center-element;
-      padding-top: 8px;
     }
   }
 
@@ -479,10 +490,17 @@ header {
   
   button {
     @include button-element-solid;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    a {
+      font: 14px "HKGrotesque-regular", sans-serif;
+      color: $dd-gray;
+    }
   }
 
   p {
     font-size: 17px;
+    margin-bottom: 0px;
   }
 }
 
@@ -529,14 +547,11 @@ textarea {
   position: relative;
   /*padding-right: 50px;*/
   padding-left: 0px;
+  margin-top: 12px;
 
   #input-post {
     @include button-element;
-    /*border: 2px solid black;
-    border-radius: 20px;*/
     padding: 4px 8px;
-    /*font-size: 18px;*/
-    /*top: 8px;*/
   }
 
   .input-text {
@@ -559,9 +574,9 @@ textarea {
   button {
     @include button-element;
     text-align: center;
-    margin: 10px auto 0px auto;
+    margin: 20px auto 0px auto;
     display: block;
-    padding: 4px 50px;
+    padding: 8px 50px;
   }
 
   textarea {
@@ -572,10 +587,13 @@ textarea {
 
 .commentFormArea {
   position:fixed; 
-  left:0px;
+  /*left:0px;*/
   bottom:0px;
   height:100px;
   width: 100%;
+  max-width: 650px;  
+  margin: 0 auto;
+  margin-left: -15px;
   background-color: #fff;
   border-top: 1px solid $dd-black;
 }
@@ -662,7 +680,7 @@ textarea {
 }
 
 .userData-mounted {
-  /*background-color: $chat-background-color;*/
+  background-color: $dd-peach;
   height: 100%;
 }
 
@@ -701,12 +719,14 @@ textarea {
   margin-left: 20px;
 
   img {
+    margin-top: 36px;
     &:first-child {
       display: block;
+      margin-top: 0px;
     }
-    &:nth-child(2) {
+    /*&:nth-child(2) {
       margin-top: 200px;
-    }
+    }*/
 
   }
 }
@@ -736,7 +756,7 @@ textarea {
   .day-time {
     padding: 10px;
     padding-left: 25px;
-    padding-top: 20px;
+    padding-top: 24px;
   }
 
   .day-date {

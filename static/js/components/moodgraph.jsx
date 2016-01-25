@@ -96,8 +96,8 @@ module.exports = React.createClass({
 		var options = {
 			scaleOverride : true,
 	        scaleSteps : 10,
-	        scaleStepWidth : 100,
-	        scaleStartValue : -500, 
+	        scaleStepWidth : 50,
+	        scaleStartValue : -250, 
 			// scaleShowGridLines : true,
 			scaleShowHorizontalLines: true,
 			scaleShowVerticalLines: false,
@@ -124,6 +124,9 @@ module.exports = React.createClass({
 			<div className="moodgraph container-fluid">
 				<div className="moodgraph-key col-md-1 col-xs-1">
 					{ReactEmoji.emojify(":D")}
+					{ReactEmoji.emojify(":)")}
+					{ReactEmoji.emojify(":/")}
+					{ReactEmoji.emojify(":(")}
 					{ReactEmoji.emojify(":'(")}
 				</div>
 				<div className="col-md-11 col-xs-11">
