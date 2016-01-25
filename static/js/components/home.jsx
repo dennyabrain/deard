@@ -7,7 +7,6 @@ module.exports = React.createClass({
 		return (
 			<div className="home main">
 				<div className="home-logo center">
-					<img className="center" src="/static/img/key-black.svg" width="55"/>
 					<img className="center" src="/static/img/logo-deard.svg" width="200"/>
 				</div>
 				<p className="center">
@@ -26,6 +25,7 @@ module.exports = React.createClass({
 	}
 });
 
+// <img className="center" src="/static/img/key-black.svg" width="55"/>
 // <Link to="/register">
 // 	<button className="tk-anonymous-pro">Create new account</button>
 // </Link>

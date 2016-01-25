@@ -116,7 +116,7 @@ button {
   background-color: $dd-peach;
 }*/
 
-.containter {
+.container {
   max-width: 650px;
 }
 
@@ -233,7 +233,7 @@ header {
   margin: 0 auto;
   left: 0px;
   height:$header-height;
-  width: 100%;
+  width: 100% !important;
   padding-top: 20px;
   padding-bottom: 30px;
   background-color: transparent;
@@ -300,6 +300,7 @@ header {
   margin: 0 auto;
   color: $dd-black;
   margin-bottom: 50px;
+  margin-top: 15px;
   input {
     margin-bottom: 0px;
     border: none;
@@ -366,7 +367,7 @@ header {
     }
 
     .mood-back {
-      padding-top: 6px;
+      padding-top: 8px;
       /*margin-right: -50px;*/
       margin-left: 10px;
       margin-right: -10px;
@@ -378,8 +379,8 @@ header {
     }
 
     .mood-next {
-      padding-top: 6px;
-      margin-left: -25px;
+      padding-top: 8px;
+      margin-left: -40px;
       button {
         outline: none;
         border: none;
@@ -423,7 +424,7 @@ header {
     @include header-elements;
     background-color: #fff;
     padding-top: 15px;
-    border-left: 1px solid rgba(47,48,44,0.1);
+    /*border-left: 1px solid rgba(47,48,44,0.1);*/
     img {
       @include center-element;
     }
@@ -560,6 +561,9 @@ textarea {
 
   .input-button {
     padding-left: 0px;
+    h2 {
+      margin-top: 3px;
+    }
   }
 
   .button-emoji {

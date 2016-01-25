@@ -2012,7 +2012,6 @@
 				React.createElement(
 					"div",
 					{ className: "home-logo center" },
-					React.createElement("img", { className: "center", src: "/static/img/key-black.svg", width: "55" }),
 					React.createElement("img", { className: "center", src: "/static/img/logo-deard.svg", width: "200" })
 				),
 				React.createElement(
@@ -2067,6 +2066,7 @@
 		}
 	});
 
+	// <img className="center" src="/static/img/key-black.svg" width="55"/>
 	// <Link to="/register">
 	// 	<button className="tk-anonymous-pro">Create new account</button>
 	// </Link>
