@@ -1118,17 +1118,12 @@
 			return React.createElement(
 				'div',
 				{ ref: 'commentList', className: 'commentList', id: 'commentList' },
-				React.createElement(
-					'p',
-					{ className: 'center', style: { fontSize: "15px" } },
-					timeAt
-				),
 				commentNodes,
 				this.props.loading ? React.createElement(Loader, null) : ""
 			);
 		}
 	});
-
+	// <p className="center" style={{fontSize: "15px"}}>{timeAt}</p>
 	// if (comment.created_at && comment.created_at - lastTimeAt >= 300) {
 	// 	lastTimeAt = comment.created_at;
 

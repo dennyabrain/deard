@@ -59,13 +59,12 @@ module.exports = React.createClass({
 
 		return (
 			<div ref="commentList" className="commentList" id="commentList">
-			    <p className="center" style={{fontSize: "15px"}}>{timeAt}</p>
 				{commentNodes} 
 				{this.props.loading? (<Loader />) : ""}
 			</div>
 		);
 	}
 });
-
+// <p className="center" style={{fontSize: "15px"}}>{timeAt}</p>
 // if (comment.created_at && comment.created_at - lastTimeAt >= 300) {
 // 	lastTimeAt = comment.created_at;
