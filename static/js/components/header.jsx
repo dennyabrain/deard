@@ -54,13 +54,15 @@ module.exports = React.createClass({
 	
 
 		return (
-			<header className="container">
+			<header>
 				{header}
 			</header>
 		)
 
 	}
 });
+
+//<header className="container">
 
 // <img src="/static/img/logo-dear.svg" width="100"/>
 // <img src="/static/img/logo-d-w.svg" width="22"/>
